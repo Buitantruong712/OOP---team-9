@@ -3,8 +3,8 @@
 
 int main() {
     Fraction a, b, c;
-    a = Input(5, 3);
-    b = Input(10, -3);
+    a = FractionInput();
+    b = FractionInput();
 
     Getline("a", a);
     Getline("b", b);
