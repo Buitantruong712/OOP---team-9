@@ -14,14 +14,16 @@ Fraction FractionInput() {
 }
 
 void Output(Fraction f) {
-    if (!CheckError(f))
+    if (!CheckError(f)) {
         cout << "ERROR";
-    else if (f.a == 0)
+        return;
+    }
+    f = Reduce(f);
+    if (f.a == 0)
         cout << 0;
     else if (f.b == 1)
         cout << f.a;
     else {
-        f = Reduce(f);
         cout << f.a << "/" << f.b;
     }
     cout << endl;
