@@ -21,26 +21,26 @@ void Output(Complex a) {
 float Module(Complex a) { return (float)sqrt(double(a.real) * a.real + double(a.imag) * a.imag); }
 
 //Support check error of division of complex number
-bool CheckError(const Complex& a, const Complex& b) {
-    return !(b.real == 0 && b.imag == 0);
-}
+bool CheckError(const Complex a) {
+    return !(a.real == 0 && a.imag == 0);
+}   
 
 // Define operator for complex number 
-Complex operator + (const Complex& a, const Complex& b) {
+Complex operator + (const Complex a, const Complex b) {
     return { a.real + b.real, a.imag + b.imag };
 }
 
-Complex operator - (const Complex& a, const Complex& b) {
+Complex operator - (const Complex a, const Complex b) {
     return { a.real - b.real, a.imag - b.imag };
 }
 
-Complex operator * (const Complex& a, const Complex& b) {
+Complex operator * (const Complex a, const Complex b) {
     float realPart = a.real * b.real - a.imag * b.imag;
     float imagPart = a.real * b.imag + b.real * a.imag;
     return { realPart, imagPart };
 }
 
-Complex operator / (const Complex& a, const Complex& b) {
+Complex operator / (const Complex a, const Complex b) {
     float denominator = b.real * b.real + b.imag * b.imag;
     float  realPart = (a.real * b.real + a.imag * b.imag) / denominator;
     float imagPart = (a.imag * b.real - b.imag * a.real) / denominator;

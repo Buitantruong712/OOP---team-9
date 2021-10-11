@@ -10,7 +10,7 @@ struct Complex {
 };
 
 //Check error when make complex division
-bool CheckError(const Complex& a, const Complex& b);
+bool CheckError(const Complex a);
 
 //Input, Output function
 Complex ComplexInput();
@@ -20,7 +20,7 @@ void Output(Complex a);
 float Module(Complex a);
 
 // Define operator for complex number 
-Complex operator + (const Complex& a, const Complex& b);
-Complex operator - (const Complex& a, const Complex& b);
-Complex operator * (const Complex& a, const Complex& b);
-Complex operator / (const Complex& a, const Complex& b);
+Complex operator + (const Complex a, const Complex b);
+Complex operator - (const Complex a, const Complex b);
+Complex operator * (const Complex a, const Complex b);
+Complex operator / (const Complex a, const Complex b);

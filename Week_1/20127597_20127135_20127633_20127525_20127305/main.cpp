@@ -60,7 +60,7 @@ int main() {
                         cout << endl << endl;
                     }
                     else {
-                        if (b.real == 0 && b.imag == 0)
+                        if (!CheckError(b))
                             cout << "Math ERROR\n";
                         else {
                             cout << "(";
@@ -84,7 +84,9 @@ int main() {
                     "Multiplication\n4.Division\n0.Back\nYour choose: ";
 
                 cin >> choose;
-                if (choose > 0 && choose < 5) {
+                if (!choose)
+                    break;
+                else if (choose > 0 && choose < 5) {
                     cout << "\nFirst fraction\n";
                     c = FractionInput();
                     cout << "\nSecond fracion\n";
