@@ -47,6 +47,6 @@ int main() {
 	cout << "\nNguyen ham don thuc 2: ";
 	NguyenHam(dt2);
 
-	cout << endl << endl;
+	cout << endl;
 
 }
