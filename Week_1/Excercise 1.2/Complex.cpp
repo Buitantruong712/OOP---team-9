@@ -17,10 +17,29 @@ Complex Input() {
 }
 
 void Output(Complex a) {
-    cout << a.real;
+	
+	// print the real number, except for the case where real number = 0 and imaginary number <> 0
+	// e.g. 0 + ai = ai
+	if (a.real != 0 || a.imag == 0)
+	    cout << a.real;
+	
+    // print the imaginary number <> 0
     if (a.imag == 0) return;
-    else if (a.imag > 0) cout << " + " << a.imag << "i";
-    else cout << " - " << -1 * a.imag << "i";
+    
+    if (a.imag > 0) {
+    	if (a.real != 0)
+	    	cout << " + ";
+    	if (a.imag != 1)
+    		cout << a.imag;
+    	cout << "i";
+	}
+	
+	else {
+		cout << " - ";
+		if (a.imag != -1)
+    		cout << -a.imag;
+    	cout << "i";
+	}
 }
 
 double Module(Complex a) { return sqrt(a.real * a.real + a.imag * a.imag); }
@@ -67,7 +86,7 @@ void Process() {
             b = Input();
             cout << endl;
             if (choose == 2) {
-                Output(a); cout << " + "; Output(b); cout << " = ";
+                cout << "("; Output(a); cout << ") + "; cout << "("; Output(b); cout << ") = ";
                 Output(Addition(a, b));
                 cout << endl << endl;
             }
