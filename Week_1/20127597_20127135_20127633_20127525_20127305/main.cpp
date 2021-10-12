@@ -32,10 +32,11 @@ int main() {
                     cout << endl;
 
                     if (choose == 2) {
+                        cout << "(":
                         Output(a);
-                        cout << " + ";
+                        cout << ") + (";
                         Output(b);
-                        cout << " = ";
+                        cout << ") = ";
                         Output(a + b);
                         cout << endl << endl;
                     }
