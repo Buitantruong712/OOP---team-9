@@ -11,10 +11,27 @@ Complex ComplexInput() {
 }
 
 void Output(Complex a) {
-    cout << a.real;
+	// print the real number, except for the case where real number = 0 and imagine number <> 0
+	// e.g. 0 + ai = ai
+	if (a.real != 0 || a.imag == 0)
+	    cout << a.real;
+	    
     if (a.imag == 0) return;
-    else if (a.imag > 0) cout << " + " << a.imag << "i";
-    else cout << " - " << -1 * a.imag << "i";
+    
+    if (a.imag > 0) {
+    	if (a.real != 0)
+	    	cout << " + ";
+    	if (a.imag != 1)
+    		cout << a.imag;
+    	cout << "i";
+	}
+	
+	else {
+		cout << " - ";
+		if (a.imag != -1)
+    		cout << -a.imag;
+    	cout << "i";
+	}
 }
 
 // Calculate module of complex number
