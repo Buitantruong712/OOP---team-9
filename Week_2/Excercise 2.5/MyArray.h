@@ -8,7 +8,7 @@ using namespace std;
 
 class MyArray {
 	int a[MAX];
-	unsigned short size;
+	short size;
 public:
 	void Input();
 	void Output();
