@@ -52,7 +52,7 @@ int Fraction::getNumerator() {
 
 // Reduce, Inverse method
 Fraction Fraction::Reduce() {
-    int common = GCD(abs(numerator), abs(denominator));
+    int common = GCD(numerator, denominator);
     Fraction tmp;
     tmp.setNumerator(numerator / common);
     tmp.setDenominator(denominator / common);
