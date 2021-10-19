@@ -19,11 +19,11 @@ void MyArray::Output() {
 	cout << endl;
 }
 
-unsigned short MyArray::Size() {
+short MyArray::Size() {
 	return size;
 }
 
-int MyArray::Get(unsigned short pos) {
+int MyArray::Get(short pos) {
 	return a[pos];
 }
 
