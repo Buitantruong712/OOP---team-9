@@ -20,9 +20,9 @@ int main() {
 			cout << "Fraction 2 = " << f2 << endl;
 			while (1) {
 				cout << "\nEnter your choice:\n0.Back\n1.Addition\n2.Substraction\n3.Multiplication"
-					"\n4.Division\n5.Reduce fraction\n6.Inverse\n";
+					"\n4.Division\n5.Inverse\n";
 				cin >> type;
-				
+
 				if (type == 0) break;
 
 				switch (type)
@@ -47,13 +47,8 @@ int main() {
 					result = f1 / f2;
 					cout << f1 << " : " << f2 << " = " << result << endl;
 					break;
+
 				case 5:
-					result = f1.Reduce();
-					cout << f1 << " reduced: " << result << endl;
-					result = f2.Reduce();
-					cout << f2 << " reduced: " << result << endl;
-					break;
-				case 6:
 					if (f1.getNumerator() == 0)
 						cout << f1 << " can't inverse." << endl;
 					else {
