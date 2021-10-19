@@ -55,7 +55,7 @@ int main() {
 					break;
 				case 6:
 					if (f1.getNumerator() == 0)
-						cout << f1 << " can't inverse. << endl";
+						cout << f1 << " can't inverse." << endl;
 					else {
 						result = f1.Inverse();
 						cout << f1 << " inversed: " << result << endl;
