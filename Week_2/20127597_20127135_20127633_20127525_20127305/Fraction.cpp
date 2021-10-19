@@ -21,7 +21,7 @@ istream& operator >> (istream& is, Fraction& F) {
 
 ostream& operator << (ostream& os, Fraction& F) {
     Fraction tmp = F.Reduce();
-    if(tmp.denominator == -1) {
+    if(tmp.denominator < 0) {
         tmp.numerator *= -1;
         tmp.denominator *= -1;
     }
