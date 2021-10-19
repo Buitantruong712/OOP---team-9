@@ -6,7 +6,7 @@ int main() {
 	a.Input();
 
 	while (1) {
-		unsigned short type;
+		short type;
 		cout << "\nEnter your choice:\n0.Exit\n1.Output array\n2.Get size of array\n3.Get item at another position\n4.Find another item in array\n5.Sort increasingly\n6.Sort decreasingly\n";
 		cin >> type;
 		if (type == 0)
@@ -20,7 +20,7 @@ int main() {
 			cout << "Size of array: " << a.Size() << endl;
 			break;
 		case 3:
-			unsigned short pos;
+			short pos;
 			do {
 				cout << "Input position you want to get: ";
 				cin >> pos;
