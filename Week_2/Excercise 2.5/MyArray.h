@@ -12,8 +12,8 @@ class MyArray {
 public:
 	void Input();
 	void Output();
-	unsigned short Size();
-	int Get(unsigned short);
+	short Size();
+	int Get(short);
 	bool Find(int);
 	void sortIncrease();
 	void sortDecrease();
