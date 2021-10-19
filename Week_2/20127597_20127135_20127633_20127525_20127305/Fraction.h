@@ -1,26 +1,27 @@
-#pragma once
-#include <iostream>
+#ifndef _FRACTION_H
+#define _FRACTION_H
 
+#include <iostream>
 using namespace std;
 
 class Fraction {
 private:
     int denominator;
     int numerator;
-
-    // Check error before division
 public:
     // Input, Output
     friend istream& operator >> (istream&, Fraction&);
     friend ostream& operator << (ostream&, Fraction&);
 
-    // Set, Get method
-    void setDenominator(int);
-    void setNumerator (int);
+    // Get method
     int getDenominator();
     int getNumerator();
 
-    // Support fraction
+    // Set method
+    void setDenominator(int);
+    void setNumerator(int);
+
+    // Reduce, Inverse
     Fraction Inverse();
     Fraction Reduce();
 
@@ -28,6 +29,10 @@ public:
     Fraction operator + (const Fraction&);
     Fraction operator - (const Fraction&);
     Fraction operator * (const Fraction&);
-    friend bool Check(const Fraction&);
     Fraction operator / (const Fraction&);
 };
+
+// support for Reduce() function
+int GCD(int a, int b);
+#endif
+
