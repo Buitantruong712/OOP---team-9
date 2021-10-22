@@ -88,17 +88,27 @@ int main() {
 	cout << "String: " << str;
 
 	cout << "\n\nREPLACE\n";
-	cout << "Enter position: ";
-	cin >> pos;
-	cout << "Enter number: ";
-	cin >> num;
+	do {
+		cout << "Enter position: ";
+		cin >> pos;
+		if (pos < 0) cout << "Invalid! Please enter again\n";
+	} while (pos < 0);
+	do {
+		cout << "Enter number: ";
+		cin >> num;
+		if (num < 0) cout << "Invalid! Please enter again\n";
+	} while (num < 0);
+
 	cin.ignore();
 	cin >> test;
 	cout << "Result: " << str.replace(pos, num, test.getChar());
 
 	cout << "\n\nFIND\n";
-	cout << "Enter position: ";
-	cin >> pos;
+	do {
+		cout << "Enter position: ";
+		cin >> pos;
+		if (pos < 0) cout << "Invalid! Please enter again\n";
+	} while (pos < 0);
 	cin.ignore();
 	cin >> test;
 	cout << "Result: " << str.find(pos, test.getChar());
