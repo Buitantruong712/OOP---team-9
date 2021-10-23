@@ -18,6 +18,7 @@ istream& operator>>(istream& is, MyString& myS) {
 		myS.s[i] = a[i];
 	}
 	myS.s[myS.size] = '\0';
+	delete[] a;
 	return is;
 }
 
@@ -130,26 +131,15 @@ char* MyString::erase(int pos, int num) {
 }
 
 
-char* MyString::replace(int pos, int num, char* replaceS) {
-	int len = length() - num + Size(replaceS);
-	char* result = new char[len];
+char* MyString::replace(int pos, int num, char* str) {
+	if (pos >= strlen(c)) return c;
+	char* a = new char[strlen(c) - num + strlen(str)];
 	int i = 0;
-	while (i < pos) {
-		result[i] = s[i];
-		i++;
-	}
-	for (int j = 0; j < Size(replaceS);j++) {
-		result[i] = replaceS[j];
-		i++;
-	}
-	int k = pos + num;
-	while (i < len) {
-		result[i] = s[k];
-		i++;
-		k++;
-	}
-	result[len] = '\0';
-	return result;
+	for (; i < pos; i++) a[i] = c[i];
+	for (; i < pos + strlen(str); i++) a[i] = str[i - pos];
+	for (; i < strlen(c) - num + strlen(str); i++) a[i] = c[i + num - strlen(str)];
+	a[strlen(c) - num + strlen(str)] = '\0';
+	return a;
 }
 
 bool MyString::find(int pos, char* str) {
