@@ -58,12 +58,23 @@ char* MyString::erase(int pos, int num) {
 	return a;
 }
 
+//char* MyString::replace(int pos, int num, char* str) {
+//	if (pos >= strlen(c)) return c;
+//	MyString a;
+//	a.c = erase(pos, num);
+//	a.c = a.insert(pos, str);
+//	return a.c;
+//}
+
 char* MyString::replace(int pos, int num, char* str) {
 	if (pos >= strlen(c)) return c;
-	MyString a;
-	a.c = erase(pos, num);
-	a.c = a.insert(pos, str);
-	return a.c;
+	char* a = new char[strlen(c) - num + strlen(str)];
+	int i = 0;
+	for (; i < pos; i++) a[i] = c[i];
+	for (; i < pos + strlen(str); i++) a[i] = str[i - pos];
+	for (; i < strlen(c) - num + strlen(str); i++) a[i] = c[i + num - strlen(str)];
+	a[strlen(c) - num + strlen(str)] = '\0';
+	return a;
 }
 
 bool MyString::find(int pos, char* str) {
