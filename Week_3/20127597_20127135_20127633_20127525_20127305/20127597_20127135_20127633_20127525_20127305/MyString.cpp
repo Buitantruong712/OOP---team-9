@@ -132,13 +132,13 @@ char* MyString::erase(int pos, int num) {
 
 
 char* MyString::replace(int pos, int num, char* str) {
-	if (pos >= strlen(c)) return c;
-	char* a = new char[strlen(c) - num + strlen(str)];
+	if (pos >= strlen(s)) return s;
+	char* a = new char[strlen(s) - num + strlen(str)];
 	int i = 0;
-	for (; i < pos; i++) a[i] = c[i];
+	for (; i < pos; i++) a[i] = s[i];
 	for (; i < pos + strlen(str); i++) a[i] = str[i - pos];
-	for (; i < strlen(c) - num + strlen(str); i++) a[i] = c[i + num - strlen(str)];
-	a[strlen(c) - num + strlen(str)] = '\0';
+	for (; i < strlen(s) - num + strlen(str); i++) a[i] = s[i + num - strlen(str)];
+	a[strlen(s) - num + strlen(str)] = '\0';
 	return a;
 }
 
