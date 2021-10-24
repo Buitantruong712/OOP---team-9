@@ -4,7 +4,7 @@ istream& operator>>(istream& is, MyString& myS) {
 	char* a = new char[1000];
 	cin.getline(a, 1000);
 	myS.size = strlen(a);
-	myS.s = new char[myS.size];
+	myS.s = new char[myS.size+1];
 	for (int i = 0; i < myS.size;i++) {
 		myS.s[i] = a[i];
 	}
@@ -128,14 +128,19 @@ char* MyString::erase(int pos, int num) {
 
 
 char* MyString::replace(int pos, int num, char* str) {
-	if (pos >= strlen(s)) return s;
-	char* a = new char[strlen(s) - num + strlen(str)];
+	if (pos >= strlen(c)) return c;
+	char* a = new char[strlen(c) - num + strlen(str) + 1];
 	int i = 0;
-	for (; i < pos; i++) a[i] = s[i];
+	for (; i < pos; i++) a[i] = c[i];
 	for (; i < pos + strlen(str); i++) a[i] = str[i - pos];
-	for (; i < strlen(s) - num + strlen(str); i++) a[i] = s[i + num - strlen(str)];
-	a[strlen(s) - num + strlen(str)] = '\0';
-	return a;
+	for (; i < strlen(c) - num + strlen(str); i++) a[i] = c[i + num - strlen(str)];
+	a[strlen(c) - num + strlen(str)] = '\0';
+	delete[] c;
+	c = new char[strlen(a) + 1];
+	for (int j = 0; j < strlen(a); j++) c[j] = a[j];
+	c[strlen(a)] = '\0';
+	delete[] a;
+	return c;
 }
 
 bool MyString::find(int pos, char* str) {
