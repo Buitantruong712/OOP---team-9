@@ -23,7 +23,7 @@ int main() {
 				cin >> pos;
 				cout << "Number of the character: ";
 				cin >> num;
-			} while ((pos + num) > s.length() || pos < 0 || num < 0 && cout << "Invalid value! Enter again\n");
+			} while ((pos + num) > s.length() || pos < 0 || num < 0 && cout << "Invalid value!\n");
 			cout << s.subString(pos, num) << endl;
 			break;
 		}	
@@ -38,7 +38,7 @@ int main() {
 				cout << "Enter the string you want to insert: ";
 				cin.getline(insertS, MAX);
 				if (pos > s.length() - 1 || pos < 0) {
-					cout << "Invalid value! Enter again\n";
+					cout << "Invalid value!\n";
 				}
 			} while (pos > s.length() - 1 || pos < 0);
 			cout << s.insert(pos, insertS) << endl;
@@ -52,7 +52,7 @@ int main() {
 				cin >> pos;
 				cout << "Enter number of characters need erasing: ";
 				cin >> num;
-			} while (pos < 0 || num<0 || (pos + num)>s.length() && cout << "Invalid value! Enter again\n");
+			} while (pos < 0 || num<0 || (pos + num)>s.length() && cout << "Invalid value!\n");
 			cout << s.erase(pos, num) << endl;
 			break;
 		}	
@@ -68,7 +68,7 @@ int main() {
 				cin.ignore();
 				cout << "Enter the string you want to replace: ";
 				cin.getline(replaceS, MAX);
-			} while (pos < 0 || num<0 || (pos + num)>s.length() && cout << "Invalid value! Enter again\n");
+			} while (pos < 0 || num<0 || (pos + num)>s.length() && cout << "Invalid value!\n");
 			cout << s.replace(pos, num, replaceS) << endl;
 			break;
 		}
@@ -81,7 +81,7 @@ int main() {
 				cout << "Enter the string you need to search: ";
 				cin.ignore();
 				cin.getline(searchS, MAX);
-			} while (pos < 0 && cout << "Invalid value! Enter again\n");
+			} while (pos < 0 && cout << "Invalid value!\n");
 			if (s.find(pos, searchS) == 1) 
 				cout << "YES" << endl;
 			else 
