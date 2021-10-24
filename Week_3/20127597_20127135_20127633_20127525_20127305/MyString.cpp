@@ -88,7 +88,7 @@ char* operator+(string newS, MyString myS) {
 
 char* MyString::insert(int pos, char* insertS) {
 	int len = length() + strlen(insertS);
-	char* result = new char[len];
+	char* result = new char[len + 1];
 	int i = 0;
 	while (i < pos) {
 		result[i] = s[i];
@@ -98,19 +98,24 @@ char* MyString::insert(int pos, char* insertS) {
 		result[i] = insertS[j];
 		i++;
 	}
-	int k = pos;
-	while (i < len) {
-		result[i] = s[k];
+	for (int j = pos;j < length();j++) {
+		result[i] = s[j];
 		i++;
-		k++;
 	}
 	result[len] = '\0';
-	return result;
+	delete[]s;
+	s = new char[len + 1];
+	for (int j = 0; j < len;j++) {
+		s[j] = result[j];
+	}
+	s[len] = '\0';
+	delete[]result;
+	return s;
 }
 
 char* MyString::erase(int pos, int num) {
 	int len = length() - num;
-	char* newS = new char[len];
+	char* newS = new char[len+1];
 	int i = 0;
 	while (i < pos) {
 		newS[i] = s[i];
@@ -123,9 +128,15 @@ char* MyString::erase(int pos, int num) {
 		j++;
 	}
 	newS[len] = '\0';
-	return newS;
+	delete[]s;
+	s = new char[len + 1];
+	for (int k = 0; k < len;k++) {
+		s[k] = newS[k];
+	}
+	s[len] = '\0';
+	delete[] newS;
+	return s;
 }
-
 
 char* MyString::replace(int pos, int num, char* str) {
 	if (pos >= strlen(s)) return s;
