@@ -17,8 +17,8 @@ public:
 	char* operator+(MyString);
 	char* operator+(string);
 	friend char* operator+(string, MyString);
-	char* insert(int, char*);
-	char* erase(int, int);
+	bool insert(int, char*);
+	bool erase(int, int);
 	bool replace(int, int, char*);
 	bool find(int, char*);
 };
