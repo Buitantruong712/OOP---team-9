@@ -37,12 +37,21 @@ char* MyString::subString(int start, int len) {
 }
 
 // MyString + MyString
-char* MyString::operator+(MyString& str) {
+char* MyString::operator+(MyString str) {
 	
 	char* a = new char[str.length() + length() + 1];
 	for (int i = 0; i < length(); i++) a[i] = s[i];
 	for (int i = 0; i < str.length(); i++) a[length() + i] = str.s[i];
 	a[str.length() + length()] = '\0';
+	return a;
+}
+
+//MyString+string
+char* MyString::operator+(string st) {
+	char* a = new char[length() + st.length() + 1];
+	for (int i = 0; i < length(); i++) a[i] = s[i];
+	for (int i = 0; i < st.length(); i++) a[length() + i] = st[i];
+	a[length() + st.length()] = '\0';
 	return a;
 }
 
@@ -55,14 +64,7 @@ char* operator+(string st, MyString str) {
 	return a;
 }
 
-//MyString+string
-char* MyString::operator+(string st) {
-	char* a = new char[length() + st.length() + 1];
-	for (int i = 0; i < length(); i++) a[i] = s[i];
-	for (int i = 0; i < st.length(); i++) a[length() + i] = st[i];
-	a[length() + st.length()] = '\0';
-	return a;
-}
+
 
 char* MyString::insert(int pos, char* insertS) {
 	int len = length() + strlen(insertS);
