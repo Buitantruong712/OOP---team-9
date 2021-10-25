@@ -37,53 +37,31 @@ char* MyString::subString(int start, int len) {
 }
 
 // MyString + MyString
-char* MyString::operator+(MyString newMyS) {
-	int len = length() + newMyS.length();
-	char* result = new char[len];
-	int i = 0;
-	while (i < length()) {
-		result[i++] = s[i++];
-	}
-	int j = 0;
-	while (i < len) {
-		result[i++] = newMyS.s[j++];
-	}
-	result[len] = '\0';
-	return result;
-}
-
-// MyString + string
-char* operator+(MyString myS, string newS) {
-	int len = myS.length() + newS.length();
-	char* result = new char[len];
-	int i = 0;
-	while (i < myS.length()) {
-		result[i] = myS.s[i];
-		i++;
-	}
-	int j = 0;
-	while (i < len) {
-		result[i++] = newS[j++];
-	}
-	result[len] = '\0';
-	return result;
+char* MyString::operator+(MyString& str) {
+	
+	char* a = new char[str.length() + length() + 1];
+	for (int i = 0; i < length(); i++) a[i] = s[i];
+	for (int i = 0; i < str.length(); i++) a[length() + i] = str.s[i];
+	a[str.length() + length()] = '\0';
+	return a;
 }
 
 // string + MyString
-char* operator+(string newS, MyString myS) {
-	int len = myS.length() + newS.length();
-	char* result = new char[len];
-	int i = 0;
-	while (i < newS.length()) {
-		result[i] = newS[i];
-		i++;
-	}
-	int j = 0;
-	while (i < len) {
-		result[i++] = myS.s[j++];
-	}
-	result[len] = '\0';
-	return result;
+char* operator+(string st, MyString str) {
+	char* a = new char[st.length() + str.length() + 1];
+	for (int i = 0; i < st.length(); i++) a[i] = st[i];
+	for (int i = 0; i < str.length(); i++) a[st.length() + i] = str.s[i];
+	a[st.length() + str.length()] = '\0';
+	return a;
+}
+
+//MyString+string
+char* MyString::operator+(string st) {
+	char* a = new char[length() + st.length() + 1];
+	for (int i = 0; i < length(); i++) a[i] = s[i];
+	for (int i = 0; i < st.length(); i++) a[length() + i] = st[i];
+	a[length() + st.length()] = '\0';
+	return a;
 }
 
 char* MyString::insert(int pos, char* insertS) {
