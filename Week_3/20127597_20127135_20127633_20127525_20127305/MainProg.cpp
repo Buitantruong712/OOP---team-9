@@ -31,45 +31,51 @@ int main() {
 		{
 			cout << "\n\t-----Insert a new string (s = " << s << ") ----- " << endl;
 			char* insertS = new char[MAX];
-			do {
 				cout << "Enter the POSITION where to insert: ";
 				cin >> pos;
 				cin.ignore();
 				cout << "Enter the string you want to insert: ";
 				cin.getline(insertS, MAX);
-				if (pos > s.length() - 1 || pos < 0) {
-					cout << "Invalid value!\n";
+				if (!s.insert(pos, insertS)) {
+					cout << "Inserted unsuccessfully!\n";
 				}
-			} while (pos > s.length() - 1 || pos < 0);
-			cout << s.insert(pos, insertS) << endl;
+				else {
+					cout << s << endl;
+				}
+			delete[]insertS;
 			break;
 		}
 		case 3:
 		{
 			cout << "\n\t-----Delete a sub-string (s = " << s << ")----- " << endl;
-			do {
-				cout << "Enter starting position: ";
-				cin >> pos;
-				cout << "Enter number of characters need erasing: ";
-				cin >> num;
-			} while (pos < 0 || num<0 || (pos + num)>s.length() && cout << "Invalid value!\n");
-			cout << s.erase(pos, num) << endl;
+			cout << "Enter starting position: ";
+			cin >> pos;
+			cout << "Enter number of characters need erasing: ";
+			cin >> num;
+			if (!s.erase(pos, num)) {
+				cout << "Deleted unsuccessfully!\n";
+			}
+			else {
+				cout << s << endl;
+			}
 			break;
-		}	
-		case 4: 
+		}
+		case 4:
 		{
 			cout << "\n\t-----Replace a string with a new string (s = " << s << ")----- " << endl;
 			char* replaceS = new char[MAX];
-			do {
-				cout << "Enter starting position: ";
-				cin >> pos;
-				cout << "Enter number of characters need replacing: ";
-				cin >> num;
-				cin.ignore();
-				cout << "Enter the string you want to replace: ";
-				cin.getline(replaceS, MAX);
-			} while (pos < 0 || num<0 || (pos + num)>s.length() && cout << "Invalid value!\n");
-			cout << s.replace(pos, num, replaceS) << endl;
+			cout << "Enter starting position: ";
+			cin >> pos;
+			cout << "Enter number of characters need replacing: ";
+			cin >> num;
+			cin.ignore();
+			cout << "Enter the string you want to replace: ";
+			cin.getline(replaceS, MAX);
+			if (!s.replace(pos, num, replaceS) && cout << "Replaced unsuccessfully!\n");
+			else {
+				cout << s << endl;
+			}
+			delete[]replaceS;
 			break;
 		}
 		case 5: {
