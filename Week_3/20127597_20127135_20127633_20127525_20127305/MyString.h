@@ -15,7 +15,7 @@ public:
 	int length();
 	char* subString(int, int);
 	char* operator+(MyString);
-	friend char* operator+(MyString, string);
+	char* operator+(string);
 	friend char* operator+(string, MyString);
 	char* insert(int, char*);
 	char* erase(int, int);
