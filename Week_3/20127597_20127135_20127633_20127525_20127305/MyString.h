@@ -19,7 +19,7 @@ public:
 	friend char* operator+(string, MyString);
 	char* insert(int, char*);
 	char* erase(int, int);
-	char* replace(int, int, char*);
+	bool replace(int, int, char*);
 	bool find(int, char*);
 };
 #endif
