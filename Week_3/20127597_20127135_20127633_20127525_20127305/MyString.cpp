@@ -138,24 +138,24 @@ char* MyString::erase(int pos, int num) {
 	return s;
 }
 
-char* MyString::replace(int pos, int num, char* str) {
-	if (pos >= strlen(s)) return s;
-	char* a = new char[strlen(s) - num + strlen(str) + 1];
+bool MyString::replace(int pos, int num, char* str) {
+	if (pos+num >= length() || pos<0 || num <0) return false;
+	char* a = new char[length() - num + strlen(str) + 1];
 	int i = 0;
 	for (; i < pos; i++) a[i] = s[i];
 	for (; i < pos + strlen(str); i++) a[i] = str[i - pos];
-	for (; i < strlen(s) - num + strlen(str); i++) a[i] = s[i + num - strlen(str)];
-	a[strlen(s) - num + strlen(str)] = '\0';
+	for (; i < length() - num + strlen(str); i++) a[i] = s[i + num - strlen(str)];
+	a[length() - num + strlen(str)] = '\0';
 	delete[] s;
 	s = new char[strlen(a) + 1];
 	for (int j = 0; j < strlen(a); j++) s[j] = a[j];
 	s[strlen(a)] = '\0';
 	delete[] a;
-	return s;
+	return true;
 }
 
 bool MyString::find(int pos, char* str) {
-	for (int i = pos; i <= strlen(s) - strlen(str); i++) {
+	for (int i = pos; i <= length() - strlen(str); i++) {
 		int check = 1;
 		for (int j = 0; j < strlen(str); j++) {
 			if (s[i + j] != str[j]) check = 0;
