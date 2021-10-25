@@ -66,58 +66,67 @@ char* operator+(string st, MyString str) {
 
 
 
-char* MyString::insert(int pos, char* insertS) {
-	int len = length() + strlen(insertS);
-	char* result = new char[len + 1];
-	int i = 0;
-	while (i < pos) {
-		result[i] = s[i];
-		i++;
+bool MyString::insert(int pos, char* insertS) {
+	if (pos > length() - 1 || pos < 0) {
+		return false;
 	}
-	for (int j = 0; j < strlen(insertS);j++) {
-		result[i] = insertS[j];
-		i++;
+	else {
+		int len = length() + strlen(insertS);
+		char* result = new char[len + 1];
+		int i = 0;
+		while (i < pos) {
+			result[i] = s[i];
+			i++;
+		}
+		for (int j = 0; j < strlen(insertS);j++) {
+			result[i] = insertS[j];
+			i++;
+		}
+		for (int j = pos;j < length();j++) {
+			result[i] = s[j];
+			i++;
+		}
+		result[len] = '\0';
+		delete[]s;
+		s = new char[len + 1];
+		for (int j = 0; j < len;j++) {
+			s[j] = result[j];
+		}
+		s[len] = '\0';
+		delete[]result;
+		return true;
 	}
-	for (int j = pos;j < length();j++) {
-		result[i] = s[j];
-		i++;
-	}
-	result[len] = '\0';
-	delete[]s;
-	s = new char[len + 1];
-	for (int j = 0; j < len;j++) {
-		s[j] = result[j];
-	}
-	s[len] = '\0';
-	delete[]result;
-	return s;
 }
 
-char* MyString::erase(int pos, int num) {
-	int len = length() - num;
-	char* newS = new char[len+1];
-	int i = 0;
-	while (i < pos) {
-		newS[i] = s[i];
-		i++;
+bool MyString::erase(int pos, int num) {
+	if (pos < 0 || num<0 || (pos + num)>length()) {
+		return false;
 	}
-	int j = pos + num;
-	while (i < len) {
-		newS[i] = s[j];
-		i++;
-		j++;
+	else {
+		int len = length() - num;
+			char* newS = new char[len + 1];
+			int i = 0;
+			while (i < pos) {
+				newS[i] = s[i];
+					i++;
+			}
+		int j = pos + num;
+		while (i < len) {
+			newS[i] = s[j];
+			i++;
+			j++;
+		}
+		newS[len] = '\0';
+		delete[]s;
+		s = new char[len + 1];
+		for (int k = 0; k < len;k++) {
+			s[k] = newS[k];
+		}
+		s[len] = '\0';
+		delete[] newS;
+		return true;
 	}
-	newS[len] = '\0';
-	delete[]s;
-	s = new char[len + 1];
-	for (int k = 0; k < len;k++) {
-		s[k] = newS[k];
-	}
-	s[len] = '\0';
-	delete[] newS;
-	return s;
 }
-
 bool MyString::replace(int pos, int num, char* str) {
 	if (pos+num >= length() || pos<0 || num <0) return false;
 	char* a = new char[length() - num + strlen(str) + 1];
