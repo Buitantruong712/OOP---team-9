@@ -1,6 +1,7 @@
 #include "menu.h"
 
 int main() {
-    Menu menu;
-    menu.getInput(); // start the game
+	srand(time(NULL));
+	Menu menu;
+	menu.getInput(); // start the game
 }

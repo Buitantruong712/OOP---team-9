@@ -46,6 +46,7 @@ enum class DoubleLineFrame {
 
 
 void drawMenuTitle();
+void clearMenuTitle();
 
 void drawMenuFrame();
 void drawMenuLines(unsigned char line_position);

@@ -1,8 +1,8 @@
-#include "menu.h"
+﻿#include "menu.h"
 
 
 Menu::Menu() {
-	setWindowSize(941, 652);
+	Console::setConsole();
 
 	line_position = 0;
 	exit = false;
@@ -43,10 +43,12 @@ void Menu::setMenu(char input) {
 		break;
 
 	case 13: case 'Z': // Enter
-		// Rely on arrow position
+		// Phụ thuộc vào bàn phím
 		switch (line_position) {
 		case 0:
 			drawNewGame();
+			// Nếu trò chơi kết thúc
+			drawMainMenu();
 			break;
 		case 1:
 			drawLoadGame();
@@ -76,6 +78,7 @@ void Menu::drawMainMenu() {
 
 
 void Menu::drawNewGame() {
+	clearMenuTitle();
 	_CGAME.startGame();
 }
 
@@ -86,10 +89,10 @@ void Menu::drawLoadGame() {
 
 
 void Menu::drawSettings() {
-	gotoXY(0, 24);
+	Console::gotoXY(0, 24);
 	std::cout << "Coming soon";
 	Sleep(1000);
-	gotoXY(0, 24);
+	Console::gotoXY(0, 24);
 	std::cout << std::string(15, ' ');
 }
 

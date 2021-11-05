@@ -1,67 +1,61 @@
-// basic console functions, collected by Nguyen Trung Thanh
-// abcxyz tcIT
-
-#ifndef _console_header
-#define _console_header
+﻿#ifndef _MY_FUNCTION_H
+#define _MY_FUNCTION_H
 
 
 #include <iostream>
+//#include <iomanip>
+#include <fstream>
+
 #include <conio.h>
-
-
-#define ColorCode_Back			0
-#define ColorCode_DarkBlue		1
-#define ColorCode_DarkGreen		2
-#define ColorCode_DarkCyan		3
-#define ColorCode_DarkRed		4
-#define ColorCode_DarkPink		5
-#define ColorCode_DarkYellow	6
-#define ColorCode_DarkWhite		7
-#define ColorCode_Grey			8
-#define ColorCode_Blue			9
-#define ColorCode_Green			10
-#define ColorCode_Cyan			11
-#define ColorCode_Red			12
-#define ColorCode_Pink			13
-#define ColorCode_Yellow		14
-#define ColorCode_White			15
-
-#define default_ColorCode		7
-
-
-#define key_Up		1072
-#define key_Down	1080
-#define key_Left	1075
-#define key_Right	1077
-#define key_none	-1
-
-//--------------------------------------------------------
-
 #include <windows.h>
+//#include <MMSystem.h>
 
-//--------------------------------------------------------
+#include <string>
+#include <thread>
+#include <vector>
 
-int inputKey();
-
-//-------------------------Screen-------------------------
-// screen: clear screen
-void clrscr();
-
-//screen: goto [x,y]
-void gotoXY (int column, int line);
-
-//screen: get [x]
-int whereX();
-
-//screen: get [y]
-int whereY();
-
-// screen: set color
-void TextColor (int color);
-
-// screen: set window size
-void setWindowSize(int column, int line);
-//end----------------------Screen----------------------end
+#include <stdlib.h>
 
 
+#pragma execution_character_set("UTF-8")
+
+
+// Mỗi ô dài 5 ký tự và cao 4 ký tự
+#define TILE_X 5
+#define TILE_Y 5
+// Tổng cộng có 25 ô ở hàng ngang và 7 ô hàng dọc
+#define MAX_MASK_X 24
+#define MAX_MASK_Y 7
+
+enum class Color {
+	black, blue, green, aqua,
+	red, purple, yellow, white,
+	gray, lightblue, lightgreen, lightaqua,
+	lightred, lightpurple, lightyellow, brightwhite
+};
+
+
+
+class Console {
+public:
+	// Thay đổi màn hình console (thay đổi và cố định kích thước)
+	static void resizeConsole(int width, int height);
+	static void fixConsoleWindow();
+
+	// Thao tác con trỏ (di chuyển con trỏ, làm con trỏ không hiện và đổi màu ký tự)
+	static void gotoXY(int x, int y);
+	static void setColor(int x);
+	static void showCursor(bool CursorVisibility);
+
+	// Chưa xài
+	static int inputKey();
+
+	// Vẽ
+	static void drawFromFile(const std::string, COORD, int);
+	static void removeSpace(int, int);
+
+	static void setConsole();
+	static void drawGameBot();
+	static void clearScreen();
+};
 #endif
