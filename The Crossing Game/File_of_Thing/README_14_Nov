@@ -1,3 +1,7 @@
+Lý do đăng lên file sln là vì nó sẽ lọc nhóm ra
+Và tải xuống đỡ hơn nhiều
+
+
 Code tương đối dài, nhưng có chú thích kỹ từng phần nên sẽ không khó khăn gì
 
 
@@ -20,7 +24,7 @@ Tìm hiểu code:
                 thời gian càng ngắn thì con vật di chuyển càng nhanh. cách này có một điểm trừ là hơi lag)
                 
     6)  Lưu ý, hầu hết code đều xài UTF-8 thay vì trang mã 437 (để file txt có ký tự lạ được in ra). Nếu muốn
-            trực tiếp in code thì sử dụng 437.
+            trực tiếp in ra từ code thay vì file txt thì sử dụng 437.
                 SetConsoleCP(437);
             	SetConsoleOutputCP(437);
             xong rồi quay lại:
