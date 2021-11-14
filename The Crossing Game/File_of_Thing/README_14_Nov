@@ -1,0 +1,42 @@
+Code tương đối dài, nhưng có chú thích kỹ từng phần nên sẽ không khó khăn gì
+
+
+
+Tìm hiểu code:
+    1)  Tìm hiểu class tĩnh Console trước một chút. Hàm để vẽ chỉ cần coi file .h nếu không đụng vào đồ hoạ
+    
+    2)  Qua Menu: hàm này là hàm main menu. Thiếu phần Cài đặt là xong.
+    
+    3)  Qua CGAME: hàm này sẽ chứa CPEOPLE và CANIMAL.
+        -   Nếu thao tác phần save là load, thì chú ý đến các thông số cần thêm.
+        -   Nếu thao tác phần thread thì đọc ở CANIMAL.
+        
+    4)  Qua CPEOPLE: ở đây sẽ có toạ độ X, Y ứng với ô lớn, còn trueX, trueY ứng với ô nhỏ
+        -   Hàm này không cần thao tác gì (ngoại trừ hình in bị lỗi)
+        
+    5)  Qua CANIMAL: cái này chứa khá nhiều thông số. Trong đó có thời gian:
+        -   Timer: thời gian con vật chờ (thật ra xe nên chờ chứ con vật không cần)
+        -   Speed_delay: thời gian để con vật dừng rồi di chuyển tiếp (nói chung là trái nghĩa tốc độ,
+                thời gian càng ngắn thì con vật di chuyển càng nhanh. cách này có một điểm trừ là hơi lag)
+                
+    6)  Lưu ý, hầu hết code đều xài UTF-8 thay vì trang mã 437 (để file txt có ký tự lạ được in ra). Nếu muốn
+            trực tiếp in code thì sử dụng 437.
+                SetConsoleCP(437);
+            	SetConsoleOutputCP(437);
+            xong rồi quay lại:
+            	SetConsoleOutputCP(CP_UTF8);
+	            SetConsoleCP(CP_UTF8);
+
+
+Tin mừng code đã xong một nửa rồi. Việc tốn thời gian này chỉ để ghép code về sau cho dễ. Bug cũng đã được sửa
+khá nhiều (cũng là lý do code dài kinh khủng)
+
+
+
+Phần còn thiếu:
+    1)  Đèn giao thông
+    2)  Con vật và xe cộ khác
+    3)  Cài đặt / Settings
+    4)  Điểm số
+    5)  Độ khó
+    6)  ...
