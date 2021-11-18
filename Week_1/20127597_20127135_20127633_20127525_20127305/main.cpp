@@ -32,7 +32,7 @@ int main() {
                     cout << endl;
 
                     if (choose == 2) {
-                        cout << "(":
+                        cout << "(";
                         Output(a);
                         cout << ") + (";
                         Output(b);
