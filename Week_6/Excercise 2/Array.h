@@ -9,16 +9,19 @@ private:
     int* element;
 
 public:
-    Array();
-    Array(int);
-    Array(int, int);
-    Array(const Array&);
+    Array();            // Default constructor
+    Array(int);         // Constructor with given size
+    Array(int[], int);  // Constructor from int with given size
+    Array(const Array&);// Constructor from another Array object
 
     int Size();
 
-    Array& operator= (const Array&);
-    int& operator[] (int);
-    operator int* ();
+    Array& operator= (const Array&);    // Operator =
+    int& operator[] (int);              // Operator []
+    operator int* ();                   // Operator (int*)
 
-    ~Array();
+    friend istream& operator >> (istream&, Array&);
+    friend ostream& operator << (ostream&, const Array&);
+
+    ~Array();           // Destructor
 };
