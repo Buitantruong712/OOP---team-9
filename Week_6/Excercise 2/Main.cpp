@@ -1,20 +1,22 @@
 #include "Array.h"
 
 int main() {
-	// Test constructor, operator [], operator =
-	Array a(10, 99);
-	cout << "Array a:\n";
+	// Test constructor
+	cout << "1) Test constructor\n";
+	Array a(5);
+	cout << "Array a ({0}, 5):\n";
 	for (int i = 0; i < a.Size(); i++)
 		cout << a[i] << " ";
 	cout << endl;
-	
-	cout << "\nArray b:\n";
-	Array b(5, 8);
+
+	int _b[] = { 8, 7, 6, 7, 8, 7, 6, 7 };
+	Array b(_b, 8);
+	cout << "\nArray b ({8, 7, 6, 7, 8, 7, 6, 7}, 8):\n";
 	for (int i = 0; i < b.Size(); i++)
 		cout << b[i] << " ";
 	cout << endl;
 
-	cout << "\nArray a := Array b\nArray a\n";
+	cout << "\nArray a := Array b\n=> Array a:\n";
 	a = b;
 	for (int i = 0; i < a.Size(); i++)
 		cout << a[i] << " ";
@@ -25,6 +27,14 @@ int main() {
 		cout << c[i] << " ";
 	cout << endl;
 
+	// Test istream and ostream
+	cout << "\n2) Test istream and ostream\n";
+	Array d;
+	cin >> d;
+	cout << d;
+
+	// Test operator []
+	cout << "\n3) Test operator []\n";
 	cout << "\nChange some elements of array c by cin >> c[i]:\n";
 	cout << "Input c[0]: "; cin >> c[0];
 	cout << "Input c[4]: "; cin >> c[4];
@@ -32,9 +42,9 @@ int main() {
 	for (int i = 0; i < c.Size(); i++)
 		cout << c[i] << " ";
 	cout << endl;
-	
-	// Test type-casting
-	cout << "\nTest type-casting operator:\n";
+
+	// Test type-casting and operator =
+	cout << "\n4) Test type-casting and operator = []\n";
 
 	int* ptr = (int*)a;
 	cout << "ptr := (int*)a, *ptr = " << *ptr << endl;
@@ -44,7 +54,7 @@ int main() {
 
 	ptr = (int*)c + 5;
 	cout << "ptr := (int*)c + 4, *ptr = " << *ptr << endl;
-	
+
 	// End
 	return 0;
 }
