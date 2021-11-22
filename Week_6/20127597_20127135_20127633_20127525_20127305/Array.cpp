@@ -1,102 +1,87 @@
 #include "Array.h"
-#include "HocSinh.h"
 
-int main() {
-	cout << "Ex1: \n\n";
-	// Test constructor
-	cout << "1) Test constructor\n";
-	Array a(5);
-	cout << "Array a ({0}, 5):\n";
-	for (int i = 0; i < a.Size(); i++)
-		cout << a[i] << " ";
-	cout << endl;
+// Constructor
+Array::Array() {
+    size = 0;
+    element = NULL;
+}
 
-	int _b[] = { 8, 7, 6, 7, 8, 7, 6, 7 };
-	Array b(_b, 8);
-	cout << "\nArray b ({8, 7, 6, 7, 8, 7, 6, 7}, 8):\n";
-	for (int i = 0; i < b.Size(); i++)
-		cout << b[i] << " ";
-	cout << endl;
+Array::Array(int size) {
+    this->size = size;
+    element = new int[size];
+    for (int i = 0; i < size; i++)
+        element[i] = 0;
+}
 
-	cout << "\nArray a := Array b\n=> Array a:\n";
-	a = b;
-	for (int i = 0; i < a.Size(); i++)
-		cout << a[i] << " ";
+Array::Array(int value[], int size) {
+    this->size = size;
+    this->element = new int[size];
 
-	Array c(b);
-	cout << "\nArray c(b):\n";
-	for (int i = 0; i < c.Size(); i++)
-		cout << c[i] << " ";
-	cout << endl;
+    for (int i = 0; i < size; i++)
+        this->element[i] = value[i];
+}
 
-	// Test istream and ostream
-	cout << "\n2) Test istream and ostream\n";
-	Array d;
-	cin >> d;
-	cout << d;
+Array::Array(const Array& arr) {
+    size = arr.size;
+    element = new int[size];
 
-	// Test operator []
-	cout << "\n3) Test operator []\n";
-	cout << "\nChange some elements of array c by cin >> c[i]:\n";
-	cout << "Input c[0]: "; cin >> c[0];
-	cout << "Input c[4]: "; cin >> c[4];
-	cout << "After changing:\n";
-	for (int i = 0; i < c.Size(); i++)
-		cout << c[i] << " ";
-	cout << endl;
+    for (int i = 0; i < size; i++)
+        element[i] = arr.element[i];
+}
 
-	// Test type-casting and operator =
-	cout << "\n4) Test type-casting and operator = []\n";
+int Array::Size() {
+    return size;
+}
 
-	int* ptr = (int*)a;
-	cout << "ptr := (int*)a, *ptr = " << *ptr << endl;
+// operator
+Array& Array::operator = (const Array& arr) {
+    if (&arr == this)
+        return *this;
 
-	ptr = (int*)c;
-	cout << "ptr := (int*)c, *ptr = " << *ptr << endl;
+    size = arr.size;
+    delete[]element;
+    element = new int[size];
+    for (int i = 0; i < size; i++)
+        element[i] = arr.element[i];
 
-	ptr = (int*)c + 5;
-	cout << "ptr := (int*)c + 4, *ptr = " << *ptr << endl;
+    return *this;
+}
 
-	// End
+int& Array::operator [] (int index) {
+    return element[index];
+}
 
-	cout << "\nEx2:\n\n";
-	// Test constructor
-	cout << "1) Test constructor\n";
+Array::operator int* () {
+    return element;
+}
 
-	cout << "\nDefaul constructor HocSinh hs1:\n";
-	HocSinh hs1;
-	cout << hs1;
+istream& operator>>(istream& is, Array& arr) {
+    do {
+        cout << "Enter size of array: ";
+        is >> arr.size;
+    } while (arr.size <= 0 && cout << "Invalid! Please enter again\n");
 
-	cout << "\ninput hs1:\n";
-	cin >> hs1;
-	cout << hs1;
+    // If the array is already defined
+    if (arr.element != NULL)
+        delete[] arr.element;
 
-	cout << "\nConstructor from another HocSinh object HocSinh hs2(hs1):\n";
-	HocSinh hs2(hs1);
-	cout << hs2;
+    arr.element = new int[arr.size];
 
-	cout << "\n2) Test operator:\n";
+    cout << "Enter element: ";
+    for (int i = 0; i < arr.size; i++) is >> *(arr.element + i);
+    is.ignore();
 
-	cout << "\nTest operator = :\n";
-	cout << "Input hs1:\n"; cin >> hs1;
-	hs2 = hs1;
-	cout << "\nhs2 := hs1, hs1:\n" << hs1 << "\nhs2:\n" << hs2;
-	
-	cout << "\nTest comparison operator:\nInput 2 HocSinh:\n";
-	cout << "\nhs1:\n"; cin >> hs1;
-	cout << "\nhs2:\n"; cin >> hs2;
-	cout << "HocSinh1 > HocSinh2: " << (hs1 > hs2 ? "True" : "False") << endl;
-	cout << "HocSinh1 < HocSinh2: " << (hs1 < hs2 ? "True" : "False") << endl;
-	cout << "HocSinh1 == HocSinh2: " << (hs1 == hs2 ? "True" : "False") << endl;
-	cout << "HocSinh1 >= HocSinh2: " << (hs1 >= hs2 ? "True" : "False") << endl;
-	cout << "HocSinh1 <= HocSinh2: " << (hs1 <= hs2 ? "True" : "False") << endl;
-	cout << "HocSinh1 != HocSinh2: " << (hs1 != hs2 ? "True" : "False") << endl;
+    return is;
+}
+ostream& operator<<(ostream& os, const Array& arr) {
+    cout << "\nArray: ";
+    for (int i = 0; i < arr.size; i++) os << *(arr.element + i) << " ";
+    return os;
+}
 
-	cout << "\n3) Test type - casting:\n";
-	char* ptr2 = (char*)hs1;
-	cout << "char* ptr = char*(hs1), *ptr: " << ptr << endl;
-	ptr2 = (char*)hs2;
-	cout << "char* ptr = char*(hs2), *ptr: " << ptr << endl;
-
-	return 0;
+// Destructor
+Array::~Array() {
+    size = 0;
+    delete[]element;
+    element = NULL;
 }
