@@ -1,5 +1,6 @@
 #include "Hocsinh.h"
 
+// Constructor
 HocSinh::HocSinh() {
     fullname = "";
     literature = math = gpa = 0;
@@ -79,7 +80,8 @@ bool HocSinh::operator!= (const HocSinh& hs) {
 }
 
 HocSinh::operator char* () {
-    return &fullname[0];
+    char* c = (char*)fullname.c_str();
+    return c;
 }
 
 HocSinh::~HocSinh() {}

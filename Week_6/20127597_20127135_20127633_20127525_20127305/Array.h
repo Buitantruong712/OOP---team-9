@@ -1,6 +1,6 @@
 #pragma once
-#include <iostream>
 
+#include <iostream>
 using namespace std;
 
 class Array {
@@ -11,7 +11,7 @@ private:
 public:
     Array();            // Default constructor
     Array(int);         // Constructor with given size
-    Array(int[], int);  // Constructor from int with given size
+    Array(int[], int);  // Constructor from int[] with given size
     Array(const Array&);// Constructor from another Array object
 
     int Size();
@@ -25,3 +25,6 @@ public:
 
     ~Array();           // Destructor
 };
+
+// support function
+int* inputArray(int& size);

@@ -6,19 +6,23 @@ Array::Array() {
     element = NULL;
 }
 
-Array::Array(int size) {
-    this->size = size;
+Array::Array(int sz) {
+    if (sz < 0)
+        sz = 0;
+    size = sz;
     element = new int[size];
     for (int i = 0; i < size; i++)
         element[i] = 0;
 }
 
-Array::Array(int value[], int size) {
-    this->size = size;
-    this->element = new int[size];
+Array::Array(int value[], int sz) {
+    if(sz < 0)
+        sz = 0;
+    size = sz;
+    element = new int[size];
 
     for (int i = 0; i < size; i++)
-        this->element[i] = value[i];
+        element[i] = value[i];
 }
 
 Array::Array(const Array& arr) {
@@ -74,8 +78,11 @@ istream& operator>>(istream& is, Array& arr) {
     return is;
 }
 ostream& operator<<(ostream& os, const Array& arr) {
-    cout << "\nArray: ";
-    for (int i = 0; i < arr.size; i++) os << *(arr.element + i) << " ";
+    if (arr.size == 0)
+        os << "Empty";
+    else
+        for (int i = 0; i < arr.size; i++) 
+            os << *(arr.element + i) << " ";
     return os;
 }
 
@@ -84,4 +91,19 @@ Array::~Array() {
     size = 0;
     delete[]element;
     element = NULL;
+}
+
+// support function
+int* inputArray(int& size) {
+    do {
+        cout << "Input size of arr: ";
+        cin >> size;
+    } while (size < 0);
+
+    int* a = new int[size];
+    for (int i = 0; i < size; i++) {
+        cout << "arr[" << i << "] = ";
+        cin >> a[i];
+    }
+    return a;
 }

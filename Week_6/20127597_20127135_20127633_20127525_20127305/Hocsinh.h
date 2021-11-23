@@ -1,8 +1,8 @@
 #pragma once
+
 #include <iostream>
 #include <string.h>
 #include <string>
-
 using namespace std;
 
 class HocSinh {
@@ -11,14 +11,15 @@ private:
     float math, literature, gpa;
 
 public:
-    // Constructor
-    HocSinh();
-    HocSinh(const HocSinh&);
+    HocSinh();                  // Default constructor
+    HocSinh(const HocSinh&);    // Constructor from another HocSinh object
 
-    // operator
+    // operator >>, <<
     friend istream& operator >> (istream&, HocSinh&);
     friend ostream& operator << (ostream&, HocSinh&);
+    // operator =
     HocSinh& operator = (const HocSinh&);
+    // Comparison operator GPA
     bool operator > (const HocSinh&);
     bool operator < (const HocSinh&);
     bool operator == (const HocSinh&);
@@ -26,7 +27,7 @@ public:
     bool operator <= (const HocSinh&);
     bool operator >= (const HocSinh&);
 
-    // type - cast
+    // type - casting (char*)
     operator char* ();
 
     // Destructor
