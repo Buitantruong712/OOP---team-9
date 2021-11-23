@@ -81,7 +81,6 @@ int main() {
 	cout << "\nhs2 := hs1, hs1:\n" << hs1 << "\nhs2:\n" << hs2 << endl << endl;
 
 	// Comparison operator GPA
-	HocSinh hs1, hs2;
 	cout << "4) Test comparison operator\n";
 	cout << "Input 2 HocSinh:\n";
 	cout << "\nhs1:\n"; cin >> hs1;
