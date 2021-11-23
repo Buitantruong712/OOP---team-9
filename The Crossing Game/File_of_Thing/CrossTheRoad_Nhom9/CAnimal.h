@@ -1,18 +1,14 @@
-﻿#pragma once
+﻿#ifndef _ANIMAL_
+#define _ANIMAL_
 
 
 // Lớp động vật chung
 
 
-#include "Console.h"
+#include "console.h"
 
 
-#define LEFT_BORDER 2
-#define RIGHT_BORDER 128	// do ảnh xét theo góc trên trái, không phải trung tâm,
-							// nên 133 sẽ bị trừ đi 5 ký tự vì chiều dài của ảnh là 5
-
-
-enum AnimalState {
+enum class AnimalState {
 	start,		// xuất hiện
 	run,		// chạy trên màn hình
 	finish		// qua khỏi biên
@@ -25,7 +21,7 @@ protected:
 	short Y;			// Bởi vì vật thể sẽ chuyển động theo chiều ngang một cách mượt mà, cho nên chỉ quan tâm đến giá trị Y
 	short trueX, trueY;	// Xem CPeople
 	
-	short state;		// Xuất hiện màn hình. true nếu con vật ở trên màn hình, false nếu con vật đi qua biên
+	AnimalState state;	// Tình trạng con vật (xem enum class ở trên)
 	bool direction;		// Hướng đi
 	short speed_delay;	// Thời gian con vật ngưng rồi di tiếp // trái nghĩa với tốc độ
 	short running_delay;// Chạy đến khi bằng 0, thì mới dịch chuyển
@@ -50,8 +46,8 @@ public:
 	void setSpeed(short);
 	short getSpeed();
 
-	void setState(short);
-	short getState();
+	void setState(AnimalState);
+	AnimalState getState();
 
 	void setDirection(short);
 	short getDirection();
@@ -64,3 +60,21 @@ public:
 	short getTrueX();	// Chọn giá trị X vì không có đơn vị Y
 	short getY();		// Chọn đơn vị Y vì giá trị Y thực không có giá trị (+ làm code khó hiểu hơn)
 };
+
+
+// Mob mới: con chim
+
+class Bird : public CANIMAL {
+
+private:
+	short index; // thứ tự của chim để bay. tránh trường hợp bay chồng nhau, mà tách rời ra
+
+public:
+	Bird(short, bool, short);
+
+	void setIndex(short);
+	short getIndex();
+};
+
+
+#endif

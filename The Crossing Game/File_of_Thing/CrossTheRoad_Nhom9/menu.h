@@ -5,7 +5,7 @@
 // Vẽ Menu, khác với CGAME
 
 
-#include "cgame.h"
+#include "CGame.h"
 
 
 class Menu {

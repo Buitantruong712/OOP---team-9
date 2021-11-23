@@ -7,9 +7,9 @@
 
 #include "draw.h"
 // CPeople
-#include "cpeople.h"
-// CAnimal
-#include "bird.h"
+#include "CPeople.h"
+#include "CAnimal.h"
+#include "CVehicle.h"
 
 #include <fstream>
 
@@ -24,9 +24,9 @@ class CGAME {
 
 private:
 	//CTRUCK * axt;
-	//CCAR * axh;
 	//CDINAUSOR * akl;
 	std::vector<Bird> birds;	// xài thread
+	std::vector<Car> cars;
 	CPEOPLE player;
 
 	short level;
@@ -37,7 +37,7 @@ public:
 	void drawGame();
 	~CGAME();
 	CPEOPLE getPeople();
-	//CVEHICLE * getVehicle();
+	std::vector <Car> getVehicle();
 	std::vector <Bird> getAnimal();
 
 	void resetGame();

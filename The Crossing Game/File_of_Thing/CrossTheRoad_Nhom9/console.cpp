@@ -55,12 +55,12 @@ void Console::showCursor(bool CursorVisibility) {
 // Vẽ từ file
 void Console::drawFromFile(const std::string filename, COORD pos, int color) {
 	std::string str;
-	std::ifstream inp(filename);
+	std::ifstream f(filename);
 
 	setColor(color);
-	if (inp.is_open()) {
-		while (!inp.eof()) {
-			getline(inp, str);
+	if (f.is_open()) {
+		while (not f.eof()) {
+			getline(f, str);
 			gotoXY(pos.X, pos.Y);
 			std::cout << str;
 			pos.Y++;
@@ -69,20 +69,21 @@ void Console::drawFromFile(const std::string filename, COORD pos, int color) {
 	else {
 		std::cerr << "Cannot find the " << filename << "\n";
 	}
-	inp.close();
+	f.close();
 
 	setColor((int)Color::white);
 }
 
+// Vẽ từ file nhưng dấu cách không được in ra (tránh bị chồng lên)
 void Console::drawFromFileTransparent(const std::string filename, COORD pos, int color) {
 	std::string str;
-	std::ifstream inp(filename);
+	std::ifstream f(filename);
 	setColor(color);
-	if (inp.is_open()) {
+	if (f.is_open()) {
 		short _posX;
-		while (!inp.eof()) {
+		while (not f.eof()) {
 			_posX = pos.X;
-			getline(inp, str);
+			getline(f, str);
 			gotoXY(_posX, pos.Y);
 			for (auto& i : str) {
 				_posX++;
@@ -97,7 +98,7 @@ void Console::drawFromFileTransparent(const std::string filename, COORD pos, int
 	else {
 		std::cerr << "Cannot find the " << filename << "\n";
 	}
-	inp.close();
+	f.close();
 
 	setColor((int)Color::white);
 }
@@ -105,7 +106,7 @@ void Console::drawFromFileTransparent(const std::string filename, COORD pos, int
 
 // Xoá sprite
 void Console::removeSpace(int x, int y) { // Lúc này, chiều cao chỉ là 4 ký tự (cho khớp với từng hàng)
-	for (int i = y - 1; i < y + TILE_Y - 2; i++) {
+	for (int i = y; i < y + TILE_Y - 2; i++) {
 		gotoXY(x, i);
 		std::cout << std::string(5, ' ');
 	}

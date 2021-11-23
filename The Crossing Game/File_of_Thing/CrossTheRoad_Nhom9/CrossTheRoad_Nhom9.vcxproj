@@ -140,20 +140,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bird.cpp" />
-    <ClCompile Include="canimal.cpp" />
-    <ClCompile Include="cgame.cpp" />
+    <ClCompile Include="CAnimal.cpp" />
+    <ClCompile Include="Car.cpp" />
+    <ClCompile Include="CGame.cpp" />
     <ClCompile Include="console.cpp" />
-    <ClCompile Include="cpeople.cpp" />
+    <ClCompile Include="CPeople.cpp" />
+    <ClCompile Include="CVehicle.cpp" />
     <ClCompile Include="draw.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bird.h" />
-    <ClInclude Include="canimal.h" />
-    <ClInclude Include="cgame.h" />
+    <ClInclude Include="CAnimal.h" />
+    <ClInclude Include="CGame.h" />
     <ClInclude Include="console.h" />
-    <ClInclude Include="cpeople.h" />
+    <ClInclude Include="CPeople.h" />
+    <ClInclude Include="CVehicle.h" />
     <ClInclude Include="draw.h" />
     <ClInclude Include="menu.h" />
   </ItemGroup>

@@ -1,8 +1,9 @@
 ﻿#pragma once
 
-#include"Console.h"
-//#include"CAnimal.h"
-#include"Bird.h"
+
+#include "Console.h"
+#include "CAnimal.h"
+#include "CVehicle.h"
 
 
 class CPEOPLE {
@@ -43,6 +44,7 @@ public:
 
 	//bool isImpact(const CVEHICLE*&);
 	bool impact(std::vector<Bird> a);
+	bool impact(std::vector<Car> a);
 	bool isFinish();
 	//void upLevel(int&, int&, int&, vector<Bird>&, vector<Bird>&, vector<Bird>&, vector<Bird>&, vector<Bird>&);
 	bool isDead();

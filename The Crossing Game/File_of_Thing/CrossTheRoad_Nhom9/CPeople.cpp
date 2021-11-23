@@ -219,6 +219,31 @@ bool CPEOPLE::impact(std::vector<Bird> c) {
 	return false;
 }
 
+bool CPEOPLE::impact(std::vector<Car> c) {
+	if (vulnerable) {
+		// Tạo một điểm ở bên trái và bên phải để kiểm tra va chạm
+		short rightTrueX = trueX + 4; // bên phải = bên trái + 4
+		short l = 0;
+
+		// Xét từng vùng collision
+		for (auto& i : c) {
+			if (i.getDirection() == false) {
+				if (										// Độ dài theo chiều ngang: người chơi + xe ô tô (17 ký tự)
+					((trueX <= i.getTrueX() + 16 + 1) and (trueX >= i.getTrueX())) and			// Kiểm tra bên trái người chơi
+					((rightTrueX <= i.getTrueX() + 16 + 1) and (rightTrueX >= i.getTrueX() - 1)) and	// Kiểm tra bên phải người chơi
+					(Y == i.getY())				// Người chơi ở hàng cùng với con chim
+					) {
+					hearts--;		// Va chạm với chim sẽ làm người chơi mất 1 mạng
+					vulnerable = false;		// Và người chơi sẽ tránh va chạm trong 1 thời gian ngắn
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+
 bool CPEOPLE::isFinish() {
 	if (Y == 0)
 		return true;

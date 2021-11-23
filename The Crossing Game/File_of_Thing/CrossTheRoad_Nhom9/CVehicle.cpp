@@ -1,34 +1,47 @@
-﻿#include"CAnimal.h"
+﻿#include "CVehicle.h"
 
 
-CANIMAL::CANIMAL() {
+CVEHICLE::CVEHICLE() {
 	Y = 0;
 	trueX = 0;
 	setTrueCoordinates();
 
-	setState(start);
 	setDirection(false);
 	setSpeed(0);
 }
 
-CANIMAL::~CANIMAL() {}
+//CVEHICLE::CVEHICLE(short x, short y, short s) {
+//	mX = x;
+//	mY = y;
+//	mSpeed = s;
+//}
+//
+//CVEHICLE::CVEHICLE(const CVEHICLE& v) {
+//	mX = v.mX;
+//	mY = v.mY;
+//	mSpeed = v.mSpeed;
+//}
+
+CVEHICLE::~CVEHICLE() {
+
+};
 
 
-void CANIMAL::setTrueX(short x) {
+void CVEHICLE::setTrueX(short x) {
 	trueX = x;
 }
 
 
-void CANIMAL::setY(short y) {
+void CVEHICLE::setY(short y) {
 	Y = y;
 }
 
-void CANIMAL::setTrueCoordinates() {
+void CVEHICLE::setTrueCoordinates() {
 	trueX = (direction ? MAX_MASK_X : 0);
-	trueY = 2 + TILE_Y * Y;
+	trueY = 1 + TILE_Y * Y;
 }
 
-void CANIMAL::drawBody() {
+void CVEHICLE::drawBody() {
 	Console::drawFromFile(
 		sprite,
 		COORD{ trueX, trueY },
@@ -38,11 +51,11 @@ void CANIMAL::drawBody() {
 
 
 
-void CANIMAL::cMove() {
+void CVEHICLE::cMove() {
 
 	switch (state) {
 
-	case start:
+	case VehicleState::start:
 		if (running_timer-- == 0) {		// khi thời gian kết thúc => con vật bắt đầu đi
 			if (not direction) {		// từ trái sang phải => di chuyển con trỏ -> vẽ
 				Console::gotoXY(LEFT_BORDER, trueY);
@@ -52,11 +65,11 @@ void CANIMAL::cMove() {
 				Console::gotoXY(RIGHT_BORDER, trueY);
 				drawBody();
 			}
-			state = run;
+			state = VehicleState::run;
 		}
 		break;
 
-	case run:
+	case VehicleState::run:
 		if (not direction) { // từ trái sang phải
 			if (trueX < RIGHT_BORDER) { // nếu chưa vượt biên => xoá -> đổi toạ độ -> di chuyển con trỏ -> vẽ
 				Console::removeSpace(trueX, trueY);
@@ -70,7 +83,7 @@ void CANIMAL::cMove() {
 			}
 			else {	// xoá luôn, và đổi thông số
 				Console::removeSpace(trueX, trueY);
-				state = finish;
+				state = VehicleState::finish;
 				trueX = LEFT_BORDER;
 			}
 		}
@@ -87,64 +100,64 @@ void CANIMAL::cMove() {
 			}
 			else {
 				Console::removeSpace(trueX, trueY);
-				state = finish;
+				state = VehicleState::finish;
 				trueX = RIGHT_BORDER;
 			}
 		}
 		break;
 
-	case finish:
-		state = start;
+	case VehicleState::finish:
+		state = VehicleState::start;
 		running_timer = timer;
 		break;
 	}
 }
 
-void CANIMAL::setSpeed(short value) {
+void CVEHICLE::setSpeed(short value) {
 	speed_delay = value;
 	running_delay = speed_delay;
 }
 
-short CANIMAL::getSpeed() {
+short CVEHICLE::getSpeed() {
 	return speed_delay;
 }
 
-void CANIMAL::setState(short value) {
+void CVEHICLE::setState(VehicleState value) {
 	state = value;
 }
 
-short CANIMAL::getState() {
+VehicleState CVEHICLE::getState() {
 	return state;
 }
 
-void CANIMAL::setDirection(short value) {
+void CVEHICLE::setDirection(short value) {
 	direction = value;
 }
 
-short CANIMAL::getDirection() {
+short CVEHICLE::getDirection() {
 	return direction;
 }
 
-void CANIMAL::setTimer(short value) {
+void CVEHICLE::setTimer(short value) {
 	timer = value;
 }
 
-void CANIMAL::setRunningTimer(short value) {
+void CVEHICLE::setRunningTimer(short value) {
 	running_timer = value;
 }
 
-short CANIMAL::getTimer() {
+short CVEHICLE::getTimer() {
 	return timer;
 }
 
-short CANIMAL::getRunningTimer() {
+short CVEHICLE::getRunningTimer() {
 	return running_timer;
 }
 
-short CANIMAL::getTrueX() {
+short CVEHICLE::getTrueX() {
 	return trueX;
 }
 
-short CANIMAL::getY() {
+short CVEHICLE::getY() {
 	return Y;
 }

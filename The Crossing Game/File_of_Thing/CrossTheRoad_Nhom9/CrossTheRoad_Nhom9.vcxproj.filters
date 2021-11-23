@@ -42,49 +42,55 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cpeople.cpp">
-      <Filter>Source Files\player</Filter>
-    </ClCompile>
     <ClCompile Include="console.cpp">
       <Filter>Source Files\utility</Filter>
     </ClCompile>
     <ClCompile Include="draw.cpp">
       <Filter>Source Files\utility</Filter>
     </ClCompile>
-    <ClCompile Include="cgame.cpp">
-      <Filter>Source Files\game</Filter>
-    </ClCompile>
     <ClCompile Include="menu.cpp">
       <Filter>Source Files\game</Filter>
-    </ClCompile>
-    <ClCompile Include="canimal.cpp">
-      <Filter>Source Files\mobs</Filter>
     </ClCompile>
     <ClCompile Include="Bird.cpp">
       <Filter>Source Files\mobs</Filter>
     </ClCompile>
+    <ClCompile Include="CGame.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="CVehicle.cpp">
+      <Filter>Source Files\mobs</Filter>
+    </ClCompile>
+    <ClCompile Include="CAnimal.cpp">
+      <Filter>Source Files\mobs</Filter>
+    </ClCompile>
+    <ClCompile Include="CPeople.cpp">
+      <Filter>Source Files\player</Filter>
+    </ClCompile>
+    <ClCompile Include="Car.cpp">
+      <Filter>Source Files\mobs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cgame.h">
-      <Filter>Header Files\game</Filter>
-    </ClInclude>
     <ClInclude Include="menu.h">
       <Filter>Header Files\game</Filter>
-    </ClInclude>
-    <ClInclude Include="Bird.h">
-      <Filter>Header Files\mobs</Filter>
-    </ClInclude>
-    <ClInclude Include="canimal.h">
-      <Filter>Header Files\mobs</Filter>
-    </ClInclude>
-    <ClInclude Include="cpeople.h">
-      <Filter>Header Files\player</Filter>
     </ClInclude>
     <ClInclude Include="console.h">
       <Filter>Header Files\utility</Filter>
     </ClInclude>
     <ClInclude Include="draw.h">
       <Filter>Header Files\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="CVehicle.h">
+      <Filter>Header Files\mobs</Filter>
+    </ClInclude>
+    <ClInclude Include="CGame.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="CAnimal.h">
+      <Filter>Header Files\mobs</Filter>
+    </ClInclude>
+    <ClInclude Include="CPeople.h">
+      <Filter>Header Files\player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

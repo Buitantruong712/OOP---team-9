@@ -20,6 +20,11 @@
 #pragma execution_character_set("UTF-8")
 
 
+#define LEFT_BORDER 2
+#define RIGHT_BORDER 128	// do ảnh xét theo góc trên trái, không phải trung tâm,
+							// nên 133 sẽ bị trừ đi 5 ký tự vì chiều dài của ảnh là 5
+
+
 // Mỗi ô dài 5 ký tự và cao 4 ký tự
 #define TILE_X 5
 #define TILE_Y 5
@@ -41,6 +46,7 @@ public:
 	// Thay đổi màn hình console (thay đổi và cố định kích thước)
 	static void resizeConsole(int width, int height);
 	static void fixConsoleWindow();
+	static void fixConsoleFont();
 
 	// Thao tác con trỏ (di chuyển con trỏ, làm con trỏ không hiện và đổi màu ký tự)
 	static void gotoXY(int x, int y);
@@ -52,6 +58,7 @@ public:
 	static void drawFromFileTransparent(const std::string, COORD, int);
 	static void removeSpace(int, int);
 
+	// Khác
 	static void setConsole();
 	static void drawGameBot();
 	static void clearScreen();

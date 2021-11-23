@@ -2,14 +2,23 @@
 
 
 CGAME::CGAME() {
-	short quantity = 8;
+	short bird_quantity = 5;
+	short car_quantity = 2;
 
-	Bird new_bird(3, false, 5); // Hàng 3, đi từ trái sang phải
+	Bird new_bird(3, false, 6); // Hàng 3, đi từ trái sang phải, thời gian ngưng 6 đơn vị
 
-	for (int i = 0; i < quantity; i++) {
-		new_bird.setTimer(rand() % 120 + 30);
+	for (short i = 0; i < bird_quantity; i++) {
+		new_bird.setTimer(rand() % 120 + 50);
 		birds.push_back(new_bird);
 		birds[i].setIndex(i);
+	}
+
+	Car new_car(4, false, 3);
+
+	for (short i = 0; i < car_quantity; i++) {
+		new_car.setTimer(rand() % 150 + 50);
+		cars.push_back(new_car);
+		cars[i].setIndex(i);
 	}
 
 	level = 1;
@@ -26,8 +35,14 @@ CGAME::~CGAME() {
 
 }
 
-//CPEOPLE getPeople();
-//CVEHICLE * getVehicle();
+CPEOPLE CGAME::getPeople() {
+	return player;
+}
+
+std::vector <Car> CGAME::getVehicle() {
+	return cars;
+}
+
 std::vector <Bird> CGAME::getAnimal() {
 	return birds;
 }
@@ -50,9 +65,12 @@ void CGAME::startGame() {
 	player.drawBody();
 	player.drawHealthBar();
 
-	// Đặt lại vị trí các con chim (tính trường hợp startGame chạy lần hai)
+	// Đặt lại vị trí các con vật và xe cộ (tính trường hợp startGame chạy lần hai)
 	for (auto& i : birds) {
-		i.setTrueX(0); // tạm thời cho chim chạy từ trái sang phải
+		i.setTrueX(0); // tạm thời cho chạy từ trái sang phải
+	}
+	for (auto& i : cars) {
+		i.setTrueX(0);
 	}
 
 	// Chạy vòng lặp
@@ -105,7 +123,7 @@ void CGAME::loadGame() {
 					f >> value1 >> value2 >> value3;
 					i.setTrueX(value1);
 					i.setY(value2);
-					i.setState(value3);
+					i.setState(static_cast<AnimalState>(value3));
 
 					f >> value1 >> value2 >> value3;
 					i.setDirection(value1);
@@ -242,7 +260,7 @@ void CGAME::setSaveFile(char file_number) {
 	// 2) lưu vị trí con chim, trạng thái, hướng đi và thời gian chờ của nó
 	f << birds.size() << '\n';
 	for (auto& i : birds)
-		f << i.getTrueX() << ' ' << i.getY() << ' ' << i.getState() << ' ' << i.getDirection() << ' ' << i.getTimer() << ' ' << i.getRunningTimer() << '\n';
+		f << i.getTrueX() << ' ' << i.getY() << ' ' << static_cast<int>(i.getState()) << ' ' << i.getDirection() << ' ' << i.getTimer() << ' ' << i.getRunningTimer() << '\n';
 
 	// đóng file
 	f.close();
@@ -310,7 +328,7 @@ void CGAME::resumeGame() {
 		moveVehicle();
 
 		// Tính va chạm
-		if (player.impact(birds)) { // player.impact() ảnh hưởng đến player.isDead(), và làm chính nó trả về "false" một thời gian
+		if (player.impact(birds) or player.impact(cars)) { // player.impact() ảnh hưởng đến player.isDead(), và làm chính nó trả về "false" một thời gian
 			player.drawHealthBar();
 		}
 
@@ -351,13 +369,17 @@ void CGAME::movePeople(char& get_input) {
 }
 
 void CGAME::moveVehicle() {
-
+	for (auto& i : cars) {
+		if (i.getTimer() == 0)
+			i.setTimer(rand() % 150 + 50);
+		i.cMove();
+	}
 }
 
 void CGAME::moveAnimal() {
 	for (auto& i : birds) {
 		if (i.getTimer() == 0)
-			i.setTimer(rand() % 120 + 30);
+			i.setTimer(rand() % 120 + 50);
 		i.cMove();
 	}
 }

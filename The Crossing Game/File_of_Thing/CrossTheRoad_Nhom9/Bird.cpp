@@ -1,24 +1,22 @@
-﻿#include "Bird.h"
+﻿#include "CAnimal.h"
 
-Bird::~Bird() {
-
-}
 
 Bird::Bird(short y, bool direction, short speed_delay) {
 	Y = y;
 	setTrueCoordinates();
-	setState(start);
+	setState(AnimalState::start);
 	setDirection(direction);
 	setSpeed(speed_delay);
 	setTimer(0);
 	running_timer = timer;
 	this->index = index;
-	sprite = "mobs/bird.txt";
+	sprite = (direction == false ? "mobs/bird_left.txt" : "mob/bird_right.txt");
 }
+
 
 void Bird::setIndex(short value) {
 	index = value;
-	timer += 120 * value;
+	timer += 200 * value;
 	running_timer = timer;
 }
 
