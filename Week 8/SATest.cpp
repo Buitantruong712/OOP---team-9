@@ -10,10 +10,8 @@ bool SATest::Check() {
 }
 
 void SATest::Input(istream& is) {
-	do {
-		cout << "Nhap so phan tu: ";
-		is >> n;
-	} while (n < 1 && cout << "Khong hop le! Nhap lai\n");
+	cout << "Nhap so phan tu: ";
+	is >> n;
 	for (int i = 0; i < n; i++) {
 		cout << "a[" << i << "] = ";
 		is >> arr[i];
