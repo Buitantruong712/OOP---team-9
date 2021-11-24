@@ -2,7 +2,7 @@
 
 
 SATest::SATest() {}
-SATest::SATest(SortArray* pAlg) { SA = pAlg; }
+SATest::SATest(SortArray* sa) { SA = sa; }
 
 bool SATest::Check() {
 	if (n <= 0) return false;
