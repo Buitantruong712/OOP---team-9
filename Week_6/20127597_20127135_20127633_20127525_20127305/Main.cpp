@@ -32,8 +32,8 @@ int main() {
 	cout << "Array d(c): " << d << endl << endl;
 
 	// Operator =
-	a = b;
-	cout << "5) Array a := Array b\n=> Array a: " << a << endl << endl;
+	a = d;
+	cout << "5) Array a := Array d\n=> Array a: " << a << endl << endl;
 
 	// Operator []
 	cout << "6) Operator []\n";
