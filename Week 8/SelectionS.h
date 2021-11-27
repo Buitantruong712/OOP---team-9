@@ -5,6 +5,6 @@
 class SelectionS : public SortArray
 {
 public:
-	void Process(float arr[], int n);
+	void Process(vector<float>& f);
 };
 

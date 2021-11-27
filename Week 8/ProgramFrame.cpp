@@ -1,6 +1,6 @@
 #include "ProgramFrame.h"
 
-void ProgramFrame::startMessage(ostream& os) { os << "Welcome to my program!\n"; }
+void ProgramFrame::startMessage(ostream& os) { os << "\nWelcome to my program!\n"; }
 void ProgramFrame::errorMessage(ostream& os) { os << "Input data error!" << endl; }
 bool ProgramFrame::askContinue(istream& is, ostream& os) {
 	os << "\nPress y to continue, others to stop : ";

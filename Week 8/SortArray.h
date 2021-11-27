@@ -1,13 +1,13 @@
 #pragma once
 #include<iostream>
-#include <algorithm>
+#include<vector>
 using namespace std;
 
 class SortArray
 {
 public:
 	SortArray();
-	virtual void Process(float arr[], int n) = 0;
+	virtual void Process(vector<float> &f) = 0;
 	~SortArray();
 };
 

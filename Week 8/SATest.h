@@ -6,7 +6,7 @@ class SATest : public ProgramFrame
 {
 private:
 	int n;
-	float arr[100];
+	vector<float> f;
 	SortArray* SA;
 public:
 	SATest();

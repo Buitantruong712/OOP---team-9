@@ -7,16 +7,19 @@ bool SATest::Check() {	return !(n < 1);}
 
 void SATest::Input(istream& is) {
 	cout << "Enter a number of elements: "; is >> n;
+	float a;
 	for (int i = 0; i < n; i++) {
-		cout << "a[" << i << "] = ";is >> arr[i];
+		cout << "Element " << i << " = "; cin >> a;
+		f.push_back(a);
 	}
 }
 
 void SATest::Output(ostream& os) {
 	os << "Result after sorting: ";
-	for (int i = 0; i < n; i++)	os << arr[i] << " ";
+	for (auto &i:f)	os << i << " ";
+	f.clear();
 }
 
-void SATest::Process() { SA->Process(arr, n); }
+void SATest::Process() { SA->Process(f); }
 SATest::~SATest() {}
 
