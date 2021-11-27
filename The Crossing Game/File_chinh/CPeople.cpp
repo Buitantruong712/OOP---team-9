@@ -132,8 +132,8 @@ void CPEOPLE::drawHeartBroken(short x, short y) {
 
 // Thanh mạng sống
 void CPEOPLE::drawHealthBar() {
-	short x = (short)Border::LEFT + 1;
-	short y = (short)Border::TOP + 1;
+	short x = 1;
+	short y = 1;
 	short i = 0;
 	for (i; i < hearts; i++) {
 		drawHeart(x, y);

@@ -1,14 +1,13 @@
 #include "CCar.h"
 
 CCAR::CCAR() :CVEHICLE() {
-    mY = 5; // land
     Y = mY * TILE_Y + (short)Border::TOP;
 }
 
-CCAR::CCAR(short posY, bool di) {
+CCAR::CCAR(short posY, bool direction) {
     mY = posY;
     Y = mY * TILE_Y + (short)Border::TOP;
-    direction = di;
+    this->direction = direction;
 }
 
 CCAR::~CCAR() {
@@ -37,7 +36,7 @@ void CCAR::move() {
     else {
         if (X > (short)Border::LEFT) {
             Console::removeSpace(X, Y, true);
-            X++;
+            X--;
             drawBody();
         }
         else {

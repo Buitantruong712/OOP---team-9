@@ -42,7 +42,7 @@ enum class Color {
 	RED,
 	MAGENTA,
 	YELLOW,
-	WHITE,
+	LIGHT_GRAY,
 	GRAY,
 	LIGHT_BLUE,
 	LIGHT_GREEN,
@@ -50,7 +50,7 @@ enum class Color {
 	LIGHT_RED,
 	LIGHT_MAGENTA,
 	LIGHT_YELLOW,
-	BRIGHT_WHITE
+	WHITE
 };
 
 

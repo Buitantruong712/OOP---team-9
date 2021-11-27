@@ -4,6 +4,7 @@
 #include "CPeople.h"
 #include "CBird.h"
 #include "CCar.h"
+#include "CTruck.h"
 
 enum class Key {
 	UP = 72,
@@ -15,20 +16,25 @@ enum class Key {
 
 class CGAME {
 private:
-	const string MENU[4] = { "START GAME", "LOAD GAME", "SETTINGS", "EXIT" };
+	const string MAIN_MENU[4] = { "START GAME", "LOAD GAME", "SETTINGS ", "  EXIT   " };
+	const string PAUSE_MENU[3] = { "CONTINUE ", "SAVE GAME ", "MAIN MENU" };
 	CPEOPLE cn;
-	CBIRD* ac;
-	int acNumber;
-	CCAR* axh;
-	int axhNumber;
+	CCAR* cars_2;		int cars_2_size;
+	CBIRD* birds;		int birds_size;
+	CBIRD* birds_2;		int birds_2_size;
+	CCAR* cars;			int cars_size;
+	CTRUCK* trucks;		int trucks_size;
+	bool exit_game;
+
 public:
 	CGAME();
 	~CGAME();
 
 	// Vẽ
-	void drawTitle();				// Title game	
-	void drawMenu(short choice);	// Menu chính
-	void drawGame();				// Trong game
+	void drawTitle();					// Title game	
+	void drawMainMenu(short choice);	// Menu chính
+	void drawPauseMenu(short choice);	// Menu dừng game
+	void drawGame();					// Trong game
 
 	// Chạy menu
 	void runMenu();					
@@ -42,7 +48,7 @@ public:
 	void startGame();			// Thực hiện bắt đầu vào trò chơi
 	void loadGame(istream);		// Thực hiện tải lại trò chơi đã lưu
 	void saveGame(istream);		// Thực hiện lưu lại dữ liệu trò chơi
-	void pauseGame(HANDLE);		// Tạm dừng Thread
+	void pauseGame(/*HANDLE*/);		// Tạm dừng Thread
 	void resumeGame();			// Quay lai Thread
 
 	void updatePosPeople(char); //Thực hiện điều khiển di chuyển của CPEOPLE

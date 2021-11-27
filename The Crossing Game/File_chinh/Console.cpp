@@ -83,7 +83,7 @@ void Console::drawFromFile(string filename, COORD pos, int color) {
 	}
 	f.close();
 
-	setColor((int)Color::BRIGHT_WHITE);
+	setColor((int)Color::WHITE);
 }
 
 // Xóa người hoặc động vật hoặc xe (Hàm này cần xem lại tất cả hình vẽ rồi chỉnh lại cho đồng nhất)

@@ -14,7 +14,7 @@ public:
 	~CANIMAL();
 	
 	// Setter
-	void setmY(short row) { mY = row; };
+	void setmY(short row) { mY = row; Y = mY * TILE_Y + (short)Border::TOP; };
 	void setX(short x) { X = x; };
 	void setDirection(bool d) { direction = d; };
 

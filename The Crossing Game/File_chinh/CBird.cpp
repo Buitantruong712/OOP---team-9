@@ -36,7 +36,7 @@ void CBIRD::move() {
     else {
         if (X > (short)Border::LEFT) {
             Console::removeSpace(X, Y);
-            X++;
+            X--;
             drawBody();
         }
         else {
