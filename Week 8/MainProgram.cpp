@@ -6,15 +6,16 @@
 
 int main()
 {
-	//cout << "Selection Sort\n";
-	//SATest sortTest(new SelectionS());
+	cout << "\nSelection Sort";
+	SATest sortTest1(new SelectionS());
+	sortTest1.run(cin, cout);
 
-	//cout << "Insertion Sort\n";
-	//SATest sortTest(new InsertionS());
+	cout << "\nInsertion Sort";
+	SATest sortTest2(new InsertionS());
+	sortTest2.run(cin, cout);
 
-	cout << "Interchange Sort\n";
-	SATest sortTest(new InterchangeS());
-	
-	sortTest.run(cin, cout);
+	cout << "\nInterchange Sort";
+	SATest sortTest3(new InterchangeS());
+	sortTest3.run(cin, cout);
 	return 0;
 }
