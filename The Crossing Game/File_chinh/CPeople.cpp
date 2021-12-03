@@ -94,23 +94,6 @@ void CPEOPLE::Right() {
 	drawBody();
 }
 
-
-void CPEOPLE::Control(char& get_input) {
-	int press;
-	if (_kbhit()) {
-		press = toupper(_getch());
-		if (press == 'D')
-			Right();
-		else if (press == 'A')
-			Left();
-		else if (press == 'W')
-			Up();
-		else if (press == 'S')
-			Down();
-		get_input = press;
-	}
-}
-
 /// 
 /// - - - - - - - - - - - - VẼ - - - - - - - - - - - - 
 /// 
@@ -132,8 +115,8 @@ void CPEOPLE::drawHeartBroken(short x, short y) {
 
 // Thanh mạng sống
 void CPEOPLE::drawHealthBar() {
-	short x = 1;
-	short y = 1;
+	short x = (short)Border::LEFT + 1;
+	short y = (short)Border::TOP + 1;
 	short i = 0;
 	for (i; i < hearts; i++) {
 		drawHeart(x, y);
@@ -143,19 +126,6 @@ void CPEOPLE::drawHealthBar() {
 		drawHeartBroken(x, y);
 		x += 6;
 	} // vẽ tim mất
-}
-
-// Game over -> khi kết thúc trò chơi
-void CPEOPLE::gameOver() {
-	COORD pos{ Console::getMidHoritonal() - 30,Console::getMidVertical() - 5};
-	Sleep(300);
-	Console::drawFromFile("Menu/GameOverTitle.txt", pos, (int)Color::MAGENTA);
-	Sleep(300);
-	Console::drawFromFile("Menu/GameOverTitle.txt", pos, (int)Color::LIGHT_MAGENTA);
-	Sleep(1000);
-	Console::gotoXY(pos.X + 15, pos.Y + 7);
-	cout << "Press anything to continue";
-	_getch();
 }
 
 /// 
@@ -189,7 +159,7 @@ bool CPEOPLE::isDead() {
 }
 
 // Kiểm tra va chạm với xe
-bool CPEOPLE::isImpact(const CVEHICLE* &v, int num) {
+bool CPEOPLE::isImpact(const CVEHICLE* v, int num) {
 	short rightX = X + TILE_X - 1;
 	if (mY == v->getmY()) {
 		for (int i = 0; i < num; i++) {
@@ -202,7 +172,7 @@ bool CPEOPLE::isImpact(const CVEHICLE* &v, int num) {
 }
 
 // Kiểm tra va chạm với thú
-bool CPEOPLE::isImpact(const CANIMAL*& v, int num) {
+bool CPEOPLE::isImpact(const CANIMAL* v, int num) {
 	short rightX = X + TILE_X - 1;
 	if (mY == v->getmY()) {
 		for (int i = 0; i < num; i++) {

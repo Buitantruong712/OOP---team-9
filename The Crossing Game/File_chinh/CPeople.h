@@ -34,14 +34,12 @@ public:
 	void Down();
 	void Left();
 	void Right();
-	void Control(char&);
 
 	// Vẽ
 	void drawBody();					// Người chơi
 	void drawHeart(short, short);		// Mạng sống còn lại của người chơi
 	void drawHeartBroken(short, short);	// Mạng sống đã mất của người chơi	
 	void drawHealthBar();				// Thanh mạng sống
-	void gameOver();					// Kết thúc game vẽ chữ "Game Over"
 
 	// Reset
 	void resetHearts();					// Reset mạng sống
@@ -50,8 +48,8 @@ public:
 	// Check trạng thái
 	bool isFinish();
 	bool isDead();
-	bool isImpact(const CVEHICLE*&, int);
-	bool isImpact(const CANIMAL*&, int);
+	bool isImpact(const CVEHICLE*, int);
+	bool isImpact(const CANIMAL*, int);
 
 };
 #endif 

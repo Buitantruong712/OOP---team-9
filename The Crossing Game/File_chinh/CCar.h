@@ -20,7 +20,7 @@ public:
 	virtual void move();
 };
 
-#endif // !_CCAR_H
+#endif 
 
 
 

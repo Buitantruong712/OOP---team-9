@@ -72,7 +72,6 @@ public:
 
 	// Vẽ
 	static void drawFromFile(const string, COORD, int);
-	static void drawFromFileTransparent(const string, COORD, int);
 	static void removeSpace(short, short, bool isCar = 0);
 
 	// Lấy kích thước của console
