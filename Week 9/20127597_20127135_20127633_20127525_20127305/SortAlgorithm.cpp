@@ -24,9 +24,9 @@ SortAlgorithm<T>* SortAlgorithm<T>::getObject(void (*pAlg)(T[], int)) {
 template <class T>
 void SortAlgorithm<T>::SelectionSort(T a[], int n) {
 	int min;
-	for (int i = 0; i < n - 1;i++) {
+	for (int i = 0; i < n - 1; i++) {
 		min = i;
-		for (int j = i + 1;j < n;j++) {
+		for (int j = i + 1; j < n; j++) {
 			if (a[j] < a[min]) {
 				min = j;
 			}
@@ -43,9 +43,9 @@ template <class T>
 void SortAlgorithm<T>::InsertionSort(T a[], int n) {
 	int pos;
 	T x;
-	for (int i = 0; i < n;i++) {
+	for (int i = 0; i < n; i++) {
 		x = a[i];
-		for (pos = i;(pos > 0 && a[pos - 1] > x);pos--) {
+		for (pos = i; (pos > 0 && a[pos - 1] > x); pos--) {
 			a[pos] = a[pos - 1];
 		}
 		a[pos] = x;
@@ -55,8 +55,8 @@ void SortAlgorithm<T>::InsertionSort(T a[], int n) {
 
 template <class T>
 void SortAlgorithm<T>::InterchangeSort(T a[], int n) {
-	for (int i = 0; i < n - 1;i++) {
-		for (int j = i + 1;j < n;j++) {
+	for (int i = 0; i < n - 1; i++) {
+		for (int j = i + 1; j < n; j++) {
 			if (a[j] < a[i]) {
 				T temp = a[i];
 				a[i] = a[j];

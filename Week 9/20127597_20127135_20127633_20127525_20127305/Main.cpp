@@ -10,20 +10,20 @@ int main() {
 		cout << "\t0. Exit\n\t1. <float>\n\t2. <char> \n\t3. <STUDENT>\n";
 		cin >> choice;
 		switch (choice) {
-		case 0: {
+		case 0:
 			break;
-		}
 		case 1: {
 			float a[] = { 1.4F,-5.2F,3.3F,0 };
 			int n = sizeof(a) / sizeof(a[0]);
 			SortAlgorithm<float>* alg = SortAlgorithm<float>::getObject(SortAlgorithm<float>::InterchangeSort);
 
-			cout << "float a[] = { 1.4F,-5.2F,3.3F,0 } sau khi sap xep : \n";
+			cout << "float a[] = { 1.4F,-5.2F,3.3F,0 } sau khi sap xep : ";
 			alg->Sort(a, n);
 
-			for (int i = 0; i < n;i++) {
-				cout << a[i] << endl;
+			for (int i = 0; i < n; i++) {
+				cout << a[i] << "\t";
 			}
+			cout << endl;
 			break;
 		}
 		case 2: {
@@ -32,10 +32,11 @@ int main() {
 			SortAlgorithm<char>* alg = SortAlgorithm<char>::getObject(SortAlgorithm<char>::InterchangeSort);
 			alg->Sort(a, n);
 
-			cout << "char a[] = { 'E','B','C','D' } sau khi sap xep:\n";
+			cout << "char a[] = { 'E','B','C','D' } sau khi sap xep: ";
 			for (int i = 0; i < n;i++) {
-				cout << a[i] << endl;
+				cout << a[i] << "\t";
 			}
+			cout << endl;
 			break;
 		}
 		case 3: {
