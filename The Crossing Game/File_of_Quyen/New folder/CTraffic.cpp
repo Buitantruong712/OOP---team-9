@@ -4,9 +4,9 @@
 
 CTraffic::CTraffic() {
 	status = 0;
-	timeRed = 1;
-	timeYellow = 1;
-	timeGreen = 1;
+	timeRed = 35;
+	timeYellow = 15;
+	timeGreen = 70;
 	trX = 0;
 	trY = 0;
 }
@@ -152,13 +152,13 @@ void CTraffic::change() {
 		draw();
 	}
 	if (timeRed == 0) {
-		timeRed = 1;
+		timeRed = 35;
 	}
 	if (timeYellow == 0) {
-		timeYellow = 1;
+		timeYellow = 15;
 	}
 	if (timeGreen == 0) {
-		timeGreen = 1;
+		timeGreen = 70;
 	}
 }
 
