@@ -28,7 +28,6 @@ SortAlgorithm<T>::SortAlgorithm() {
 	currentAlgorithm = InsertionSort;
 }
 
-
 template <class T>
 SortAlgorithm<T>* SortAlgorithm<T>::getObject(void (*pAlg)(T[], int)) {
 	if (_algorithm == NULL) {

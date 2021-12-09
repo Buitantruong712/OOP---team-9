@@ -38,12 +38,8 @@ void CPEOPLE::setXY() {
 	Y = mY * TILE_Y + (short)Border::TOP + 1;
 }
 
-void CPEOPLE::setHeart(short h) {
-	if (h < 0)
-		h = 0;
-	if (h > maxHearts)
-		h = maxHearts;
-	hearts = h;
+void CPEOPLE::subHeart() {
+	hearts--;
 }
 
 /// 
@@ -65,7 +61,7 @@ void CPEOPLE::Up() {
 }
 
 void CPEOPLE::Down() {
-	if (mY == MAX_MASK_Y)				// Nếu chạm biên dưới thì không di chuyển lên được nữa
+	if (mY == MAX_MASK_Y)				// Nếu chạm biên dưới thì không di chuyển được nữa
 		return;
 
 	Console::removeSpace(X, Y);

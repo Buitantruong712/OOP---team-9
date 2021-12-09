@@ -24,7 +24,7 @@ private:
 	CBIRD* ac;			int ac_size;
 	CBIRD* birds;		int birds_size;		// (thay thế sau)
 	CCAR* cars;			int cars_size;		// (thay thế sau)
-	CPEOPLE cn;
+	CPEOPLE* cn;
 
 public:
 	bool IS_RUNNING;
@@ -36,12 +36,13 @@ public:
 	void drawMainMenu(short choice);	// Menu chính
 	void drawPauseMenu(short choice);	// Menu dừng game
 	void drawGame();					// Trong game
-
+	void clearPauseMenu();
 	// Chạy menu
-	short runMenu();					
+	short runMenu();		
+	short runPauseMenu();
 
 	// Getter
-	CPEOPLE getPeople() { return cn; };
+	CPEOPLE* getPeople() { return cn; };
 	CVEHICLE* getTruck() { return axt; };
 	CVEHICLE* getCar() { return axh; };
 	CANIMAL* getBird() { return ac; };
@@ -55,12 +56,12 @@ public:
 
 	// Thao tác game
 	void resetGame();					// Thực hiện thiết lập lại toàn bộ dữ liệu như lúc đầu
-	void exitGame(HANDLE);				// Thực hiện thoát Thread 
+	void exitGame(thread &t);			// Thực hiện thoát Thread 
 	void startGame();					// Thực hiện bắt đầu vào trò chơi
 	//void loadGame(istream);			// Thực hiện tải lại trò chơi đã lưu
 	//void saveGame(istream);			// Thực hiện lưu lại dữ liệu trò chơi
-	void pauseGame(HANDLE);				// Tạm dừng Thread
-	void resumeGame(HANDLE);			// Quay lai Thread
+	void pauseGame(thread &t);			// Tạm dừng Thread
+	void resumeGame(thread &t);					// Quay lai Thread
 	void gameOver();
 
 	void updatePosPeople(char);		//Thực hiện điều khiển di chuyển của CPEOPLE
@@ -68,3 +69,39 @@ public:
 	void updatePosVehical();		//Thực hiện cho CDINAUSOR & CBIRD di chuyển
 };
 #endif
+
+extern char MOVING;
+extern CGAME cg;
+inline void SubThread() {
+	while (cg.IS_RUNNING) {
+
+		// Kiểm tra sống chết
+		if (!cg.getPeople()->isDead()) {
+			cg.updatePosPeople(MOVING);
+		}
+		MOVING = ' ';
+		cg.updatePosVehical();
+		cg.updatePosAnimal();
+
+		// Kiểm tra va chạm
+		if (cg.getPeople()->isImpact(cg.getCar(), cg.getCarSize())
+			|| cg.getPeople()->isImpact(cg.getTruck(), cg.getTruckSize())
+			|| cg.getPeople()->isImpact(cg.getBird(), cg.getBirdSize())
+			|| cg.getPeople()->isImpact(cg.getCar2(), cg.getCarSize2())
+			|| cg.getPeople()->isImpact(cg.getBird2(), cg.getBirdSize2())
+			)
+		{
+			cg.getPeople()->subHeart();
+			cg.getPeople()->drawHealthBar();
+			cg.getPeople()->resetPosition();
+		}
+
+		// Kiểm tra đến đích 
+		if (cg.getPeople()->isFinish()) {
+			//level++;
+			cg.getPeople()->resetPosition();
+		}
+
+		Sleep(100);
+	}
+}

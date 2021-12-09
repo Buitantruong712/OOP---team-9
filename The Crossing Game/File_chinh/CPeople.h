@@ -22,7 +22,8 @@ public:
 	// Cập nhật tọa độ (Setter)
 	void setCoordinates(short, short);	// set tọa độ theo đơn vị ô
 	void setXY();						// set tọa độ thực
-	void setHeart(short);
+
+	void subHeart();
 	
 	// Getter 
 	int getX() { return X; };
