@@ -19,15 +19,15 @@ enum class Key {
 class CGAME {
 private:
 	const string MAIN_MENU[4] = { "START GAME", "LOAD GAME ", "SETTINGS  ", "EXIT      " };
-	const short SETTING_MENU[4] = { 0, 1, 2, 3 };// hỗ trợ option setting
-	bool theme = 1, sound = 1, music = 1; // hỗ trợ option setting
+	const short SETTING_MENU[4] = { 0, 1, 2, 3 };			// hỗ trợ option setting
+	bool theme = 1, sound = 1, music = 1;					// hỗ trợ option setting
 	const string PAUSE_MENU[3] = { "CONTINUE ", "SAVE GAME ", "MAIN MENU" };
 
 	CBIRD* ac;			int ac_size;
 	CMONKEY* ak;        int ak_size;
 	CTRUCK* axt;		int axt_size;
 	CCAR* axh;		    int axh_size;
-	CHELICOPTER* att;   int att_size;	// (thay thế sau)
+	CHELICOPTER* att;   int att_size;	
 	CPEOPLE* cn;
 
 public:
@@ -68,12 +68,12 @@ public:
 	//void loadGame(istream);			// Thực hiện tải lại trò chơi đã lưu
 	//void saveGame(istream);			// Thực hiện lưu lại dữ liệu trò chơi
 	void pauseGame(thread& t);			// Tạm dừng Thread
-	void resumeGame(thread& t);					// Quay lai Thread
+	void resumeGame(thread& t);			// Quay lai Thread
 	void gameOver();
 
-	void updatePosPeople(char);		//Thực hiện điều khiển di chuyển của CPEOPLE
-	void updatePosAnimal();			//Thực hiện cho CTRUCK & CCAR di chuyển
-	void updatePosVehical();		//Thực hiện cho CDINAUSOR & CBIRD di chuyển
+	void updatePosPeople(char);			//Thực hiện điều khiển di chuyển của CPEOPLE
+	void updatePosAnimal();				//Thực hiện cho CTRUCK & CCAR & CHELICOPTER di chuyển
+	void updatePosVehical();			//Thực hiện cho CMONKEY & CBIRD di chuyển
 };
 #endif
 

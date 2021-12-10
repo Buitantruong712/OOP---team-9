@@ -14,6 +14,7 @@ public:
 	virtual short getX() const { return X; };
 	virtual short getY() const { return Y; };
 	virtual short getmY() const { return mY; };
+
 	// Minh họa
 	virtual void move();
 	virtual void drawBody();

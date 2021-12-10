@@ -10,7 +10,9 @@ CHELICOPTER::CHELICOPTER(short posY, bool direction) {
     this->direction = direction;
 }
 
-CHELICOPTER::~CHELICOPTER() {}
+CHELICOPTER::~CHELICOPTER() {
+
+}
 
 void CHELICOPTER::drawBody() {
     if (direction)
