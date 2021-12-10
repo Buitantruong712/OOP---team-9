@@ -36,7 +36,7 @@ void drawMenuCar() {
     static bool flag = 0;
     static COORD posCar = { 0,26 };
     while (carRunning) {
-        Console::drawFromFile("Menu/Car.txt", posCar, (int)Color::LIGHT_GREEN);
+        Console::drawFromFile("Menu/Car.txt", posCar, (int)Color::GREEN);
         if (flag == 0)
             posCar.X++;
         else
@@ -52,11 +52,11 @@ void drawMenuCar() {
 // Tiêu đề game
 void CGAME::drawTitle() {
     COORD pos = { 0,0 };
-    Console::drawFromFile("Menu/Title.txt", pos, (int)Color::LIGHT_GRAY);
+    Console::drawFromFile("Menu/Title.txt", pos, (int)Color::GRAY);
     Sleep(200);
-	Console::drawFromFile("Menu/Title.txt", pos, (int)Color::RED);
-	Sleep(200);
 	Console::drawFromFile("Menu/Title.txt", pos, (int)Color::LIGHT_RED);
+	Sleep(200);
+	Console::drawFromFile("Menu/Title.txt", pos, (int)Color::RED);
 }
 
 // Vẽ level hiện tại
@@ -75,7 +75,7 @@ void CGAME::drawLevel()
 
 // Vẽ màn hình chơi game
 void CGAME::drawGame() {
-    Console::clearScreen();
+    system("cls");
     Console::drawFromFile("Map/Frame.txt", COORD{ (short)Border::LEFT - 2, (short)Border::TOP - 1 }, (int)Color::WHITE);
     Console::drawFromFile("Map/Help.txt", COORD{ (short)Border::RIGHT + 10, (short)Border::TOP - 1 }, (int)Color::WHITE);
     drawLevel();
@@ -87,18 +87,17 @@ void CGAME::drawMainMenu(short choice) {
     short count = 0;
     short midHoritonal = Console::getMidHoritonal(),
         midVertical = Console::getMidVertical();
-
     COORD pos = { midHoritonal - 5, midVertical - 2 };
-    Console::drawFromFile("Menu/MainMenuFrame.txt", pos, (int)Color::LIGHT_YELLOW);
+    Console::drawFromFile("Menu/MainMenuFrame.txt", pos, (int)Color::YELLOW);
 
     for (auto& i : MAIN_MENU) {
         if (count == choice) {
-            Console::setColor(16 * (int)Color::LIGHT_YELLOW);
+            Console::setColor(16 * (int)Color::YELLOW);
             Console::gotoXY(pos.X + 2, pos.Y + count + 1);
             cout << i;
         }
         else {
-            Console::setColor((int)Color::LIGHT_YELLOW);
+            Console::setColor((int)Color::YELLOW);
             Console::gotoXY(pos.X + 2, pos.Y + count + 1);
             cout << i;
         }
@@ -113,26 +112,24 @@ void CGAME::drawSettingMenu(short choice) {
           midVertical = Console::getMidVertical();
 
     COORD pos = { midHoritonal - 5, midVertical - 2 };
-    Console::drawFromFile("Menu/SettingMenuFrame.txt", pos, (int)Color::LIGHT_YELLOW);
+    Console::drawFromFile("Menu/SettingMenuFrame.txt", pos, (int)Color::YELLOW);
 
     for (auto& i : SETTING_MENU) {
         if (count == choice) {
-            Console::setColor(16 * (int)Color::LIGHT_YELLOW);
-            if (count == 3) Console::gotoXY(pos.X + 5, pos.Y + count + 1); // vị trí ghi "BACK"
-            else Console::gotoXY(pos.X + 9, pos.Y + count + 1);            // vị trí ghi "ON/OFF"
-            if (i == 0)      cout << (THEME ? "DARK" : "LIGHT");    
-            else if (i == 1) cout << (SOUND ? "ON" : "OFF");
-            else if (i == 2) cout << (MUSIC ? "ON" : "OFF");
-            else cout << "BACK";
+            Console::setColor(16 * (int)Color::YELLOW);
+            Console::gotoXY(pos.X + 2, pos.Y + count + 1);
+            if (count == 0) cout << i << ": " << (THEME ? "DARK " : "LIGHT");
+            if (count == 1) cout << i << ": " << (SOUND ? "ON   " : "OFF  ");
+            if (count == 2) cout << i << ": " << (MUSIC ? "ON   " : "OFF  ");
+            if (count == 3) cout << i;
         }
         else {
-            Console::setColor((int)Color::LIGHT_YELLOW);
-            if (count == 3)	Console::gotoXY(pos.X + 5, pos.Y + count + 1);
-            else Console::gotoXY(pos.X + 9, pos.Y + count + 1);
-            if (i == 0) cout << (THEME ? "DARK" : "LIGHT");
-            if (i == 1) cout << (SOUND ? "ON" : "OFF");
-            if (i == 2) cout << (MUSIC ? "ON" : "OFF");
-            if (i == 3) cout << "BACK";
+            Console::setColor((int)Color::YELLOW);
+            Console::gotoXY(pos.X + 2, pos.Y + count + 1);
+            if (count == 0) cout << i << ": " << (THEME ? "DARK " : "LIGHT");
+            if (count == 1) cout << i << ": " << (SOUND ? "ON   " : "OFF  ");
+            if (count == 2) cout << i << ": " << (MUSIC ? "ON   " : "OFF  ");
+            if (count == 3) cout << i;
         }
         count++;
     }
@@ -152,7 +149,7 @@ void CGAME::drawPauseMenu(short choice) {
             cout << i;
         }
         else {
-            Console::setColor((int)Color::LIGHT_GRAY);
+            Console::setColor((int)Color::WHITE);
             Console::gotoXY(pos.X + 2, pos.Y + count + 1);
             cout << i;
         }
@@ -179,7 +176,7 @@ void CGAME::clearPauseMenu() {
 
 // Game over -> khi kết thúc trò chơi
 void CGAME::gameOver() {
-    Console::clearScreen();
+    system("cls");
     short midHoritonal = Console::getMidHoritonal(),
         midVertical = Console::getMidVertical();
 
@@ -192,7 +189,7 @@ void CGAME::gameOver() {
     Console::gotoXY(pos.X + 25, pos.Y + 7);
     cout << "Press anything to continue";
     _getch();
-    Console::clearScreen();
+    system("cls");
 }
 
 // Thao tác trên menu chính
@@ -284,7 +281,9 @@ void CGAME::runSettingMenu() {
             switch (menuChoice) {
             case 0:
                 THEME = !THEME;
-                break;
+                Console::setColor((int)Color::BLACK);
+                system("cls");
+                return;
             case 1:
                 SOUND = !SOUND;
                 break;
@@ -331,7 +330,7 @@ void CGAME::exitGame(thread* t) {
     IS_RUNNING = false;
     if(t->joinable())
         t->join();
-    Console::clearScreen();
+    system("cls");
 }
 
 // Dừng game

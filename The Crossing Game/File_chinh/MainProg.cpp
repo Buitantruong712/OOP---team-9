@@ -2,6 +2,7 @@
 
 char MOVING;
 CGAME cg;
+bool THEME = 1, SOUND = 1, MUSIC = 1;
 
 int main() {
 	while (1) {

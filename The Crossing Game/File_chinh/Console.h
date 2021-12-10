@@ -1,4 +1,6 @@
-﻿#ifndef _CONSOLE_H
+﻿extern bool THEME, SOUND, MUSIC;
+
+#ifndef _CONSOLE_H
 #define _CONSOLE_H
 
 #include <windows.h>
@@ -28,6 +30,7 @@ using namespace std;
 
 #define COLUMS Console::getSize() / HELP_GET_SIZE
 #define ROWS Console::getSize() % HELP_GET_SIZE
+
 // Tọa độ viền của khung game
 enum class Border {
 	LEFT = 10,
@@ -37,22 +40,22 @@ enum class Border {
 };
 
 enum class Color {
-	BLACK,
+	BLACK, 
 	BLUE,
 	GREEN,
 	CYAN,
 	RED,
 	MAGENTA,
 	YELLOW,
-	LIGHT_GRAY,
-	GRAY,
+	LIGHT_GRAY,									
+	GRAY,										
 	LIGHT_BLUE,
 	LIGHT_GREEN,
 	LIGHT_CYAN,
 	LIGHT_RED,
 	LIGHT_MAGENTA,
-	LIGHT_YELLOW,
-	WHITE
+	LIGHT_YELLOW,								
+	WHITE										
 };
 
 

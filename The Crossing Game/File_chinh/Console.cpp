@@ -36,7 +36,23 @@ void Console::gotoXY(int x, int y) {
 void Console::setColor(int x) {
 	HANDLE mau;
 	mau = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(mau, x);
+	if (!THEME) {
+		if (x < 15) {
+			SetConsoleTextAttribute(mau, x + 240);
+		}
+		else if (x == 15) {
+			SetConsoleTextAttribute(mau, 240);
+		}
+		else if (x > 15 && x < 240) {
+			SetConsoleTextAttribute(mau, x);
+		}
+		else if (x == 240)
+			SetConsoleTextAttribute(mau, 15);
+		else
+			SetConsoleTextAttribute(mau, x % 15);
+	}
+	else
+		SetConsoleTextAttribute(mau, x);
 }
 
 // Ẩn/ Hiện con trỏ

@@ -4,7 +4,6 @@
 #include "CVehicle.h"
 
 class CCAR : public CVEHICLE {
-private:
 public:
 	CCAR();
 	CCAR(short, bool);

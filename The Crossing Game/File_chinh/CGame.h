@@ -8,7 +8,6 @@
 #include "CTruck.h"
 #include "CHelicopter.h"
 
-
 enum class Key {
 	UP = 72,
 	DOWN = 80,
@@ -22,9 +21,8 @@ void SubThread();
 class CGAME {
 private:
 	const string MAIN_MENU[4] = { "START GAME", "LOAD GAME ", "SETTINGS  ", "EXIT      " };
-	const short SETTING_MENU[4] = { 0, 1, 2, 3 };			// hỗ trợ option setting
-	bool THEME = 1, SOUND = 1, MUSIC = 1;					// hỗ trợ option setting
-	const string PAUSE_MENU[3] = { "CONTINUE ", "SAVE GAME ", "MAIN MENU" };
+	const string SETTING_MENU[4] = { "THEME", "SOUND", "MUSIC", "   BACK    " };					// hỗ trợ option setting
+	const string PAUSE_MENU[3] = { "CONTINUE ", "SAVE GAME", "MAIN MENU" };
 	int LEVEL = 1;
 
 	CBIRD* ac;			int ac_size;

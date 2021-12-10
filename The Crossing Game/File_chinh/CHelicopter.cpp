@@ -16,9 +16,9 @@ CHELICOPTER::~CHELICOPTER() {
 
 void CHELICOPTER::drawBody() {
     if (direction)
-        Console::drawFromFile("Mobs/Helicopter left.txt", COORD{ X,Y }, (int)Color::LIGHT_RED);
+        Console::drawFromFile("Mobs/Helicopter left.txt", COORD{ X,Y }, (int)Color::GREEN);
     else
-        Console::drawFromFile("Mobs/Helicopter right.txt", COORD{ X,Y }, (int)Color::LIGHT_RED);
+        Console::drawFromFile("Mobs/Helicopter right.txt", COORD{ X,Y }, (int)Color::GREEN);
 }
 
 void CHELICOPTER::move() {

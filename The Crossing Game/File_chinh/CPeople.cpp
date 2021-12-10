@@ -99,19 +99,19 @@ void CPEOPLE::Right() {
 // Người chơi
 void CPEOPLE::drawBody() {
 	if (direction) 
-		Console::drawFromFile("Player/People left.txt", COORD{ X, Y }, (int)Color::LIGHT_BLUE);
+		Console::drawFromFile("Player/People left.txt", COORD{ X, Y }, (int)Color::BLUE);
 	else 
-		Console::drawFromFile("Player/People right.txt", COORD{ X, Y }, (int)Color::LIGHT_BLUE);
+		Console::drawFromFile("Player/People right.txt", COORD{ X, Y }, (int)Color::BLUE);
 }
 
 // Mạng sống còn lại của người chơi
 void CPEOPLE::drawHeart(short x, short y) {
-	Console::drawFromFile("Player/Heart.txt", COORD{ x,y }, (int)Color::LIGHT_RED);
+	Console::drawFromFile("Player/Heart.txt", COORD{ x,y }, (int)Color::RED);
 }
 
 // Mạng sống đã mất của người chơi
 void CPEOPLE::drawHeartBroken(short x, short y) {
-	Console::drawFromFile("Player/Empty heart.txt", COORD{ x,y }, (int)Color::LIGHT_RED);
+	Console::drawFromFile("Player/Empty heart.txt", COORD{ x,y }, (int)Color::RED);
 }
 
 // Thanh mạng sống

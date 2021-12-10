@@ -15,10 +15,10 @@ CBIRD::~CBIRD() {
 }
 
 void CBIRD::drawBody() {
-	if (direction)
-		Console::drawFromFile("Mobs/Bird left.txt", COORD{ X,Y }, (int)Color::LIGHT_MAGENTA);
-	else
-		Console::drawFromFile("Mobs/Bird right.txt", COORD{ X,Y }, (int)Color::LIGHT_MAGENTA);
+    if (direction)
+        Console::drawFromFile("Mobs/Bird left.txt", COORD{ X,Y }, (int)Color::LIGHT_MAGENTA);
+    else
+        Console::drawFromFile("Mobs/Bird right.txt", COORD{ X,Y }, (int)Color::LIGHT_MAGENTA);
 }
 
 void CBIRD::move() {

@@ -16,9 +16,9 @@ CCAR::~CCAR() {
 
 void CCAR::drawBody() {
     if (direction)
-        Console::drawFromFile("Mobs/Car left.txt", COORD{ X,Y }, (int)Color::LIGHT_GREEN);
+        Console::drawFromFile("Mobs/Car left.txt", COORD{ X,Y }, (int)Color::MAGENTA);
     else
-        Console::drawFromFile("Mobs/Car right.txt", COORD{ X,Y }, (int)Color::LIGHT_GREEN);
+        Console::drawFromFile("Mobs/Car right.txt", COORD{ X,Y }, (int)Color::MAGENTA);
 }
 
 void CCAR::move() {

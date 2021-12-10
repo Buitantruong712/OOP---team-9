@@ -1,9 +1,9 @@
-﻿#pragma once
+﻿#ifndef _CMONKEY_H
+#define _CMONKEY_H
 
 #include "CAnimal.h"
 
 class CMONKEY : public CANIMAL {
-private:
 public:
 	CMONKEY();
 	CMONKEY(short, bool);
@@ -19,3 +19,6 @@ public:
 	virtual void move();
 	virtual void drawBody();
 };
+#endif // !_CMONKEY_H
+
+

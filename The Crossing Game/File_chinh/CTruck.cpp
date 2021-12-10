@@ -16,9 +16,9 @@ CTRUCK::~CTRUCK() {
 
 void CTRUCK::drawBody() {
     if (direction)
-        Console::drawFromFile("Mobs/Truck left.txt", COORD{ X,Y }, (int)Color::YELLOW);
+        Console::drawFromFile("Mobs/Truck left.txt", COORD{ X,Y }, (int)Color::CYAN);
     else
-        Console::drawFromFile("Mobs/Truck right.txt", COORD{ X,Y }, (int)Color::YELLOW);
+        Console::drawFromFile("Mobs/Truck right.txt", COORD{ X,Y }, (int)Color::CYAN);
 }
 
 void CTRUCK::move() {

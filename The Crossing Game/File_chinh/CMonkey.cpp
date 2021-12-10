@@ -16,9 +16,9 @@ CMONKEY::~CMONKEY() {
 
 void CMONKEY::drawBody() {
     if (direction)
-        Console::drawFromFile("Mobs/Monkey left.txt", COORD{ X,Y }, (int)Color::LIGHT_YELLOW);
+        Console::drawFromFile("Mobs/Monkey left.txt", COORD{ X,Y }, (int)Color::YELLOW);
     else
-        Console::drawFromFile("Mobs/Monkey right.txt", COORD{ X,Y }, (int)Color::LIGHT_YELLOW);
+        Console::drawFromFile("Mobs/Monkey right.txt", COORD{ X,Y }, (int)Color::YELLOW);
 }
 
 void CMONKEY::move() {
