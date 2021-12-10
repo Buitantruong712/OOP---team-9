@@ -25,9 +25,9 @@ public:
 	virtual short getmY() const { return mY; };
 
 	// Minh họa
-	virtual void drawBody() = 0;					// Hình động vật
-	//virtual void tell() = 0;						// Tiếng kêu của con vật
-	virtual void move() = 0;						// Di chuyển con vật
+	virtual void drawBody() = 0;					// Hình xe cộ
+	virtual void tell() = 0;						// Tiếng kêu của xe cộ
+	virtual void move() = 0;						// Di chuyển xe cộ
 };
 
 #endif

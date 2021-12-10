@@ -26,7 +26,7 @@ public:
 
 	// Minh họa
 	virtual void drawBody() = 0;					// Hình động vật
-	//virtual void tell() = 0;						// Tiếng kêu của con vật
+	virtual void tell() = 0;						// Tiếng kêu của con vật
 	virtual void move() = 0;						// Di chuyển con vật
 };
 

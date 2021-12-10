@@ -21,6 +21,12 @@ void CTRUCK::drawBody() {
         Console::drawFromFile("Mobs/Truck right.txt", COORD{ X,Y }, (int)Color::CYAN);
 }
 
+void CTRUCK::tell() {
+    if (SOUND) {
+        PlaySound(L"Sound/Truck.wav", NULL, SND_FILENAME);
+    }
+}
+
 void CTRUCK::move() {
     if (direction) {
         if (X < (short)Border::RIGHT - 10) {

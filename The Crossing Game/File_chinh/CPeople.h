@@ -9,7 +9,7 @@ class CPEOPLE {
 	short mX, mY;								// Tọa độ theo đơn vị ô
 	short X, Y;									// Tọa độ thực trên console
 	short hearts;								// Mạng sống còn lại (Nếu hearts = 0 thì chết)
-	bool direction;                            // Hướng người xoay trái hoặc phải ( true quay qua phải, false ngược lại)
+	bool direction;                             // Hướng người xoay trái hoặc phải ( true quay qua phải, false ngược lại)
 	const short maxHearts = 3;					// Mạng sống mặc định
 public:
 	CPEOPLE();
@@ -27,6 +27,7 @@ public:
 	// Getter 
 	int getX() { return X; };
 	int getY() { return Y; };
+	int getmY() { return mY; };
 
 	// Cập nhật vị trí 
 	void Up();

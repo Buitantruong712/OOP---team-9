@@ -162,10 +162,10 @@ bool CPEOPLE::isDead() {
 
 // Kiểm tra va chạm với xe
 bool CPEOPLE::isImpact(const CVEHICLE* v, int num) {
-	short rightX = X + TILE_X;
+	short rightX = X + TILE_X - 1;
 	if (mY == v->getmY()) {
 		for (int i = 0; i < num; i++) {
-			if (X <= v[i].getX() + TILE_X_CAR && rightX >= v[i].getX())
+			if (X <= v[i].getX() + TILE_X_CAR - 1 && rightX >= v[i].getX())
 				return true;
 		}
 	}
@@ -174,10 +174,10 @@ bool CPEOPLE::isImpact(const CVEHICLE* v, int num) {
 
 // Kiểm tra va chạm với thú
 bool CPEOPLE::isImpact(const CANIMAL* v, int num) {
-	short rightX = X + TILE_X;
+	short rightX = X + TILE_X - 1;
 	if (mY == v->getmY()) {
 		for (int i = 0; i < num; i++) {
-			if (X <= v[i].getX() + TILE_X && rightX >= v[i].getX())
+			if (X <= v[i].getX() + TILE_X - 1 && rightX >= v[i].getX())
 				return true;
 		}
 	}

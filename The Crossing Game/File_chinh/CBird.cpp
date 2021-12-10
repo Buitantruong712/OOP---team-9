@@ -21,6 +21,12 @@ void CBIRD::drawBody() {
         Console::drawFromFile("Mobs/Bird right.txt", COORD{ X,Y }, (int)Color::LIGHT_MAGENTA);
 }
 
+void CBIRD::tell() {
+    if (SOUND) {
+        PlaySound(L"Sound/Bird.wav", NULL, SND_FILENAME);
+    }
+}
+
 void CBIRD::move() {
     if (direction) {
         if (X < (short)Border::RIGHT) {

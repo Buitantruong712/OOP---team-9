@@ -14,6 +14,7 @@
 using namespace std;
 
 #pragma execution_character_set("UTF-8")
+#pragma comment (lib, "winmm.lib") 
 
 #define WIDTH_CONSOLE  1300
 #define HEIGHT_CONSOLE 725

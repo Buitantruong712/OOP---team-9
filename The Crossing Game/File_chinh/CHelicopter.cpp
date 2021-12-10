@@ -21,6 +21,12 @@ void CHELICOPTER::drawBody() {
         Console::drawFromFile("Mobs/Helicopter right.txt", COORD{ X,Y }, (int)Color::GREEN);
 }
 
+void CHELICOPTER::tell() {
+    if (SOUND) {
+        PlaySound(L"Sound/Helicopter.wav", NULL, SND_FILENAME);
+    }
+}
+
 void CHELICOPTER::move() {
     if (direction) {
         if (X < (short)Border::RIGHT - 10) {

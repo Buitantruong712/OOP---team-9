@@ -3,6 +3,9 @@
 CGAME::CGAME() {
 	Console::setConsole();
     IS_RUNNING = false;
+    LEVEL = 1;
+    cn = new CPEOPLE;
+    resetGame();
 }
 
 CGAME::~CGAME() {
@@ -185,10 +188,12 @@ void CGAME::gameOver() {
     Console::drawFromFile("Menu/GameOverTitle.txt", pos, (int)Color::MAGENTA);
     Sleep(300);
     Console::drawFromFile("Menu/GameOverTitle.txt", pos, (int)Color::LIGHT_MAGENTA);
-    Sleep(1000);
+    if (SOUND) {
+        PlaySound(L"Sound/GameOver.wav", NULL, SND_FILENAME);
+    }
     Console::gotoXY(pos.X + 25, pos.Y + 7);
     cout << "Press anything to continue";
-    _getch();
+    char c = _getch();
     system("cls");
 }
 
@@ -213,13 +218,22 @@ short CGAME::runMainMenu() {
             menuChoice--;
             if (menuChoice < 0)
                 menuChoice = 3;
+            if (SOUND) {
+                PlaySound(L"Sound/Choice.wav", NULL, SND_FILENAME);
+            }
             break;
         case (int)Key::DOWN: case (int)Key::RIGHT: case 'S': case 'D':
             menuChoice++;
             if (menuChoice > 3)
                 menuChoice = 0;
+            if (SOUND) {
+                PlaySound(L"Sound/Choice.wav", NULL, SND_FILENAME);
+            }
             break;
         case (int)Key::ENTER:
+            if (SOUND) {
+                PlaySound(L"Sound/Enter.wav", NULL, SND_FILENAME);
+            }
             carRunning = 0;
             car.join();
             return menuChoice;
@@ -243,13 +257,22 @@ short CGAME::runPauseMenu() {
             menuChoice--;
             if (menuChoice < 0)
                 menuChoice = 2;
+            if (SOUND) {
+                PlaySound(L"Sound/Choice.wav", NULL, SND_FILENAME);
+            }
             break;
         case (int)Key::DOWN: case (int)Key::RIGHT: case 'S': case 'D':
             menuChoice++;
             if (menuChoice > 2)
                 menuChoice = 0;
+            if (SOUND) {
+                PlaySound(L"Sound/Choice.wav", NULL, SND_FILENAME);
+            }
             break;
         case (int)Key::ENTER:
+            if (SOUND) {
+                PlaySound(L"Sound/Enter.wav", NULL, SND_FILENAME);
+            }
             clearPauseMenu();
             return menuChoice;
             break;
@@ -271,13 +294,22 @@ void CGAME::runSettingMenu() {
             menuChoice--;
             if (menuChoice < 0)
                 menuChoice = 3;
+            if (SOUND) {
+                PlaySound(L"Sound/Choice.wav", NULL, SND_FILENAME);
+            }
             break;
         case (int)Key::DOWN: case (int)Key::RIGHT: case 'S': case 'D':
             menuChoice++;
             if (menuChoice > 3)
                 menuChoice = 0;
+            if (SOUND) {
+                PlaySound(L"Sound/Choice.wav", NULL, SND_FILENAME);
+            }
             break;
         case (int)Key::ENTER:
+            if (SOUND) {
+                PlaySound(L"Sound/Enter.wav", NULL, SND_FILENAME);
+            }
             switch (menuChoice) {
             case 0:
                 THEME = !THEME;
@@ -305,7 +337,6 @@ void CGAME::runSettingMenu() {
 
 // Khởi tạo lại game (làm lại theo level)
 void CGAME::resetGame() {
-    cn = new CPEOPLE;
     att_size = 3;
     createObj(att, att_size, 1, true);
     ac_size = 5;
@@ -369,17 +400,25 @@ void CGAME::upLevel() {
 }
 
 // Update position người
-void CGAME::updatePosPeople(char key) {
+void CGAME::updatePosPeople(char key, thread* t) {
     key = toupper(key);
     switch (key) {
     case 'W':
         cn->Up();
+        if (t->joinable()) {
+            t->detach();
+            *t = thread(SoundThread);
+        }
         break;
     case 'A':
         cn->Left();
         break;
     case 'S':
         cn->Down();
+        if (t->joinable()) {
+            t->detach();
+            *t = thread(SoundThread);
+        }
         break;
     case 'D':
         cn->Right();

@@ -16,7 +16,6 @@ int main() {
 				
 			while (1) {
 				key = toupper(_getch());
-
 				if (!cg.getPeople()->isDead()) {
 					if (key == 27) {
 						cg.exitGame(&t1);
@@ -55,14 +54,35 @@ int main() {
 	return 0;
 }
 
+void MusicThread() {
+	if(MUSIC)
+		PlaySound(L"Music/Music1.wav", NULL, SND_FILENAME);
+}
+
+void SoundThread() {
+	int currentPos = cg.getPeople()->getmY();
+	if (currentPos == cg.getCar()->getmY())
+		cg.getCar()->tell();
+	else if (currentPos == cg.getTruck()->getmY())
+		cg.getTruck()->tell();
+	else if (currentPos == cg.getHelicopter()->getmY())
+		cg.getHelicopter()->tell();
+	else if (currentPos == cg.getBird()->getmY())
+		cg.getBird()->tell();
+	else if (currentPos == cg.getMonkey()->getmY())
+		cg.getMonkey()->tell();
+}
+
 void SubThread() {
 	int a = 8;
-	int b = 8;
-	while (cg.IS_RUNNING) {
+	int b = 8; 
 
+	thread tSound(SoundThread);
+
+	while (cg.IS_RUNNING) {
 		// Kiểm tra sống chết
 		if (!cg.getPeople()->isDead()) {
-			cg.updatePosPeople(MOVING);
+			cg.updatePosPeople(MOVING, &tSound);
 		}
 		MOVING = ' ';
 		Sleep(10);
@@ -81,6 +101,9 @@ void SubThread() {
 			{
 				cg.getPeople()->subHeart();
 				cg.getPeople()->drawHealthBar();
+				if (SOUND) {
+					PlaySound(L"Sound/Accident.wav", NULL, SND_FILENAME);	
+				}
 				cg.getPeople()->resetPosition();
 			}
 			a = b;
@@ -91,7 +114,11 @@ void SubThread() {
 			b--;
 			cg.upLevel();
 			cg.drawLevel();
+			if (SOUND) {
+				PlaySound(L"Sound/UpLevel.wav", NULL, SND_FILENAME);
+			}
 			cg.getPeople()->resetPosition();
-		}
+		}	
 	}
+	tSound.join();
 }

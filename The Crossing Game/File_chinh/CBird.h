@@ -17,6 +17,7 @@ public:
 
 	// Minh họa
 	virtual void move();
+	virtual void tell();
 	virtual void drawBody();
 };
 #endif 

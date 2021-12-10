@@ -21,6 +21,12 @@ void CCAR::drawBody() {
         Console::drawFromFile("Mobs/Car right.txt", COORD{ X,Y }, (int)Color::MAGENTA);
 }
 
+void CCAR::tell() {
+    if (SOUND) {
+        PlaySound(L"Sound/Car.wav", NULL, SND_FILENAME);
+    }
+}
+
 void CCAR::move() {
     if (direction) {
         if (X < (short)Border::RIGHT - 10) {

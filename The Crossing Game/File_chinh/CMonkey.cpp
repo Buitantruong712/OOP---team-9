@@ -21,6 +21,12 @@ void CMONKEY::drawBody() {
         Console::drawFromFile("Mobs/Monkey right.txt", COORD{ X,Y }, (int)Color::YELLOW);
 }
 
+void CMONKEY::tell() {
+    if (SOUND) {
+        PlaySound(L"Sound/Monkey.wav", NULL, SND_FILENAME);
+    }
+}
+
 void CMONKEY::move() {
     if (direction) {
         if (X < (short)Border::RIGHT) {

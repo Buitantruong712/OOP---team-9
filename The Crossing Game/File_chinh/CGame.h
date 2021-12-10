@@ -17,13 +17,14 @@ enum class Key {
 };
 
 void SubThread();
+void SoundThread();
 
 class CGAME {
 private:
 	const string MAIN_MENU[4] = { "START GAME", "LOAD GAME ", "SETTINGS  ", "EXIT      " };
-	const string SETTING_MENU[4] = { "THEME", "SOUND", "MUSIC", "   BACK    " };					// hỗ trợ option setting
+	const string SETTING_MENU[4] = { "THEME", "SOUND", "MUSIC", "   BACK    " };					
 	const string PAUSE_MENU[3] = { "CONTINUE ", "SAVE GAME", "MAIN MENU" };
-	int LEVEL = 1;
+	int LEVEL;
 
 	CBIRD* ac;			int ac_size;
 	CMONKEY* ak;        int ak_size;
@@ -76,9 +77,9 @@ public:
 	//void saveGame(istream);			// Thực hiện lưu lại dữ liệu trò chơi
 
 	void upLevel();
-	void updatePosPeople(char);			//Thực hiện điều khiển di chuyển của CPEOPLE
-	void updatePosAnimal();				//Thực hiện cho CTRUCK & CCAR & CHELICOPTER di chuyển
-	void updatePosVehical();			//Thực hiện cho CMONKEY & CBIRD di chuyển
+	void updatePosPeople(char, thread*);			//Thực hiện điều khiển di chuyển của CPEOPLE
+	void updatePosAnimal();							//Thực hiện cho CTRUCK & CCAR & CHELICOPTER di chuyển
+	void updatePosVehical();						//Thực hiện cho CMONKEY & CBIRD di chuyển
 };
 #endif
 
