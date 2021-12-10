@@ -13,8 +13,8 @@ using namespace std;
 
 #pragma execution_character_set("UTF-8")
 
-#define WIDTH_CONSOLE  1500
-#define HEIGHT_CONSOLE 800
+#define WIDTH_CONSOLE  1300
+#define HEIGHT_CONSOLE 725
 #define HELP_GET_SIZE 100
 
 // Mỗi ô người di chuyển ngang 5 cao 5 (riêng xe ngang 21)
@@ -26,11 +26,13 @@ using namespace std;
 #define MAX_MASK_X 24
 #define MAX_MASK_Y 6
 
+#define COLUMS Console::getSize() / HELP_GET_SIZE
+#define ROWS Console::getSize() % HELP_GET_SIZE
 // Tọa độ viền của khung game
 enum class Border {
-	LEFT = 7,
+	LEFT = 10,
 	RIGHT = TILE_X * MAX_MASK_X + LEFT,
-	TOP = 6,
+	TOP = 4,
 	BOTTOM = TILE_Y * MAX_MASK_Y + TOP
 };
 

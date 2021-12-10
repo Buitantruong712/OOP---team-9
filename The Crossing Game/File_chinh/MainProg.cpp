@@ -3,40 +3,42 @@
 char MOVING;
 CGAME cg;
 
-void main() {
-	cg.drawTitle();
+int main() {
 	while (1) {
+	int menuChoice = cg.runMainMenu();
 
-		int menuChoice = cg.runMenu();
 		if (menuChoice == 0) {
 			cg.startGame();
-			int temp;
+
+			int key;
 			thread t1(SubThread);
+				
 			while (1) {
-				temp = toupper(_getch());
+				key = toupper(_getch());
 
 				if (!cg.getPeople()->isDead()) {
-					if (temp == 27) {
-						cg.exitGame(t1);
-						return;
+					if (key == 27) {
+						cg.exitGame(&t1);
+						break;
 					}
-					else if (temp == 'P') {
-						cg.pauseGame(t1);
+					else if (key == 'P') {
+						if (!cg.pauseGame(&t1)) {
+							break;
+						}
+					}
+					else if (key == 'T') {
 
 					}
-					else if (temp == 'R') {
-						cg.resumeGame(t1);
+					else if (key == 'L') {
+
 					}
 					else if (cg.IS_RUNNING)
-						MOVING = temp;
+						MOVING = key;
 				}
-				else {
-					if (temp == 'Y')
-						cg.startGame();       // Nhấn Y đế chơi tiếp
-					else {
-						cg.exitGame(t1);    // Nhấn nút bất kỳ để quay lại menu
-						return;
-					}
+				else {	
+					cg.exitGame(&t1);
+					cg.gameOver();
+					break;
 				}
 			}
 		}
@@ -45,8 +47,50 @@ void main() {
 		}
 		else if (menuChoice == 2) {
 			cg.setting();
-			//Console::clearScreen();
 		}
-		else return;
+		else 
+			break;
+	}
+	return 0;
+}
+
+void SubThread() {
+	int a = 8;
+	int b = 8;
+	while (cg.IS_RUNNING) {
+
+		// Kiểm tra sống chết
+		if (!cg.getPeople()->isDead()) {
+			cg.updatePosPeople(MOVING);
+		}
+		MOVING = ' ';
+		Sleep(10);
+		a--;
+		if (a == 1) {
+			cg.updatePosVehical();
+			cg.updatePosAnimal();
+
+			// Kiểm tra va chạm
+			if (cg.getPeople()->isImpact(cg.getCar(), cg.getCarSize())
+				|| cg.getPeople()->isImpact(cg.getTruck(), cg.getTruckSize())
+				|| cg.getPeople()->isImpact(cg.getHelicopter(), cg.getHelicopterSize())
+				|| cg.getPeople()->isImpact(cg.getBird(), cg.getBirdSize())
+				|| cg.getPeople()->isImpact(cg.getMonkey(), cg.getMonkeySize())
+				)
+			{
+				cg.getPeople()->subHeart();
+				cg.getPeople()->drawHealthBar();
+				cg.getPeople()->resetPosition();
+			}
+			a = b;
+		}
+
+		//Kiểm tra đến đích 
+		if (cg.getPeople()->isFinish()) {
+			b--;
+			cg.upLevel();
+			cg.drawLevel();
+			cg.getPeople()->resetPosition();
+		}
 	}
 }

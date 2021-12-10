@@ -70,7 +70,7 @@ void drawCarMenu() {
             textcolor((int)Color::BLUE);
             GotoXY(i, j + 28);
             cout << s[j];
-        }
+        }   
         if (flag == 0)
             i++;
         else

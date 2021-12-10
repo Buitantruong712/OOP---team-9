@@ -38,6 +38,7 @@ void CPEOPLE::setXY() {
 	Y = mY * TILE_Y + (short)Border::TOP + 1;
 }
 
+// Trừ mạng sống đi 1
 void CPEOPLE::subHeart() {
 	hearts--;
 }
@@ -56,7 +57,7 @@ void CPEOPLE::Up() {
 	Console::removeSpace(X, Y);			// Xoá hình ở vị trí cũ
 	mY--;								// Chỉnh vị trí mới
 	setXY();
-	drawBody(1);							// Vẽ hình ở vị trí mới
+	drawBody();						// Vẽ hình ở vị trí mới
 }
 
 void CPEOPLE::Down() {
@@ -66,7 +67,7 @@ void CPEOPLE::Down() {
 	Console::removeSpace(X, Y);
 	mY++;
 	setXY();
-	drawBody(0);
+	drawBody();
 }
 
 void CPEOPLE::Left() {
@@ -76,7 +77,8 @@ void CPEOPLE::Left() {
 	Console::removeSpace(X, Y);
 	mX--;
 	setXY();
-	drawBody(0);
+	direction = false;
+	drawBody();
 }
 
 void CPEOPLE::Right() {
@@ -86,7 +88,8 @@ void CPEOPLE::Right() {
 	Console::removeSpace(X, Y);
 	mX++;
 	setXY();
-	drawBody(1);
+	direction = true;
+	drawBody();
 }
 
 /// 
@@ -94,10 +97,11 @@ void CPEOPLE::Right() {
 /// 
 
 // Người chơi
-void CPEOPLE::drawBody(bool a) {
-	directBody = a;
-	if (directBody) Console::drawFromFile("Player/People left.txt", COORD{ X, Y }, (int)Color::LIGHT_BLUE);
-	else Console::drawFromFile("Player/People right.txt", COORD{ X, Y }, (int)Color::LIGHT_BLUE);
+void CPEOPLE::drawBody() {
+	if (direction) 
+		Console::drawFromFile("Player/People left.txt", COORD{ X, Y }, (int)Color::LIGHT_BLUE);
+	else 
+		Console::drawFromFile("Player/People right.txt", COORD{ X, Y }, (int)Color::LIGHT_BLUE);
 }
 
 // Mạng sống còn lại của người chơi
@@ -138,7 +142,8 @@ void CPEOPLE::resetHearts() {
 void CPEOPLE::resetPosition() {
 	Console::removeSpace(X, Y);					// Xóa hình ở vị trí cũ
 	setCoordinates(MAX_MASK_X / 2, MAX_MASK_Y); // Vị trí mới -> vị trí chính giữa của hàng cuối
-	drawBody(1);									// Vẽ người ở vị trí mới
+	direction = true;
+	drawBody();									// Vẽ người ở vị trí mặc định
 }
 
 /// 
@@ -157,10 +162,10 @@ bool CPEOPLE::isDead() {
 
 // Kiểm tra va chạm với xe
 bool CPEOPLE::isImpact(const CVEHICLE* v, int num) {
-	short rightX = X + TILE_X - 1;
+	short rightX = X + TILE_X;
 	if (mY == v->getmY()) {
 		for (int i = 0; i < num; i++) {
-			if (X <= v[i].getX() + TILE_X_CAR - 1 && rightX >= v[i].getX())
+			if (X <= v[i].getX() + TILE_X_CAR && rightX >= v[i].getX())
 				return true;
 		}
 	}
@@ -169,10 +174,10 @@ bool CPEOPLE::isImpact(const CVEHICLE* v, int num) {
 
 // Kiểm tra va chạm với thú
 bool CPEOPLE::isImpact(const CANIMAL* v, int num) {
-	short rightX = X + TILE_X - 1;
+	short rightX = X + TILE_X;
 	if (mY == v->getmY()) {
 		for (int i = 0; i < num; i++) {
-			if (X <= v[i].getX() + TILE_X - 1 && rightX >= v[i].getX())
+			if (X <= v[i].getX() + TILE_X && rightX >= v[i].getX())
 				return true;
 		}
 	}
