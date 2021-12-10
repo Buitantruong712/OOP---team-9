@@ -22,7 +22,6 @@ private:
 	const short SETTING_MENU[4] = { 0, 1, 2, 3 };			// hỗ trợ option setting
 	bool theme = 1, sound = 1, music = 1;					// hỗ trợ option setting
 	const string PAUSE_MENU[3] = { "CONTINUE ", "SAVE GAME ", "MAIN MENU" };
-
 	CBIRD* ac;			int ac_size;
 	CMONKEY* ak;        int ak_size;
 	CTRUCK* axt;		int axt_size;
@@ -34,6 +33,7 @@ public:
 	bool IS_RUNNING;
 	CGAME();
 	~CGAME();
+	int level = 1;
 
 	// Vẽ
 	void drawTitle();					// Title game	
@@ -41,6 +41,7 @@ public:
 	void drawPauseMenu(short choice);	// Menu dừng game
 	void drawSettingMenu(short choice, bool& the, bool& mus, bool& sou); // Setting menu
 
+	void drawLevel(int);
 	void drawGame();					// Trong game
 	void clearPauseMenu();
 	// Chạy menu
@@ -80,7 +81,8 @@ public:
 extern char MOVING;
 extern CGAME cg;
 inline void SubThread() {
-	int a = 8;
+	int a =8;
+	int b = 8;
 	while (cg.IS_RUNNING) {
 
 		// Kiểm tra sống chết
@@ -89,8 +91,8 @@ inline void SubThread() {
 		}
 		MOVING = ' ';
 		Sleep(10);
-		a -= 1;
-		if (a == 0) {
+		a --;
+		if (a == 1) {
 			cg.updatePosVehical();
 			cg.updatePosAnimal();
 
@@ -106,11 +108,13 @@ inline void SubThread() {
 				cg.getPeople()->drawHealthBar();
 				cg.getPeople()->resetPosition();
 			}
-			a = 8;
+			a = b;
 		}
-		// Kiểm tra đến đích 
+		 //Kiểm tra đến đích 
 		if (cg.getPeople()->isFinish()) {
-			//level++;
+			b --;
+			cg.level++;
+			cg.drawLevel(cg.level);
 			cg.getPeople()->resetPosition();
 		}
 	}

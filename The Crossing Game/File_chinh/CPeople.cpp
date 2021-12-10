@@ -112,8 +112,8 @@ void CPEOPLE::drawHeartBroken(short x, short y) {
 
 // Thanh mạng sống
 void CPEOPLE::drawHealthBar() {
-	short x = 1;
-	short y = 1;
+	short x = (short)Border::LEFT + 1;
+	short y = (short)Border::TOP + 1;
 	short i = 0;
 	for (i; i < hearts; i++) {
 		drawHeart(x, y);
@@ -139,7 +139,7 @@ void CPEOPLE::resetPosition() {
 	Console::removeSpace(X, Y);					// Xóa hình ở vị trí cũ
 	setCoordinates(MAX_MASK_X / 2, MAX_MASK_Y); // Vị trí mới -> vị trí chính giữa của hàng cuối
 	drawBody(1);									// Vẽ người ở vị trí mới
-}	
+}
 
 /// 
 /// - - - - - - - - - - - - CHECK TRẠNG THÁI - - - - - - - - - - - - 
@@ -160,9 +160,8 @@ bool CPEOPLE::isImpact(const CVEHICLE* v, int num) {
 	short rightX = X + TILE_X - 1;
 	if (mY == v->getmY()) {
 		for (int i = 0; i < num; i++) {
-			if (v->getDirection())
-				if (X <= v[i].getX() + TILE_X_CAR - 1 && rightX >= v[i].getX())
-					return true;
+			if (X <= v[i].getX() + TILE_X_CAR - 1 && rightX >= v[i].getX())
+				return true;
 		}
 	}
 	return false;
@@ -173,9 +172,8 @@ bool CPEOPLE::isImpact(const CANIMAL* v, int num) {
 	short rightX = X + TILE_X - 1;
 	if (mY == v->getmY()) {
 		for (int i = 0; i < num; i++) {
-			if (v->getDirection())
-				if (X <= v[i].getX() + TILE_X - 1 && rightX >= v[i].getX())
-					return true;
+			if (X <= v[i].getX() + TILE_X - 1 && rightX >= v[i].getX())
+				return true;
 		}
 	}
 	return false;

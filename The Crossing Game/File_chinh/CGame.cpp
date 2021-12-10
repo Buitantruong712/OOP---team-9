@@ -253,12 +253,23 @@ short CGAME::runPauseMenu(){
     }
 }
 
+void CGAME::drawLevel(int lv)
+{
+    Console::removeSpace((short)Border::LEFT + 98, (short)Border::TOP - 5);
+    Console::removeSpace((short)Border::LEFT + 110, (short)Border::TOP - 5);
+    if(lv==1)     Console::drawFromFile("Level/Level1.txt", COORD{ (short)Border::LEFT + 98, (short)Border::TOP+1  }, (int)Color::RED);
+    else if(lv == 2) Console::drawFromFile("Level/Level2.txt", COORD{ (short)Border::LEFT + 98, (short)Border::TOP+1  }, (int)Color::RED);
+    else if(lv == 3) Console::drawFromFile("Level/Level3.txt", COORD{ (short)Border::LEFT + 98, (short)Border::TOP+1  }, (int)Color::RED);
+    else if(lv == 4) Console::drawFromFile("Level/Level4.txt", COORD{ (short)Border::LEFT + 98, (short)Border::TOP+1  }, (int)Color::RED);
+    else if(lv == 5) Console::drawFromFile("Level/Level5.txt", COORD{ (short)Border::LEFT + 98, (short)Border::TOP+1  }, (int)Color::RED);
+}
+
 // Vẽ màn hình chơi game
 void CGAME::drawGame() {
     Console::clearScreen();
     Console::drawFromFile("Map/Frame.txt", COORD{ (short)Border::LEFT - 2, (short)Border::TOP - 1 }, (int)Color::LIGHT_GRAY);
     Console::drawFromFile("Map/Help.txt", COORD{ (short)Border::LEFT + 128, (short)Border::TOP - 1 }, (int)Color::WHITE);
-    Console::drawFromFile("Level/Level1.txt", COORD{ (short)Border::LEFT + 102, (short)Border::TOP - 5 }, (int)Color::RED);
+    drawLevel(level);
     cn->initPeople();
 }
 
@@ -285,10 +296,10 @@ void CGAME::gameOver() {
 // Khởi tạo lại game (làm lại theo level)
 void CGAME::resetGame() {
     cn = new CPEOPLE;
-    ac_size = 5;
-    createObj(ac, ac_size, 2, true);
     att_size = 3;
-    createObj(att, att_size, 1, false);
+    createObj(att, att_size, 1, true);
+    ac_size = 5;
+    createObj(ac, ac_size, 2, false);
     axt_size = 2;
     createObj(axt, axt_size, 3, true);
     ak_size = 4;
