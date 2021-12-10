@@ -1,7 +1,7 @@
 ﻿#include "CGame.h"
 
 CGAME::CGAME() {
-	Console::setConsole();
+    Console::setConsole();
     IS_RUNNING = false;
     LEVEL = 1;
     cn = new CPEOPLE;
@@ -15,10 +15,13 @@ CGAME::~CGAME() {
     delete[] axt;
     delete[] att;
     delete cn;
+    delete[] light1;
+    delete[] light2;
+    delete[] light3;
 }
 
 // Tạo đối tượng mobs
-template<class T> 
+template<class T>
 void createObj(T*& obj, int size, short row, bool direction) {
     int column = (short)Border::LEFT;
     int distance = ((short)Border::RIGHT - (short)Border::LEFT) / size;
@@ -30,8 +33,16 @@ void createObj(T*& obj, int size, short row, bool direction) {
         obj[i].setDirection(direction);
         obj[i].setmY(row);
         column += distance;
-    }    
+    }
 }
+
+void createTraffic(CTRAFFIC*& t, int status, int X, int Y) {
+    if (t != NULL) {
+        delete t;
+    }
+    t = new CTRAFFIC(status, X, Y);
+}
+
 
 // Car ở menu chính
 bool carRunning = 1;
@@ -57,9 +68,9 @@ void CGAME::drawTitle() {
     COORD pos = { 0,0 };
     Console::drawFromFile("Menu/Title.txt", pos, (int)Color::GRAY);
     Sleep(200);
-	Console::drawFromFile("Menu/Title.txt", pos, (int)Color::LIGHT_RED);
-	Sleep(200);
-	Console::drawFromFile("Menu/Title.txt", pos, (int)Color::RED);
+    Console::drawFromFile("Menu/Title.txt", pos, (int)Color::LIGHT_RED);
+    Sleep(200);
+    Console::drawFromFile("Menu/Title.txt", pos, (int)Color::RED);
 }
 
 // Vẽ level hiện tại
@@ -111,8 +122,8 @@ void CGAME::drawMainMenu(short choice) {
 // Vẽ Setting Menu
 void CGAME::drawSettingMenu(short choice) {
     short count = 0;
-    short midHoritonal = Console::getMidHoritonal(), 
-          midVertical = Console::getMidVertical();
+    short midHoritonal = Console::getMidHoritonal(),
+        midVertical = Console::getMidVertical();
 
     COORD pos = { midHoritonal - 5, midVertical - 2 };
     Console::drawFromFile("Menu/SettingMenuFrame.txt", pos, (int)Color::YELLOW);
@@ -171,7 +182,7 @@ void CGAME::clearPauseMenu() {
         cout << string(16, ' ');
     }
     // Vẽ lại phần khung bị chồng lên
-    Console::drawFromFile("Menu/OverLappingLine.txt", COORD{ (short)(midHoritonal - 5), midVertical}, (int)Color::WHITE);
+    Console::drawFromFile("Menu/OverLappingLine.txt", COORD{ (short)(midHoritonal - 5), midVertical }, (int)Color::WHITE);
     // Vẽ lại người nếu nó bị chồng lên
     cn->drawBody();
     // Không cần vẽ lại con vật vì nó chạy liên tục => tự động vẽ
@@ -183,7 +194,7 @@ void CGAME::gameOver() {
     short midHoritonal = Console::getMidHoritonal(),
         midVertical = Console::getMidVertical();
 
-    COORD pos = { midHoritonal -35, midVertical - 5 };
+    COORD pos = { midHoritonal - 35, midVertical - 5 };
     Sleep(300);
     Console::drawFromFile("Menu/GameOverTitle.txt", pos, (int)Color::MAGENTA);
     Sleep(300);
@@ -202,7 +213,7 @@ short CGAME::runMainMenu() {
     drawTitle();
     short menuChoice = 0;
     thread car(drawMenuCar);
-    while (true) { 
+    while (true) {
         carRunning = 0;
         Sleep(100);
         drawMainMenu(menuChoice);
@@ -337,17 +348,21 @@ void CGAME::runSettingMenu() {
 
 // Khởi tạo lại game (làm lại theo level)
 void CGAME::resetGame() {
+    createTraffic(light1, 1, 5, 10);
+    createTraffic(light2, 2, 5, 20);
+    createTraffic(light3, 0, 5, 29);
     att_size = 3;
-    createObj(att, att_size, 1, true);
+    createObj(att, att_size, 1, true);  //light1
     ac_size = 5;
     createObj(ac, ac_size, 2, false);
     axt_size = 2;
-    createObj(axt, axt_size, 3, true);
+    createObj(axt, axt_size, 3, true);  //light2
     ak_size = 4;
     createObj(ak, ak_size, 4, false);
     axh_size = 3;
-    createObj(axh, axh_size, 5, true);
+    createObj(axh, axh_size, 5, true);  //light3
 }
+
 
 // Bắt đầu game
 void CGAME::startGame() {
@@ -359,7 +374,7 @@ void CGAME::startGame() {
 // Thoát game
 void CGAME::exitGame(thread* t) {
     IS_RUNNING = false;
-    if(t->joinable())
+    if (t->joinable())
         t->join();
     system("cls");
 }
@@ -387,7 +402,7 @@ void CGAME::resumeGame(thread* t) {
     if (t->joinable()) {
         t->detach();
         *t = thread(SubThread);
-    }  
+    }
 }
 
 void CGAME::setting() {
@@ -397,6 +412,13 @@ void CGAME::setting() {
 // Update level
 void CGAME::upLevel() {
     LEVEL++;
+}
+
+void CGAME::downLevel(int &flat) {
+    if (LEVEL > 1) {
+        LEVEL--;
+        flat = 1;
+    }
 }
 
 // Update position người
@@ -439,12 +461,36 @@ void CGAME::updatePosAnimal() {
 // Update position xe
 void CGAME::updatePosVehical() {
     for (int i = 0; i < att_size; i++) {
-        att[i].move();
+        if (light1->getStatus() == 2) {
+            att[i].move();
+        }
+        else {
+            Console::removeSpace(att[i].getX(), att[i].getY(), true);
+            att[i].drawBody();
+        }
     }
     for (int i = 0; i < axh_size; i++) {
-        axh[i].move();
+        if (light3->getStatus() == 2) {
+            axh[i].move();
+        }
+        else {
+            Console::removeSpace(axh[i].getX(), axh[i].getY(), true);
+            axh[i].drawBody();
+        }
     }
     for (int i = 0; i < axt_size; i++) {
-        axt[i].move();
+        if (light2->getStatus() == 2) {
+            axt[i].move();
+        }
+        else {
+            Console::removeSpace(axt[i].getX(), axt[i].getY(), true);
+            axt[i].drawBody();
+        }
     }
+}
+
+void CGAME::runTraffic() {
+    light1->change();
+    light2->change();
+    light3->change();
 }

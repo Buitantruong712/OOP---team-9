@@ -7,6 +7,7 @@
 #include "CCar.h"
 #include "CTruck.h"
 #include "CHelicopter.h"
+#include "CTraffic.h"
 
 enum class Key {
 	UP = 72,
@@ -22,7 +23,7 @@ void SoundThread();
 class CGAME {
 private:
 	const string MAIN_MENU[4] = { "START GAME", "LOAD GAME ", "SETTINGS  ", "EXIT      " };
-	const string SETTING_MENU[4] = { "THEME", "SOUND", "MUSIC", "   BACK    " };					
+	const string SETTING_MENU[4] = { "THEME", "SOUND", "MUSIC", "   BACK    " };
 	const string PAUSE_MENU[3] = { "CONTINUE ", "SAVE GAME", "MAIN MENU" };
 	int LEVEL;
 
@@ -30,8 +31,11 @@ private:
 	CMONKEY* ak;        int ak_size;
 	CTRUCK* axt;		int axt_size;
 	CCAR* axh;		    int axh_size;
-	CHELICOPTER* att;   int att_size;	
+	CHELICOPTER* att;   int att_size;
 	CPEOPLE* cn;
+	CTRAFFIC* light1;
+	CTRAFFIC* light2;
+	CTRAFFIC* light3;
 
 public:
 	bool IS_RUNNING;
@@ -77,9 +81,11 @@ public:
 	//void saveGame(istream);			// Thực hiện lưu lại dữ liệu trò chơi
 
 	void upLevel();
+	void downLevel(int&);
 	void updatePosPeople(char, thread*);			//Thực hiện điều khiển di chuyển của CPEOPLE
 	void updatePosAnimal();							//Thực hiện cho CTRUCK & CCAR & CHELICOPTER di chuyển
 	void updatePosVehical();						//Thực hiện cho CMONKEY & CBIRD di chuyển
+	void runTraffic();
 };
 #endif
 

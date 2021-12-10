@@ -6,14 +6,14 @@ bool THEME = 1, SOUND = 1, MUSIC = 1;
 
 int main() {
 	while (1) {
-	int menuChoice = cg.runMainMenu();
+		int menuChoice = cg.runMainMenu();
 
 		if (menuChoice == 0) {
 			cg.startGame();
 
 			int key;
 			thread t1(SubThread);
-				
+
 			while (1) {
 				key = toupper(_getch());
 				if (!cg.getPeople()->isDead()) {
@@ -35,7 +35,7 @@ int main() {
 					else if (cg.IS_RUNNING)
 						MOVING = key;
 				}
-				else {	
+				else {
 					cg.exitGame(&t1);
 					cg.gameOver();
 					break;
@@ -48,14 +48,14 @@ int main() {
 		else if (menuChoice == 2) {
 			cg.setting();
 		}
-		else 
+		else
 			break;
 	}
 	return 0;
 }
 
 void MusicThread() {
-	if(MUSIC)
+	if (MUSIC)
 		PlaySound(L"Music/Music1.wav", NULL, SND_FILENAME);
 }
 
@@ -75,7 +75,7 @@ void SoundThread() {
 
 void SubThread() {
 	int a = 8;
-	int b = 8; 
+	int b = 8;
 
 	thread tSound(SoundThread);
 
@@ -88,9 +88,9 @@ void SubThread() {
 		Sleep(10);
 		a--;
 		if (a == 1) {
+			cg.runTraffic();
 			cg.updatePosVehical();
 			cg.updatePosAnimal();
-
 			// Kiểm tra va chạm
 			if (cg.getPeople()->isImpact(cg.getCar(), cg.getCarSize())
 				|| cg.getPeople()->isImpact(cg.getTruck(), cg.getTruckSize())
@@ -102,7 +102,7 @@ void SubThread() {
 				cg.getPeople()->subHeart();
 				cg.getPeople()->drawHealthBar();
 				if (SOUND) {
-					PlaySound(L"Sound/Accident.wav", NULL, SND_FILENAME);	
+					PlaySound(L"Sound/Accident.wav", NULL, SND_FILENAME);
 				}
 				cg.getPeople()->resetPosition();
 			}
@@ -118,7 +118,7 @@ void SubThread() {
 				PlaySound(L"Sound/UpLevel.wav", NULL, SND_FILENAME);
 			}
 			cg.getPeople()->resetPosition();
-		}	
+		}
 	}
 	tSound.join();
 }
