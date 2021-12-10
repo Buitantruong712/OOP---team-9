@@ -1,13 +1,13 @@
-﻿#ifndef _CTRUCK_H
-#define _CTRUCK_H
+﻿#ifndef _CHELICOPTER_H
+#define _CHELICOPTER_H
 
 #include "CVehicle.h"
 
-class CTRUCK : public CVEHICLE {
+class CHELICOPTER : public CVEHICLE {
 public:
-	CTRUCK();
-	CTRUCK(short, bool);
-	~CTRUCK();
+	CHELICOPTER();
+	CHELICOPTER(short, bool);
+	~CHELICOPTER();
 
 	// Getter
 	virtual bool getDirection() const { return direction; };
@@ -20,5 +20,7 @@ public:
 	virtual void tell();
 	virtual void move();
 };
+#endif 
 
-#endif
+
+

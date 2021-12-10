@@ -1,33 +1,33 @@
-#include "CTruck.h"
+#include "CHelicopter.h"
 
-CTRUCK::CTRUCK() : CVEHICLE() {
+CHELICOPTER::CHELICOPTER() : CVEHICLE() {
     Y = mY * TILE_Y + (short)Border::TOP;
 }
 
-CTRUCK::CTRUCK(short posY, bool direction) {
+CHELICOPTER::CHELICOPTER(short posY, bool direction) {
     mY = posY;
     Y = mY * TILE_Y + (short)Border::TOP;
     this->direction = direction;
 }
 
-CTRUCK::~CTRUCK() {
+CHELICOPTER::~CHELICOPTER() {
 
 }
 
-void CTRUCK::drawBody() {
+void CHELICOPTER::drawBody() {
     if (direction)
-        Console::drawFromFile("Mobs/Truck left.txt", COORD{ X,Y }, (int)Color::CYAN);
+        Console::drawFromFile("Mobs/Helicopter left.txt", COORD{ X,Y }, (int)Color::GREEN);
     else
-        Console::drawFromFile("Mobs/Truck right.txt", COORD{ X,Y }, (int)Color::CYAN);
+        Console::drawFromFile("Mobs/Helicopter right.txt", COORD{ X,Y }, (int)Color::GREEN);
 }
 
-void CTRUCK::tell() {
+void CHELICOPTER::tell() {
     if (SOUND) {
-        PlaySound(L"Sound/Truck.wav", NULL, SND_FILENAME);
+        PlaySound(L"Sound/Helicopter.wav", NULL, SND_FILENAME);
     }
 }
 
-void CTRUCK::move() {
+void CHELICOPTER::move() {
     if (direction) {
         if (X < (short)Border::RIGHT - 10) {
             Console::removeSpace(X, Y, true);

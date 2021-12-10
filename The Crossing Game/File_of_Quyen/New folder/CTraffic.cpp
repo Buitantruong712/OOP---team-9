@@ -1,24 +1,24 @@
-
+﻿
 
 #include "CTraffic.h"
 
-CTraffic::CTraffic() {
+CTRAFFIC::CTRAFFIC() {
 	status = 0;
-	timeRed = 35;
-	timeYellow = 15;
-	timeGreen = 70;
+	timeRed = 15;
+	timeYellow = 6;
+	timeGreen = 65;
 	trX = 0;
 	trY = 0;
 }
 
-CTraffic::CTraffic(int _status , short x, short y):CTraffic() {
+CTRAFFIC::CTRAFFIC(int _status, short x, short y) :CTRAFFIC() {
 	status = _status;
 	trX = x;
 	trY = y;
 }
 
 
-CTraffic::CTraffic(const CTraffic& _t) {
+CTRAFFIC::CTRAFFIC(const CTRAFFIC& _t) {
 	status = _t.status;
 	timeRed = _t.timeGreen;
 	timeYellow = _t.timeYellow;
@@ -27,7 +27,7 @@ CTraffic::CTraffic(const CTraffic& _t) {
 	trY = _t.trY;
 }
 
-CTraffic& CTraffic::operator=(const CTraffic& _t) {
+CTRAFFIC& CTRAFFIC::operator=(const CTRAFFIC& _t) {
 	if (this == &_t) {
 		return *this;
 	}
@@ -40,52 +40,52 @@ CTraffic& CTraffic::operator=(const CTraffic& _t) {
 	return *this;
 }
 
-void CTraffic::setStatus(bool s) {
+void CTRAFFIC::setStatus(bool s) {
 	status = s;
 }
 
-void CTraffic::setTimeRed(short t) {
+void CTRAFFIC::setTimeRed(short t) {
 	timeRed = t;
 }
-void CTraffic::setTimeYellow(short t) {
+void CTRAFFIC::setTimeYellow(short t) {
 	timeYellow = t;
 }
-void CTraffic::setTimeGreen(short t) {
+void CTRAFFIC::setTimeGreen(short t) {
 	timeGreen = t;
 }
 
 
-void CTraffic::setX(short x) {
+void CTRAFFIC::setX(short x) {
 	trX = x;
 }
-void CTraffic:: setY(short y) {
+void CTRAFFIC::setY(short y) {
 	trY = y;
 }
 
-bool CTraffic::getStatus() {
+int CTRAFFIC::getStatus() {
 	return status;
 }
-short CTraffic::getTimeRed() {
+short CTRAFFIC::getTimeRed() {
 	return timeRed;
 }
 
-short CTraffic::getTimeYellow() {
+short CTRAFFIC::getTimeYellow() {
 	return timeYellow;
 }
-short CTraffic::getTimeGreen() {
+short CTRAFFIC::getTimeGreen() {
 	return timeGreen;
 }
 
 
-short CTraffic::getX() {
+short CTRAFFIC::getX() {
 	return trX;
 }
 
-short CTraffic::getY(){
+short CTRAFFIC::getY() {
 	return trY;
 }
 
-void CTraffic::changeStatus() {
+void CTRAFFIC::changeStatus() {  //thay đổi trạng thái của đèn
 	if (status == 0) {
 		status = 2;
 	}
@@ -94,7 +94,7 @@ void CTraffic::changeStatus() {
 	}
 }
 
-void CTraffic::draw() {
+void CTRAFFIC::draw() {
 	short currentX = trX, currentY = trY;
 	short xF = trX - 1, yF = trY - 1;
 	if (status == 2) {
@@ -119,49 +119,35 @@ void CTraffic::draw() {
 	}
 }
 
-//void CTraffic::run(CTraffic*t1, CTraffic* t2, CTraffic*t3,short X, short Y) {
-//	t1->draw(X, Y);
-//	t2->draw(X, Y + 5);
-//	t3->draw(X, Y + 10);
-//
-//	while (1) {
-//		t1->changeStatus();
-//		t1->draw(X, Y);
-//		Sleep(10);
-//		t2->changeStatus();
-//		t2->draw(X, Y + 5);
-//		Sleep(30);
-//		t3->changeStatus();
-//		t3->draw(X, Y + 10);
-//	}
-//}
 
-void CTraffic::change() {
+
+void CTRAFFIC::change() {
+	draw(); 
 	if (status == 0) {
-		timeRed--;
+		timeRed--;			//mỗi lần vật di chuyển thì thời gian giảm xuống 1
 	}
 	else if (status == 1) {
 		timeYellow--;
 	}
 	else {
 		timeGreen--;
-		
+
 	}
 	if (timeRed == 0 || timeYellow == 0 || timeGreen == 0) {
 		changeStatus();
 		draw();
 	}
 	if (timeRed == 0) {
-		timeRed = 35;
+		timeRed = 15;
 	}
-	if (timeYellow == 0) {
-		timeYellow = 15;
+	else if (timeYellow == 0) {
+		timeYellow = 6;
 	}
-	if (timeGreen == 0) {
-		timeGreen = 70;
+	else if (timeGreen == 0) {
+		timeGreen = 65;
 	}
 }
 
-CTraffic::~CTraffic() {
+CTRAFFIC::~CTRAFFIC() {
 
 }

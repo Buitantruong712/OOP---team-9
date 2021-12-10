@@ -1,20 +1,20 @@
-#ifndef _CTRAFFIC_H
+﻿#ifndef _CTRAFFIC_H
 #define _CTRAFFIC_H
 
 #include "Console.h"
 
-class CTraffic {
+class CTRAFFIC {
 private:
-	int status;	//0: do   1:vang    2: xanh
-	short timeRed; // theo level
+	int status;	//0: đỏ   1:vàng    2: xanh
+	short timeRed;			//được tính theo số lần vật di chuyển
 	short timeYellow;
 	short timeGreen;
-	short trX = 2;
+	short trX;
 	short trY;
 public:
-	CTraffic();
-	CTraffic(int _status, short, short);
-	CTraffic(const CTraffic&);
+	CTRAFFIC();
+	CTRAFFIC(int _status, short, short);
+	CTRAFFIC(const CTRAFFIC&);
 
 	void setStatus(bool);
 	void setTimeRed(short);
@@ -22,8 +22,9 @@ public:
 	void setTimeGreen(short);
 	void setX(short);
 	void setY(short);
-	CTraffic& operator=(const CTraffic& _t);
-	bool getStatus();
+
+	CTRAFFIC& operator=(const CTRAFFIC& _t);
+	int getStatus();
 	short getTimeRed();
 	short getTimeYellow();
 	short getTimeGreen();
@@ -34,11 +35,11 @@ public:
 	void change();
 
 	void draw();
-	void run(CTraffic* t1, CTraffic* t2, CTraffic* t3, short X, short Y);
-	~CTraffic();
+	~CTRAFFIC();
 };
 
 #endif
+
 
 
 
