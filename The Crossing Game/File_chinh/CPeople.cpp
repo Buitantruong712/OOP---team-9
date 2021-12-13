@@ -140,7 +140,7 @@ void CPEOPLE::resetHearts() {
 void CPEOPLE::resetPosition() {
 	Console::removeSpace(X, Y);					// Xóa hình ở vị trí cũ
 	setCoordinates(MAX_MASK_X / 2, MAX_MASK_Y); // Vị trí mới -> vị trí chính giữa của hàng cuối
-	drawBody(1);									// Vẽ người ở vị trí mới
+	drawBody(true);								// Vẽ người ở vị trí mới
 }
 
 /// 
