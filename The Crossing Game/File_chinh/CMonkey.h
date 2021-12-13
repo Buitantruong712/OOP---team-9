@@ -1,9 +1,9 @@
-﻿#ifndef _CMONKEY_H
-#define _CMONKEY_H
+﻿#pragma once
 
 #include "CAnimal.h"
 
 class CMONKEY : public CANIMAL {
+private:
 public:
 	CMONKEY();
 	CMONKEY(short, bool);
@@ -14,12 +14,8 @@ public:
 	virtual short getX() const { return X; };
 	virtual short getY() const { return Y; };
 	virtual short getmY() const { return mY; };
-
 	// Minh họa
 	virtual void move();
 	virtual void tell();
 	virtual void drawBody();
 };
-#endif // !_CMONKEY_H
-
-

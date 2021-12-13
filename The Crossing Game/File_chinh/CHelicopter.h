@@ -1,9 +1,8 @@
-﻿#ifndef _CHELICOPTER_H
-#define _CHELICOPTER_H
-
+﻿
 #include "CVehicle.h"
 
 class CHELICOPTER : public CVEHICLE {
+private:
 public:
 	CHELICOPTER();
 	CHELICOPTER(short, bool);
@@ -20,7 +19,4 @@ public:
 	virtual void tell();
 	virtual void move();
 };
-#endif 
-
-
 

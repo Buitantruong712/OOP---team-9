@@ -4,19 +4,20 @@
 #include "Console.h"
 
 class CANIMAL {
+
 protected:
 	short mY;
 	short X, Y;										// Tọa độ thực trên console
-	static int speed;
 	bool direction;									// Hướng bay (true: trái -> phải, false: phải -> trái)
+
 public:
 	CANIMAL();
 	~CANIMAL();
 	
 	// Setter
-	void setmY(short row) { mY = row; Y = mY * TILE_Y + (short)Border::TOP; };
-	void setX(short x) { X = x; };
-	void setDirection(bool d) { direction = d; };
+	void setmY(short value) { mY = value; Y = mY * TILE_Y + (short)Border::TOP; };
+	void setX(short value) { value >= 0 ? X = value : X = 0; };
+	void setDirection(bool value) { direction = value; };
 
 	// Getter
 	virtual bool getDirection() const { return direction; };

@@ -10,19 +10,17 @@ CHELICOPTER::CHELICOPTER(short posY, bool direction) {
     this->direction = direction;
 }
 
-CHELICOPTER::~CHELICOPTER() {
-
-}
+CHELICOPTER::~CHELICOPTER() {}
 
 void CHELICOPTER::drawBody() {
     if (direction)
-        Console::drawFromFile("Mobs/Helicopter left.txt", COORD{ X,Y }, (int)Color::GREEN);
+        Console::drawFromFile("Mobs/Helicopter left.txt", COORD{ X,Y }, (int)Color::RED);
     else
-        Console::drawFromFile("Mobs/Helicopter right.txt", COORD{ X,Y }, (int)Color::GREEN);
+        Console::drawFromFile("Mobs/Helicopter right.txt", COORD{ X,Y }, (int)Color::RED);
 }
 
 void CHELICOPTER::tell() {
-    if (SOUND) {
+    if (sound) {
         PlaySound(L"Sound/Helicopter.wav", NULL, SND_FILENAME);
     }
 }
@@ -47,7 +45,7 @@ void CHELICOPTER::move() {
         }
         else {
             Console::removeSpace(X, Y, true);
-            X = (short)Border::RIGHT;
+            X = (short)Border::RIGHT - 10;
         }
     }
 }

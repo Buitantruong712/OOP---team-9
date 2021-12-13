@@ -26,7 +26,7 @@ void Console::resizeConsole(int width, int height) {
 
 // Di chuyển con trỏ đến một vị trí
 void Console::gotoXY(int x, int y) {
-	COORD coord;
+	COORD coord{};
 	coord.X = x;
 	coord.Y = y;
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
@@ -36,23 +36,7 @@ void Console::gotoXY(int x, int y) {
 void Console::setColor(int x) {
 	HANDLE mau;
 	mau = GetStdHandle(STD_OUTPUT_HANDLE);
-	if (!THEME) {
-		if (x < 15) {
-			SetConsoleTextAttribute(mau, x + 240);
-		}
-		else if (x == 15) {
-			SetConsoleTextAttribute(mau, 240);
-		}
-		else if (x > 15 && x < 240) {
-			SetConsoleTextAttribute(mau, x);
-		}
-		else if (x == 240)
-			SetConsoleTextAttribute(mau, 15);
-		else
-			SetConsoleTextAttribute(mau, x % 15);
-	}
-	else
-		SetConsoleTextAttribute(mau, x);
+	SetConsoleTextAttribute(mau, x);
 }
 
 // Ẩn/ Hiện con trỏ
@@ -106,22 +90,30 @@ void Console::drawFromFile(string filename, COORD pos, int color) {
 void Console::removeSpace(short x, short y, bool isCar) {
 	if (!isCar) {
 		for (int i = y; i < y + 3; i++) {
-			Console::gotoXY(x, i);
+			gotoXY(x, i);
 			cout << string(TILE_X, ' ');
 		}
 	}
 	else {
 		for (int i = y; i < y + 4; i++) {
-			Console::gotoXY(x, i);
+			gotoXY(x, i);
 			cout << string(TILE_X_CAR, ' ');
 		}
 	}
 }
 
+void Console::removeSpace(short x, short y, short _x, short _y) {
+	setColor((int)Color::WHITE);
+	for (int i = y; i <= _y; i++) {
+		gotoXY(x, i);
+		cout << string(static_cast<long>(_x) - static_cast<long>(x) + 1, ' ');
+	}
+}
+
 // Hỗ trợ lấy vị trí chính giữa của console
-int Console::getSize() {
+short Console::getSize() {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	int columns, rows;
+	short columns, rows;
 
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
 	columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
@@ -131,14 +123,14 @@ int Console::getSize() {
 }
 
 // Lấy vị trí chính giữa của chiều cao
-int Console::getMidVertical() {
-	int size = getSize();
+short Console::getMidVertical() {
+	short size = getSize();
 	return (size % HELP_GET_SIZE) / 2;
 }
 
 // Lấy vị trí chính giữa của chiều ngang
-int Console::getMidHoritonal() {
-	int size = getSize();
+short Console::getMidHorizontal() {
+	short size = getSize();
 	return (size / HELP_GET_SIZE) / 2;
 }
 

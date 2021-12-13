@@ -4,6 +4,7 @@
 #include "CVehicle.h"
 
 class CTRUCK : public CVEHICLE {
+
 public:
 	CTRUCK();
 	CTRUCK(short, bool);

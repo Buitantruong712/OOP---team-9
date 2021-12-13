@@ -1,6 +1,6 @@
-╔════════ SAVE GAME ═════════╗
+╔════════ LOAD GAME ═════════╗
 ║                            ║
 ║                            ║
 ║                            ║
-║    Press number to save    ║
+║   Press number to start    ║
 ╚════════════════════════════╝

@@ -4,10 +4,10 @@ CMONKEY::CMONKEY() :CANIMAL() {
     Y = mY * TILE_Y + (short)Border::TOP + 1;
 }
 
-CMONKEY::CMONKEY(short posY, bool di) {
-    mY = posY;
-    Y = mY * TILE_Y + (short)Border::TOP;
-    direction = di;
+CMONKEY::CMONKEY(short mY, bool direction) {
+    this->mY = mY;
+    Y = mY * TILE_Y + (short)Border::TOP + 1;
+    this->direction = direction;
 }
 
 CMONKEY::~CMONKEY() {
@@ -16,13 +16,13 @@ CMONKEY::~CMONKEY() {
 
 void CMONKEY::drawBody() {
     if (direction)
-        Console::drawFromFile("Mobs/Monkey left.txt", COORD{ X,Y }, (int)Color::YELLOW);
+        Console::drawFromFile("Mobs/Monkey left.txt", COORD{ X, Y }, (int)Color::YELLOW);
     else
-        Console::drawFromFile("Mobs/Monkey right.txt", COORD{ X,Y }, (int)Color::YELLOW);
+        Console::drawFromFile("Mobs/Monkey right.txt", COORD{ X, Y }, (int)Color::YELLOW);
 }
 
 void CMONKEY::tell() {
-    if (SOUND) {
+    if (sound) {
         PlaySound(L"Sound/Monkey.wav", NULL, SND_FILENAME);
     }
 }

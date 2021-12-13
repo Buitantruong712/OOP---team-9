@@ -2,123 +2,87 @@
 
 char MOVING;
 CGAME cg;
-bool THEME = 1, SOUND = 1, MUSIC = 1;
+bool theme = true, sound = false, music = false, endless_mode = false;
+short set_max_hearts = 5;
 
 int main() {
+	srand(time(NULL));
+
+	bool old_theme = cg.getTheme();
+	cg.drawTitle();
+
 	while (1) {
-		int menuChoice = cg.runMainMenu();
 
-		if (menuChoice == 0) {
-			cg.startGame();
+		if (old_theme != cg.getTheme()) {	// Nếu theme được chỉnh thì vẽ lại
+			cg.drawTitle();
+			old_theme = cg.getTheme();
+		}
 
-			int key;
+		int menuChoice = cg.runMenu();
+
+		// - - - - - - START GAME / LOAD GAME - - - - - -
+		if (menuChoice == 0 || menuChoice == 1) {
+			if (menuChoice == 0)
+				cg.startGame();
+			else {
+				cg.loadGame(); // Nếu có load, is_running = true, nếu false, vòng lặp dưới sẽ không được chạy
+				if (cg.is_running == false) {	// Nếu không chọn load game thì không cho chạy đến thread
+					COORD pos = { (short)(Console::getMidHorizontal() - 15), Console::getMidVertical() };
+					Console::removeSpace(pos.X, pos.Y, pos.X + 31, pos.Y + 5);
+					continue;
+				}
+			}
+
+			int temp;
 			thread t1(SubThread);
 
-			while (1) {
-				key = toupper(_getch());
+			// Vòng lặp mới như song song với SubThread
+			while (cg.is_running) {
+				temp = toupper(_getch());
 				if (!cg.getPeople()->isDead()) {
-					if (key == 27) {
-						cg.exitGame(&t1);
-						break;
-					}
-					else if (key == 'P') {
-						if (!cg.pauseGame(&t1)) {
+					// Nếu nhấn Esc
+					if (temp == (int)Key::ESCAPE || temp == 'P') {	// Tạm dừng trò chơi
+						cg.pauseGame(t1);
+						if (!cg.is_running) {	// Nếu người chơi muốn thoát ra
+							cg.drawTitle();
 							break;
 						}
 					}
-					else if (key == 'T') {
-
+					else if (temp == 'L') {		// Lưu game lập tức
+						cg.is_running = false;
+						cg.saveGame(t1);
+						cg.is_running = true;
 					}
-					else if (key == 'L') {
-
+					else if (temp == 'T') {		// Tải game lập tức
+						cg.is_running = false;
+						cg.loadGame();
+						Console::drawFromFile(
+							"Menu/OverLappingPart.txt",
+							COORD{ (short)(Console::getMidHorizontal() - 15), Console::getMidVertical() },
+							(int)Color::LIGHT_GRAY
+						);
+						cg.is_running = true;
+						cg.resumeGame(t1);
 					}
-					else if (cg.IS_RUNNING)
-						MOVING = key;
+
+					if (cg.is_running) {	// Bắt đầu tiếp
+						MOVING = temp;
+					}
 				}
 				else {
-					cg.exitGame(&t1);
 					cg.gameOver();
+					cg.exitGame(t1);    // Nhấn nút bất kỳ để quay lại menu
+					cg.drawTitle();
 					break;
 				}
 			}
 		}
-		else if (menuChoice == 1) {
-			//Load game
-		}
+		// - - - - - - SETTINGS - - - - - -
 		else if (menuChoice == 2) {
-			cg.setting();
+			cg.settings();
+			cg.drawMainMenu(menuChoice);
 		}
-		else
-			break;
+		// - - - - - - EXIT GAME - - - - - -
+		else return 0;
 	}
-	return 0;
-}
-
-void MusicThread() {
-	if (MUSIC)
-		PlaySound(L"Music/Music1.wav", NULL, SND_FILENAME);
-}
-
-void SoundThread() {
-	int currentPos = cg.getPeople()->getmY();
-	if (currentPos == cg.getCar()->getmY())
-		cg.getCar()->tell();
-	else if (currentPos == cg.getTruck()->getmY())
-		cg.getTruck()->tell();
-	else if (currentPos == cg.getHelicopter()->getmY())
-		cg.getHelicopter()->tell();
-	else if (currentPos == cg.getBird()->getmY())
-		cg.getBird()->tell();
-	else if (currentPos == cg.getMonkey()->getmY())
-		cg.getMonkey()->tell();
-}
-
-void SubThread() {
-	int a = 8;
-	int b = 8;
-
-	thread tSound(SoundThread);
-
-	while (cg.IS_RUNNING) {
-		// Kiểm tra sống chết
-		if (!cg.getPeople()->isDead()) {
-			cg.updatePosPeople(MOVING, &tSound);
-		}
-		MOVING = ' ';
-		Sleep(10);
-		a--;
-		if (a == 1) {
-			cg.runTraffic();
-			cg.updatePosVehical();
-			cg.updatePosAnimal();
-			// Kiểm tra va chạm
-			if (cg.getPeople()->isImpact(cg.getCar(), cg.getCarSize())
-				|| cg.getPeople()->isImpact(cg.getTruck(), cg.getTruckSize())
-				|| cg.getPeople()->isImpact(cg.getHelicopter(), cg.getHelicopterSize())
-				|| cg.getPeople()->isImpact(cg.getBird(), cg.getBirdSize())
-				|| cg.getPeople()->isImpact(cg.getMonkey(), cg.getMonkeySize())
-				)
-			{
-				cg.getPeople()->subHeart();
-				cg.getPeople()->drawHealthBar();
-				if (SOUND) {
-					PlaySound(L"Sound/Accident.wav", NULL, SND_FILENAME);
-				}
-				cg.getPeople()->resetPosition();
-			}
-			a = b;
-		}
-
-		//Kiểm tra đến đích 
-		if (cg.getPeople()->isFinish()) {
-			b--;
-			cg.upLevel();
-			cg.drawLevel();
-			if (SOUND) {
-				PlaySound(L"Sound/UpLevel.wav", NULL, SND_FILENAME);
-			}
-			cg.getPeople()->resetPosition();
-		}
-	}
-	tSound.join();
 }

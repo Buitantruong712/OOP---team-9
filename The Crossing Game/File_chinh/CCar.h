@@ -4,6 +4,7 @@
 #include "CVehicle.h"
 
 class CCAR : public CVEHICLE {
+
 public:
 	CCAR();
 	CCAR(short, bool);
@@ -21,8 +22,4 @@ public:
 	virtual void move();
 };
 
-#endif 
-
-
-
-
+#endif

@@ -4,6 +4,7 @@
 #include "CAnimal.h"
 
 class CBIRD : public CANIMAL {
+
 public:
 	CBIRD();
 	CBIRD(short, bool);

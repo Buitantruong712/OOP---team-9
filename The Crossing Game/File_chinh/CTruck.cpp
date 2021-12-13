@@ -16,13 +16,13 @@ CTRUCK::~CTRUCK() {
 
 void CTRUCK::drawBody() {
     if (direction)
-        Console::drawFromFile("Mobs/Truck left.txt", COORD{ X,Y }, (int)Color::CYAN);
+        Console::drawFromFile("Mobs/Truck left.txt", COORD{ X,Y }, (int)Color::YELLOW);
     else
-        Console::drawFromFile("Mobs/Truck right.txt", COORD{ X,Y }, (int)Color::CYAN);
+        Console::drawFromFile("Mobs/Truck right.txt", COORD{ X,Y }, (int)Color::YELLOW);
 }
 
 void CTRUCK::tell() {
-    if (SOUND) {
+    if (sound) {
         PlaySound(L"Sound/Truck.wav", NULL, SND_FILENAME);
     }
 }
@@ -47,7 +47,7 @@ void CTRUCK::move() {
         }
         else {
             Console::removeSpace(X, Y, true);
-            X = (short)Border::RIGHT;
+            X = (short)Border::RIGHT - 10;
         }
     }
 }
