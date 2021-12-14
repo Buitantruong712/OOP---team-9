@@ -9,8 +9,9 @@ class CPEOPLE {
 	short mX, mY;								// Tọa độ theo đơn vị ô
 	short X, Y;									// Tọa độ thực trên console
 	short hearts;								// Mạng sống còn lại (Nếu hearts = 0 thì chết)
+	short maxHearts;							// Mạng sống tối đa người dùng chọn
+	const short MAX_HEARTS = 5;
 	bool direction;                             // Hướng người xoay trái hoặc phải ( true quay qua phải, false ngược lại)
-	const short maxHearts = 3;					// Mạng sống mặc định
 public:
 	CPEOPLE();
 	~CPEOPLE();
@@ -21,13 +22,13 @@ public:
 	// Cập nhật tọa độ (Setter)
 	void setCoordinates(short, short);	// set tọa độ theo đơn vị ô
 	void setXY();						// set tọa độ thực
-
-	void subHeart();					// Trừ mạng sống đi 1
+	void setHearts(short);
 	
 	// Getter 
 	int getX() { return X; };
 	int getY() { return Y; };
 	int getmY() { return mY; };
+	short getMaxHearts() { return MAX_HEARTS; };
 
 	// Cập nhật vị trí 
 	void Up();
@@ -50,6 +51,9 @@ public:
 	bool isDead();
 	bool isImpact(const CVEHICLE*, int);
 	bool isImpact(const CANIMAL*, int);
+
+	// Khác
+	void subHeart();					// Trừ mạng sống đi 1
 };
 #endif 
 

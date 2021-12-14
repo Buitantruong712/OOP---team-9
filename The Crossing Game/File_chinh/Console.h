@@ -1,5 +1,4 @@
-﻿extern bool THEME, SOUND, MUSIC;
-
+﻿extern bool THEME, SOUND;
 #ifndef _CONSOLE_H
 #define _CONSOLE_H
 
@@ -79,6 +78,8 @@ public:
 	// Vẽ
 	static void drawFromFile(const string, COORD, int);
 	static void removeSpace(short, short, bool isCar = 0);
+	static void removeSpace(short, short, short, short);
+
 
 	// Lấy kích thước của console
 	static int getSize();

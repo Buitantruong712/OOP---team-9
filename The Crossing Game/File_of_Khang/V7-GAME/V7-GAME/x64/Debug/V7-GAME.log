@@ -1,0 +1,16 @@
+﻿  CAnimal.cpp
+  CBird.cpp
+  CCar.cpp
+  CGame.cpp
+C:\Users\NGOC DIEP\source\repos\OOP---team-9\The Crossing Game\File_of_Khang\V7-GAME\V7-GAME\CGame.cpp(248,42): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
+C:\Users\NGOC DIEP\source\repos\OOP---team-9\The Crossing Game\File_of_Khang\V7-GAME\V7-GAME\CGame.cpp(248,74): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
+  CHelicopter.cpp
+  CMonkey.cpp
+  Console.cpp
+  CPeople.cpp
+  CTraffic.cpp
+  CTruck.cpp
+  CVehicle.cpp
+  MainProg.cpp
+  Generating Code...
+  V7-GAME.vcxproj -> C:\Users\NGOC DIEP\source\repos\OOP---team-9\The Crossing Game\File_of_Khang\V7-GAME\x64\Debug\V7-GAME.exe

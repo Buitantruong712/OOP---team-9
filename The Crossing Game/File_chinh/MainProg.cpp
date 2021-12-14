@@ -2,18 +2,18 @@
 
 char MOVING;
 CGAME cg;
-bool THEME = 1, SOUND = 1, MUSIC = 1;
+bool THEME = 1, SOUND = 1;
 
 int main() {
+	thread sound(SoundThread);
 	while (1) {
-		int menuChoice = cg.runMainMenu();
+		int menuChoice = cg.runMainMenu(&sound);
 
 		if (menuChoice == 0) {
 			cg.startGame();
 
 			int key;
 			thread t1(SubThread);
-
 			while (1) {
 				key = toupper(_getch());
 				if (!cg.getPeople()->isDead()) {
@@ -33,10 +33,17 @@ int main() {
 
 					}
 					else if (cg.IS_RUNNING)
-						MOVING = key;
+						if (!cg.pressable) 
+							MOVING = ' ';
+						else 
+							MOVING = key;		
 				}
 				else {
 					cg.exitGame(&t1);
+					if (sound.joinable()) {
+						sound.detach();
+						sound = thread(SoundGameOverThread);
+					}
 					cg.gameOver();
 					break;
 				}
@@ -51,43 +58,25 @@ int main() {
 		else
 			break;
 	}
+	sound.join();
 	return 0;
 }
 
-void MusicThread() {
-	if (MUSIC)
-		PlaySound(L"Music/Music1.wav", NULL, SND_FILENAME);
-}
-
-void SoundThread() {
-	int currentPos = cg.getPeople()->getmY();
-	if (currentPos == cg.getCar()->getmY())
-		cg.getCar()->tell();
-	else if (currentPos == cg.getTruck()->getmY())
-		cg.getTruck()->tell();
-	else if (currentPos == cg.getHelicopter()->getmY())
-		cg.getHelicopter()->tell();
-	else if (currentPos == cg.getBird()->getmY())
-		cg.getBird()->tell();
-	else if (currentPos == cg.getMonkey()->getmY())
-		cg.getMonkey()->tell();
-}
-
 void SubThread() {
-	int a = 8;
-	int b = 8;
+	short delay_running = cg.getDelay();
 
-	thread tSound(SoundThread);
-
+	thread sound(SoundThread);
 	while (cg.IS_RUNNING) {
-		// Kiểm tra sống chết
+
+		// Cập nhật vị trí người chơi
 		if (!cg.getPeople()->isDead()) {
-			cg.updatePosPeople(MOVING, &tSound);
+			cg.updatePosPeople(MOVING, &sound);
 		}
 		MOVING = ' ';
 		Sleep(10);
-		a--;
-		if (a == 1) {
+		delay_running--;
+
+		if (delay_running == 0) {
 			cg.runTraffic();
 			cg.updatePosVehical();
 			cg.updatePosAnimal();
@@ -101,24 +90,58 @@ void SubThread() {
 			{
 				cg.getPeople()->subHeart();
 				cg.getPeople()->drawHealthBar();
-				if (SOUND) {
-					PlaySound(L"Sound/Accident.wav", NULL, SND_FILENAME);
-				}
+				cg.pressable = false;	// Ngưng nhận phím
+				cg.soundImpact();
 				cg.getPeople()->resetPosition();
+				cg.pressable = true;	// Tiếp tục nhận phím
 			}
-			a = b;
+			delay_running = cg.getDelay();
 		}
 
 		//Kiểm tra đến đích 
 		if (cg.getPeople()->isFinish()) {
-			b--;
+			// Hiệu ứng chuyển level
+			cg.pressable = false; 
+
+			if (sound.joinable()) {
+				sound.detach();
+				sound = thread(SoundUpLevelThread);
+			}
+			if (cg.getLevel() < cg.getMaxLevel())
+				cg.drawTime();
+
+			// Chỉnh độ khó theo level
+			cg.updateLevel();
+			delay_running = cg.getDelay();
+			cg.getPeople()->resetPosition();
+			cg.pressable = true;
+
+			// Tăng level
 			cg.upLevel();
 			cg.drawLevel();
-			if (SOUND) {
-				PlaySound(L"Sound/UpLevel.wav", NULL, SND_FILENAME);
-			}
-			cg.getPeople()->resetPosition();
 		}
 	}
-	tSound.join();
+	sound.join();
+}
+
+void SoundThread() {
+
+}
+
+void SoundMoveThread() {
+	if (SOUND) {
+		PlaySound(L"Sound/Choice.wav", NULL, SND_FILENAME);
+	}
+}
+
+void SoundGameOverThread() {
+	if (SOUND) {
+		PlaySound(L"Sound/GameOver.wav", NULL, SND_FILENAME);
+	}
+}
+
+void SoundUpLevelThread() {
+	if (SOUND) {
+		PlaySound(L"Sound/UpLevel.wav", NULL, SND_FILENAME);
+	}
 }

@@ -118,6 +118,14 @@ void Console::removeSpace(short x, short y, bool isCar) {
 	}
 }
 
+void Console::removeSpace(short x, short y, short _x, short _y) {
+	setColor((int)Color::WHITE);
+	for (int i = y; i <= _y; i++) {
+		gotoXY(x, i);
+		cout << string(static_cast<long>(_x) - static_cast<long>(x) + 1, ' ');
+	}
+}
+
 // Hỗ trợ lấy vị trí chính giữa của console
 int Console::getSize() {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;

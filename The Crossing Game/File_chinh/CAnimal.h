@@ -7,7 +7,6 @@ class CANIMAL {
 protected:
 	short mY;
 	short X, Y;										// Tọa độ thực trên console
-	static int speed;
 	bool direction;									// Hướng bay (true: trái -> phải, false: phải -> trái)
 public:
 	CANIMAL();

@@ -7,6 +7,7 @@ CPEOPLE::CPEOPLE() {
 	mX = MAX_MASK_X / 2;
 	mY = MAX_MASK_Y;
 	setXY();
+	maxHearts = MAX_HEARTS;
 	hearts = maxHearts;
 }
 
@@ -38,6 +39,13 @@ void CPEOPLE::setXY() {
 	Y = mY * TILE_Y + (short)Border::TOP + 1;
 }
 
+// Cập nhật hearts tối đa do người dùng chọn
+void CPEOPLE::setHearts(short _hearts) {
+	if (_hearts <= 0 || _hearts > MAX_HEARTS)
+		_hearts = MAX_HEARTS;
+	maxHearts = _hearts;
+}
+
 // Trừ mạng sống đi 1
 void CPEOPLE::subHeart() {
 	hearts--;
@@ -57,7 +65,7 @@ void CPEOPLE::Up() {
 	Console::removeSpace(X, Y);			// Xoá hình ở vị trí cũ
 	mY--;								// Chỉnh vị trí mới
 	setXY();
-	drawBody();						// Vẽ hình ở vị trí mới
+	drawBody();							// Vẽ hình ở vị trí mới
 }
 
 void CPEOPLE::Down() {

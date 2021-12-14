@@ -19,13 +19,15 @@ enum class Key {
 
 void SubThread();
 void SoundThread();
+void SoundMoveThread();
+void SoundGameOverThread();
+void SoundUpLevelThread();
 
 class CGAME {
 private:
 	const string MAIN_MENU[4] = { "START GAME", "LOAD GAME ", "SETTINGS  ", "EXIT      " };
-	const string SETTING_MENU[4] = { "THEME", "SOUND", "MUSIC", "   BACK    " };
+	const string SETTING_MENU[4] = { "THEME", "SOUND", "HEART", "   BACK    " };
 	const string PAUSE_MENU[3] = { "CONTINUE ", "SAVE GAME", "MAIN MENU" };
-	int LEVEL;
 
 	CBIRD* ac;			int ac_size;
 	CMONKEY* ak;        int ak_size;
@@ -34,9 +36,15 @@ private:
 	CHELICOPTER* att;   int att_size;
 	CTRAFFIC* light;	int light_size = 3; //( 0: att, 1: axt, 2: axh)
 	CPEOPLE* cn;
-
+	
+	int LEVEL;
+	const int MAX_LEVEL = 13;
+	short DELAY;			// Hỗ trợ cho phần điều chỉnh tốc độ của level
+	short HEART;			// Mạng sống do người dùng chọn trong phần setting
 public:
+
 	bool IS_RUNNING;
+	bool pressable = true;
 	CGAME();
 	~CGAME();
 
@@ -46,12 +54,14 @@ public:
 	void drawPauseMenu(short choice);	// Menu dừng game
 	void clearPauseMenu();				// Xóa menu dừng game
 	void drawSettingMenu(short choice); // Setting menu
+	
 	void drawLevel();					// Vẽ level hiện tại
-	void drawGame();					// Trong game
+	void drawTime();					// Vẽ hiệu ứng lúc chuyển level
+	void drawGame();					// Vẽ khung game
 	void gameOver();					// Vẽ GameOver khi thua cuộc
 
 	// Chạy menu
-	short runMainMenu();
+	short runMainMenu(thread*);
 	short runPauseMenu();
 	void runSettingMenu();
 
@@ -68,22 +78,33 @@ public:
 	int getTruckSize() { return axt_size; };
 	int getHelicopterSize() { return att_size; };
 
+	int getLevel() { return LEVEL; };
+	int getMaxLevel() { return MAX_LEVEL; };
+	short getDelay() { return DELAY; };
+
 	// Thao tác game
-	void resetGame();					// Thực hiện thiết lập lại toàn bộ dữ liệu như lúc đầu
+	void resetGame();				// Thực hiện thiết lập lại toàn bộ dữ liệu như lúc đầu
 	void startGame();					// Thực hiện bắt đầu vào trò chơi
-	void exitGame(thread* t);			// Thực hiện thoát Thread 
-	bool pauseGame(thread* t);			// Tạm dừng Thread (return 1 là tiếp tục game, return 0 là trở về main menu)
-	void resumeGame(thread* t);			// Quay lai Thread
+	void exitGame(thread*);				// Thực hiện thoát Thread 
+	bool pauseGame(thread*);			// Tạm dừng Thread (return 1 là tiếp tục game, return 0 là trở về main menu)
+	void resumeGame(thread*);			// Quay lai Thread
 	void setting();
 	//void loadGame(istream);			// Thực hiện tải lại trò chơi đã lưu
 	//void saveGame(istream);			// Thực hiện lưu lại dữ liệu trò chơi
+	void gameWinner();
+
+	void createMobs(short tt_size, short c_size, short xt_size, short k_size, short xh_size);
+	void updateLevel();								// Chỉnh độ khó theo level
 
 	void upLevel();
-	void downLevel(int&);
 	void updatePosPeople(char, thread*);			//Thực hiện điều khiển di chuyển của CPEOPLE
 	void updatePosAnimal();							//Thực hiện cho CTRUCK & CCAR & CHELICOPTER di chuyển
 	void updatePosVehical();						//Thực hiện cho CMONKEY & CBIRD di chuyển
-	void runTraffic();
+	void runTraffic();								// Chạy thời gian đèn giao thông
+
+	// Âm thanh khi xảy ra va chạm
+	void soundImpact();
+
 };
 #endif
 

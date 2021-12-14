@@ -46,7 +46,6 @@ void CTRAFFIC::drawBody() {
 }
 
 void CTRAFFIC::run() {
-	drawBody(); 
 	if (status == TrafficLight::RED) {
 		timeRed--;	
 	}
