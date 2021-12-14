@@ -1,21 +1,18 @@
-﻿#pragma once
+﻿#ifndef _CMONKEY_H
+#define _CMONKEY_H
 
 #include "CAnimal.h"
 
 class CMONKEY : public CANIMAL {
-private:
 public:
 	CMONKEY();
-	CMONKEY(short, bool);
 	~CMONKEY();
 
-	// Getter
-	virtual bool getDirection() const { return direction; };
-	virtual short getX() const { return X; };
-	virtual short getY() const { return Y; };
-	virtual short getmY() const { return mY; };
 	// Minh họa
-	virtual void move();
-	virtual void tell();
-	virtual void drawBody();
+	void drawBody() override;
+	void tell() override;	
+	void move() override;		
 };
+#endif 
+
+

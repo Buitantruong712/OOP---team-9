@@ -4,25 +4,19 @@ CTRUCK::CTRUCK() : CVEHICLE() {
     Y = mY * TILE_Y + (short)Border::TOP;
 }
 
-CTRUCK::CTRUCK(short posY, bool direction) {
-    mY = posY;
-    Y = mY * TILE_Y + (short)Border::TOP;
-    this->direction = direction;
-}
-
 CTRUCK::~CTRUCK() {
 
 }
 
 void CTRUCK::drawBody() {
     if (direction)
-        Console::drawFromFile("Mobs/Truck left.txt", COORD{ X,Y }, (int)Color::YELLOW);
+        Console::drawFromFile("Mobs/Truck left.txt", COORD{ X,Y }, (int)Color::CYAN);
     else
-        Console::drawFromFile("Mobs/Truck right.txt", COORD{ X,Y }, (int)Color::YELLOW);
+        Console::drawFromFile("Mobs/Truck right.txt", COORD{ X,Y }, (int)Color::CYAN);
 }
 
 void CTRUCK::tell() {
-    if (sound) {
+    if (SOUND) {
         PlaySound(L"Sound/Truck.wav", NULL, SND_FILENAME);
     }
 }
@@ -47,7 +41,7 @@ void CTRUCK::move() {
         }
         else {
             Console::removeSpace(X, Y, true);
-            X = (short)Border::RIGHT - 10;
+            X = (short)Border::RIGHT;
         }
     }
 }

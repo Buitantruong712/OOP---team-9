@@ -1,21 +1,7 @@
 ﻿#include "CGame.h"
 
-CGAME::CGAME() {
-	Console::setConsole();
-    exit_game = true;       // Lúc đầu sẽ vào main menu thay vì game thật sự
-    runMenu();
-}
-
-CGAME::~CGAME() {
-    delete[] cars_2;
-    delete[] birds;
-    delete[] birds_2;
-    delete[] cars;
-    delete[] trucks;
-}
-
 // Tạo đối tượng mobs
-template<class T> 
+template<class T>
 void createObj(T*& obj, int size, short row, bool direction) {
     int column = (short)Border::LEFT;
     int distance = ((short)Border::RIGHT - (short)Border::LEFT) / size;
@@ -27,31 +13,95 @@ void createObj(T*& obj, int size, short row, bool direction) {
         obj[i].setDirection(direction);
         obj[i].setmY(row);
         column += distance;
-    }    
+    }
+}
+
+CGAME::CGAME() {
+    Console::setConsole();
+    IS_RUNNING = false;
+    LEVEL = 1;
+    cn = new CPEOPLE;
+    light = new CTRAFFIC[light_size];
+    // Cài đặt lại theo level
+    att_size = 3;
+    createObj(att, att_size, 1, true);  
+    light[0].setmY(1);
+    light[0].setStatus(TrafficLight::GREEN);
+    light[0].setTimeGreen(10);
+    ac_size = 5;
+    createObj(ac, ac_size, 2, false);
+    axt_size = 2;
+    createObj(axt, axt_size, 3, true); 
+    light[1].setmY(3);
+    light[1].setStatus(TrafficLight::GREEN);
+    light[1].setTimeGreen(30);
+    ak_size = 4;
+    createObj(ak, ak_size, 4, false);
+    axh_size = 3;
+    createObj(axh, axh_size, 5, true);
+    light[2].setmY(5);
+}
+
+CGAME::~CGAME() {
+    delete[] ac;
+    delete[] ak;
+    delete[] axh;
+    delete[] axt;
+    delete[] att;
+    delete[] light;
+    delete cn;
+}
+
+// Car ở menu chính
+bool carRunning = 1;
+void drawMenuCar() {
+    static bool flag = 0;
+    static COORD posCar = { 0,26 };
+    while (carRunning) {
+        Console::drawFromFile("Menu/Car.txt", posCar, (int)Color::GREEN);
+        if (flag == 0)
+            posCar.X++;
+        else
+            posCar.X--;
+        if (posCar.X == COLUMS - 55)
+            flag = 1;
+        else if (posCar.X == 0)
+            flag = 0;
+        Sleep(50);
+    }
 }
 
 // Tiêu đề game
 void CGAME::drawTitle() {
-    short i = 0;
-    for (i; i < 10; i++) {
-        COORD pos = { i,3 };
-        Console::drawFromFile("Menu/Car.txt", pos, (int)Color::RED);
-        Sleep(100);
-    }
-    
-    COORD pos = { 75 ,1 };
-	Console::drawFromFile("Menu/Title.txt", pos, (int)Color::LIGHT_GRAY);
-	Sleep(300);
-	Console::drawFromFile("Menu/Title.txt", pos, (int)Color::LIGHT_YELLOW);
-	Sleep(300);
-	Console::drawFromFile("Menu/Title.txt", pos, (int)Color::YELLOW);
-    Sleep(300);
+    COORD pos = { 0,0 };
+    Console::drawFromFile("Menu/Title.txt", pos, (int)Color::GRAY);
+    Sleep(200);
+    Console::drawFromFile("Menu/Title.txt", pos, (int)Color::LIGHT_RED);
+    Sleep(200);
+    Console::drawFromFile("Menu/Title.txt", pos, (int)Color::RED);
+}
 
-    pos = { 145, 5 };
-    Console::drawFromFile("Menu/Road.txt", pos, (int)Color::GREEN);
-    pos = { (short)(i - 1),3 };
-    Console::drawFromFile("Menu/Car.txt", pos, (int)Color::RED);
-    Sleep(100);
+// Vẽ level hiện tại
+void CGAME::drawLevel()
+{
+    COORD posLevel = { (short)Border::LEFT + 98, (short)Border::TOP + 1 };
+
+    Console::removeSpace((short)Border::LEFT + 98, (short)Border::TOP - 5);
+    Console::removeSpace((short)Border::LEFT + 110, (short)Border::TOP - 5);
+    if (LEVEL == 1)     Console::drawFromFile("Level/Level1.txt", posLevel, (int)Color::RED);
+    else if (LEVEL == 2) Console::drawFromFile("Level/Level2.txt", posLevel, (int)Color::RED);
+    else if (LEVEL == 3) Console::drawFromFile("Level/Level3.txt", posLevel, (int)Color::RED);
+    else if (LEVEL == 4) Console::drawFromFile("Level/Level4.txt", posLevel, (int)Color::RED);
+    else if (LEVEL == 5) Console::drawFromFile("Level/Level5.txt", posLevel, (int)Color::RED);
+}
+
+// Vẽ màn hình chơi game
+void CGAME::drawGame() {
+    system("cls");
+    Console::drawFromFile("Map/Frame.txt", COORD{ (short)Border::LEFT - 2, (short)Border::TOP - 1 }, (int)Color::WHITE);
+    Console::drawFromFile("Map/Help.txt", COORD{ (short)Border::RIGHT + 10, (short)Border::TOP - 1 }, (int)Color::WHITE);
+    drawLevel();
+    cn->initPeople();
 }
 
 // Vẽ Menu chính 
@@ -59,16 +109,17 @@ void CGAME::drawMainMenu(short choice) {
     short count = 0;
     short midHoritonal = Console::getMidHoritonal(),
         midVertical = Console::getMidVertical();
-    COORD pos = { midHoritonal - 5,midVertical };
-    Console::drawFromFile("Menu/MainMenuFrame.txt", pos, (int)Color::WHITE);
-    for (auto &i : MAIN_MENU) {
+    COORD pos = { midHoritonal - 5, midVertical - 2 };
+    Console::drawFromFile("Menu/MainMenuFrame.txt", pos, (int)Color::YELLOW);
+
+    for (auto& i : MAIN_MENU) {
         if (count == choice) {
-            Console::setColor(16 * (int)Color::WHITE);
+            Console::setColor(16 * (int)Color::YELLOW);
             Console::gotoXY(pos.X + 2, pos.Y + count + 1);
             cout << i;
         }
         else {
-            Console::setColor((int)Color::LIGHT_GRAY);
+            Console::setColor((int)Color::YELLOW);
             Console::gotoXY(pos.X + 2, pos.Y + count + 1);
             cout << i;
         }
@@ -76,6 +127,37 @@ void CGAME::drawMainMenu(short choice) {
     }
 }
 
+// Vẽ Setting Menu
+void CGAME::drawSettingMenu(short choice) {
+    short count = 0;
+    short midHoritonal = Console::getMidHoritonal(),
+        midVertical = Console::getMidVertical();
+
+    COORD pos = { midHoritonal - 5, midVertical - 2 };
+    Console::drawFromFile("Menu/SettingMenuFrame.txt", pos, (int)Color::YELLOW);
+
+    for (auto& i : SETTING_MENU) {
+        if (count == choice) {
+            Console::setColor(16 * (int)Color::YELLOW);
+            Console::gotoXY(pos.X + 2, pos.Y + count + 1);
+            if (count == 0) cout << i << ": " << (THEME ? "DARK " : "LIGHT");
+            if (count == 1) cout << i << ": " << (SOUND ? "ON   " : "OFF  ");
+            if (count == 2) cout << i << ": " << (MUSIC ? "ON   " : "OFF  ");
+            if (count == 3) cout << i;
+        }
+        else {
+            Console::setColor((int)Color::YELLOW);
+            Console::gotoXY(pos.X + 2, pos.Y + count + 1);
+            if (count == 0) cout << i << ": " << (THEME ? "DARK " : "LIGHT");
+            if (count == 1) cout << i << ": " << (SOUND ? "ON   " : "OFF  ");
+            if (count == 2) cout << i << ": " << (MUSIC ? "ON   " : "OFF  ");
+            if (count == 3) cout << i;
+        }
+        count++;
+    }
+}
+
+// Vẽ Menu khi dừng game
 void CGAME::drawPauseMenu(short choice) {
     short count = 0;
     short midHoritonal = Console::getMidHoritonal(),
@@ -89,7 +171,7 @@ void CGAME::drawPauseMenu(short choice) {
             cout << i;
         }
         else {
-            Console::setColor((int)Color::LIGHT_GRAY);
+            Console::setColor((int)Color::WHITE);
             Console::gotoXY(pos.X + 2, pos.Y + count + 1);
             cout << i;
         }
@@ -97,164 +179,8 @@ void CGAME::drawPauseMenu(short choice) {
     }
 }
 
-// Thao tác trên menu chính
-void CGAME::runMenu() {
-    short menuChoice = 0;
-    bool exit = false;
-    drawTitle();
-    while (!exit) {
-        drawMainMenu(menuChoice);
-        char c = toupper(_getch());
-        switch (c)
-        {
-        case (int)Key::UP: case (int)Key::LEFT: case 'W': case 'A':
-            menuChoice--;
-            if (menuChoice < 0)
-                menuChoice = 3;
-            break;
-        case (int)Key::DOWN: case (int)Key::RIGHT: case 'S': case 'D':
-            menuChoice++;
-            if (menuChoice > 3)
-                menuChoice = 0;
-            break;
-        case (int)Key::ENTER:
-            switch (menuChoice) {
-            case 0:
-                drawGame();  
-                drawTitle();
-                break;
-            case 1:
-                drawTitle();
-                break;
-            case 2:
-                drawTitle();
-                break;
-            case 3:
-                exit = true;
-                break;
-            default:
-                break;
-            }
-        default:
-            break;
-        }
-    }
-}
-
-
-void CGAME::drawGame() {
-    Console::clearScreen();
-    Console::drawFromFile("Map/Frame.txt", COORD{(short)Border::LEFT - 2, (short)Border::TOP - 1}, (int)Color::WHITE);
-    cn.initPeople();
-    startGame();
-}
-
-void CGAME::startGame() {
-    resetGame();
-    char c = 0;
-    exit_game = false;
-    while (!exit_game) {
-        updatePosAnimal();
-        updatePosVehical();
-        
-        // Kiểm tra va chạm
-        const CVEHICLE* temp_cvehicle = cars_2;
-        const CANIMAL* temp_canimal = birds;
-        const CANIMAL* temp_canimal_2 = birds_2;
-        const CVEHICLE* temp_cvehicle_2 = cars;
-        const CVEHICLE* temp_cvehicle_3 = trucks;
-
-        if (
-            cn.isImpact(temp_cvehicle, cars_2_size) ||
-            cn.isImpact(temp_canimal, birds_size) ||
-            cn.isImpact(temp_canimal_2, birds_2_size) ||
-            cn.isImpact(temp_cvehicle_2, cars_2_size) ||
-            cn.isImpact(temp_cvehicle_3, trucks_size)
-            ) {
-            cn.setHeart(cn.getHearts() - 1);
-            cn.drawHealthBar();
-            Console::removeSpace(cn.getX(), cn.getY());     // Va chạm = reset lại vị trí ban đầu
-            cn.resetPosition();
-        }
-
-        // Kiểm tra hết mạng
-        if (cn.isDead()) {
-            Console::clearScreen();
-            cn.gameOver();
-            Console::clearScreen();
-            return;
-        }
-
-        cn.Control(c);
-
-        // Kiểm tra đến đích 
-        if (cn.isFinish()) {
-            //level++;
-            cn.resetPosition();
-        }
-
-        // Kiểm tra có nhấn Esc để dừng game không
-        if (c == 27) {
-            pauseGame();
-            c = 1;      // Nếu không có c = 27, và kẹt ở đây
-        }
-
-        // Thời gian giãn cách
-        Sleep(60);
-    }
-}
-
-void CGAME::resetGame() {
-    cars_2_size = 3;
-    createObj(cars_2, cars_2_size, 1, false);
-    birds_size = 3;
-    createObj(birds, birds_size, 2, true);
-    birds_2_size = 3;
-    createObj(birds_2, birds_2_size, 3, false);
-    cars_size = 3;
-    createObj(cars, cars_size, 4, true);
-    trucks_size = 2;
-    createObj(trucks, trucks_size, 5, true);
-}
-
-void CGAME::pauseGame() {
-    short menuChoice = 0;
-    bool exit = false;
-    while (!exit) {
-        drawPauseMenu(menuChoice);
-        char c = toupper(_getch());
-        switch (c)
-        {
-        case (int)Key::UP: case (int)Key::LEFT: case 'W': case 'A':
-            menuChoice--;
-            if (menuChoice < 0)
-                menuChoice = 2;
-            break;
-        case (int)Key::DOWN: case (int)Key::RIGHT: case 'S': case 'D':
-            menuChoice++;
-            if (menuChoice > 2)
-                menuChoice = 0;
-            break;
-        case (int)Key::ENTER:
-            switch (menuChoice) {
-            case 0:
-                exit = true;
-                break;
-            case 1:
-                //saveGame(cin);
-                break;
-            case 2:
-                exit = true;
-                exit_game = true;
-                break;
-            default:
-                break;
-            }
-        default:
-            break;
-        }
-    }
-    
+// Xóa khung pause menu
+void CGAME::clearPauseMenu() {
     // Xoá cái khung
     short midHoritonal = Console::getMidHoritonal(),
         midVertical = Console::getMidVertical();
@@ -264,35 +190,300 @@ void CGAME::pauseGame() {
         cout << string(16, ' ');
     }
     // Vẽ lại phần khung bị chồng lên
-    Console::drawFromFile("Menu/OverLappingLine.txt", COORD{ midHoritonal - 5, midVertical }, (int)Color::WHITE);
+    Console::drawFromFile("Menu/OverLappingLine.txt", COORD{ (short)(midHoritonal - 5), midVertical }, (int)Color::WHITE);
     // Vẽ lại người nếu nó bị chồng lên
-    cn.drawBody();
-    // Không cần vẽ lại con vật vì nó chạy liên tục => tự động vẽ
+    cn->drawBody();
 }
 
-// Getter
-CPEOPLE CGAME::getPeople() {
-    return cn;
+// Game over -> khi kết thúc trò chơi
+void CGAME::gameOver() {
+    system("cls");
+    short midHoritonal = Console::getMidHoritonal(),
+        midVertical = Console::getMidVertical();
+
+    COORD pos = { midHoritonal - 35, midVertical - 5 };
+    Sleep(300);
+    Console::drawFromFile("Menu/GameOverTitle.txt", pos, (int)Color::MAGENTA);
+    Sleep(300);
+    Console::drawFromFile("Menu/GameOverTitle.txt", pos, (int)Color::LIGHT_MAGENTA);
+    if (SOUND) {
+        PlaySound(L"Sound/GameOver.wav", NULL, SND_FILENAME);
+    }
+    Console::gotoXY(pos.X + 25, pos.Y + 7);
+    cout << "Press anything to continue";
+    char c = _getch();
+    system("cls");
 }
 
-// Update position
+// Thao tác trên menu chính
+short CGAME::runMainMenu() {
+    drawTitle();
+    short menuChoice = 0;
+    thread car(drawMenuCar);
+    while (true) {
+        carRunning = 0;
+        Sleep(100);
+        drawMainMenu(menuChoice);
+        if (!carRunning) {
+            carRunning = 1;
+            car.detach();
+            car = thread(drawMenuCar);
+        }
+        char c = toupper(_getch());
+        switch (c)
+        {
+        case (int)Key::UP: case (int)Key::LEFT: case 'W': case 'A':
+            menuChoice--;
+            if (menuChoice < 0)
+                menuChoice = 3;
+            if (SOUND) {
+                PlaySound(L"Sound/Choice.wav", NULL, SND_FILENAME);
+            }
+            break;
+        case (int)Key::DOWN: case (int)Key::RIGHT: case 'S': case 'D':
+            menuChoice++;
+            if (menuChoice > 3)
+                menuChoice = 0;
+            if (SOUND) {
+                PlaySound(L"Sound/Choice.wav", NULL, SND_FILENAME);
+            }
+            break;
+        case (int)Key::ENTER:
+            if (SOUND) {
+                PlaySound(L"Sound/Enter.wav", NULL, SND_FILENAME);
+            }
+            carRunning = 0;
+            car.join();
+            return menuChoice;
+            break;
+        default:
+            break;
+        }
+    }
+}
+
+// Thao tác trên PauseMenu
+short CGAME::runPauseMenu() {
+    Sleep(100);             // Tạm dừng để không bị các Mobs vẽ chồng lên menu khi thread chưa kịp dừng
+    short menuChoice = 0;
+    while (1) {
+        drawPauseMenu(menuChoice);
+        char c = toupper(_getch());
+        switch (c)
+        {
+        case (int)Key::UP: case (int)Key::LEFT: case 'W': case 'A':
+            menuChoice--;
+            if (menuChoice < 0)
+                menuChoice = 2;
+            if (SOUND) {
+                PlaySound(L"Sound/Choice.wav", NULL, SND_FILENAME);
+            }
+            break;
+        case (int)Key::DOWN: case (int)Key::RIGHT: case 'S': case 'D':
+            menuChoice++;
+            if (menuChoice > 2)
+                menuChoice = 0;
+            if (SOUND) {
+                PlaySound(L"Sound/Choice.wav", NULL, SND_FILENAME);
+            }
+            break;
+        case (int)Key::ENTER:
+            if (SOUND) {
+                PlaySound(L"Sound/Enter.wav", NULL, SND_FILENAME);
+            }
+            clearPauseMenu();
+            return menuChoice;
+            break;
+        default:
+            break;
+        }
+    }
+}
+
+// Thao tác trên setting menu
+void CGAME::runSettingMenu() {
+    short menuChoice = 0;
+    while (1) {
+        drawSettingMenu(menuChoice);
+        char c = toupper(_getch());
+        switch (c)
+        {
+        case (int)Key::UP: case (int)Key::LEFT: case 'W': case 'A':
+            menuChoice--;
+            if (menuChoice < 0)
+                menuChoice = 3;
+            if (SOUND) {
+                PlaySound(L"Sound/Choice.wav", NULL, SND_FILENAME);
+            }
+            break;
+        case (int)Key::DOWN: case (int)Key::RIGHT: case 'S': case 'D':
+            menuChoice++;
+            if (menuChoice > 3)
+                menuChoice = 0;
+            if (SOUND) {
+                PlaySound(L"Sound/Choice.wav", NULL, SND_FILENAME);
+            }
+            break;
+        case (int)Key::ENTER:
+            if (SOUND) {
+                PlaySound(L"Sound/Enter.wav", NULL, SND_FILENAME);
+            }
+            switch (menuChoice) {
+            case 0:
+                THEME = !THEME;
+                Console::setColor((int)Color::BLACK);
+                system("cls");
+                return;
+            case 1:
+                SOUND = !SOUND;
+                break;
+            case 2:
+                MUSIC = !MUSIC;
+                break;
+            case 3:
+                return;
+                break;
+            default:
+                break;
+            }
+            break;
+        default:
+            break;
+        }
+    }
+}
+
+// Reset game
+void CGAME::resetGame() {
+    LEVEL = 1;
+}
+
+// Bắt đầu game
+void CGAME::startGame() {
+    resetGame();
+    drawGame();
+    IS_RUNNING = true;
+}
+
+// Thoát game
+void CGAME::exitGame(thread* t) {
+    IS_RUNNING = false;
+    if (t->joinable())
+        t->join();
+    system("cls");
+}
+
+// Dừng game
+bool CGAME::pauseGame(thread* t) {
+    IS_RUNNING = false;
+    int menuChoice = runPauseMenu();
+    if (menuChoice == 0) {
+        resumeGame(t);
+    }
+    else if (menuChoice == 1) {
+        //
+    }
+    else {
+        exitGame(t);
+        return 0;
+    }
+    return 1;
+}
+
+// Tiếp tục game
+void CGAME::resumeGame(thread* t) {
+    IS_RUNNING = true;
+    if (t->joinable()) {
+        t->detach();
+        *t = thread(SubThread);
+    }
+}
+
+void CGAME::setting() {
+    runSettingMenu();
+}
+
+// Update level
+void CGAME::upLevel() {
+    LEVEL++;
+}
+
+void CGAME::downLevel(int &flat) {
+    if (LEVEL > 1) {
+        LEVEL--;
+        flat = 1;
+    }
+}
+
+// Update position người
+void CGAME::updatePosPeople(char key, thread* t) {
+    key = toupper(key);
+    switch (key) {
+    case 'W':
+        cn->Up();
+        if (t->joinable()) {
+            t->detach();
+            *t = thread(SoundThread);
+        }
+        break;
+    case 'A':
+        cn->Left();
+        break;
+    case 'S':
+        cn->Down();
+        if (t->joinable()) {
+            t->detach();
+            *t = thread(SoundThread);
+        }
+        break;
+    case 'D':
+        cn->Right();
+        break;
+    }
+}
+
+// Update position vật
 void CGAME::updatePosAnimal() {
-    for (int i = 0; i < birds_size; i++) {
-        birds[i].move();
+    for (int i = 0; i < ac_size; i++) {
+        ac[i].move();
     }
-    for (int i = 0; i < birds_2_size; i++) {
-        birds_2[i].move();
+    for (int i = 0; i < ak_size; i++) {
+        ak[i].move();
     }
 }
 
+// Update position xe
 void CGAME::updatePosVehical() {
-    for (int i = 0; i < cars_size; i++) {
-        cars[i].move();
+    for (int i = 0; i < att_size; i++) {
+        if (light[0].getStatus() == TrafficLight::GREEN) {
+            att[i].move();
+        }
+        else {
+            Console::removeSpace(att[i].getX(), att[i].getY(), true);
+            att[i].drawBody();
+        }
     }
-    for (int i = 0; i < cars_2_size; i++) {
-        cars_2[i].move();
+    for (int i = 0; i < axt_size; i++) {
+        if (light[1].getStatus() == TrafficLight::GREEN) {
+            axt[i].move();
+        }
+        else {
+            Console::removeSpace(axt[i].getX(), axt[i].getY(), true);
+            axt[i].drawBody();
+        }
     }
-    for (int i = 0; i < trucks_size; i++) {
-        trucks[i].move();
+    for (int i = 0; i < axh_size; i++) {
+        if (light[2].getStatus() == TrafficLight::GREEN) {
+            axh[i].move();
+        }
+        else {
+            Console::removeSpace(axh[i].getX(), axh[i].getY(), true);
+            axh[i].drawBody();
+        }
     }
+}
+
+void CGAME::runTraffic() {
+    for (int i = 0; i < light_size; i++)
+        light[i].run();
 }

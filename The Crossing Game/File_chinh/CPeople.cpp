@@ -7,8 +7,7 @@ CPEOPLE::CPEOPLE() {
 	mX = MAX_MASK_X / 2;
 	mY = MAX_MASK_Y;
 	setXY();
-	max_hearts = set_max_hearts;
-	hearts = max_hearts;
+	hearts = maxHearts;
 }
 
 CPEOPLE::~CPEOPLE() {
@@ -39,6 +38,7 @@ void CPEOPLE::setXY() {
 	Y = mY * TILE_Y + (short)Border::TOP + 1;
 }
 
+// Trừ mạng sống đi 1
 void CPEOPLE::subHeart() {
 	hearts--;
 }
@@ -57,7 +57,7 @@ void CPEOPLE::Up() {
 	Console::removeSpace(X, Y);			// Xoá hình ở vị trí cũ
 	mY--;								// Chỉnh vị trí mới
 	setXY();
-	drawBody(1);							// Vẽ hình ở vị trí mới
+	drawBody();						// Vẽ hình ở vị trí mới
 }
 
 void CPEOPLE::Down() {
@@ -67,27 +67,29 @@ void CPEOPLE::Down() {
 	Console::removeSpace(X, Y);
 	mY++;
 	setXY();
-	drawBody(0);
+	drawBody();
 }
 
 void CPEOPLE::Left() {
-	if (mX == 2)						// Nếu chạm biên trái thì không di chuyển lên được nữa
+	if (mX == 0)						// Nếu chạm biên trái thì không di chuyển lên được nữa
 		return;
 
 	Console::removeSpace(X, Y);
 	mX--;
 	setXY();
-	drawBody(0);
+	direction = false;
+	drawBody();
 }
 
 void CPEOPLE::Right() {
-	if (mX == MAX_MASK_X - 2)				// Nếu chạm biên phải thì không di chuyển lên được nữa
+	if (mX == MAX_MASK_X)				// Nếu chạm biên phải thì không di chuyển lên được nữa
 		return;
 
 	Console::removeSpace(X, Y);
 	mX++;
 	setXY();
-	drawBody(1);
+	direction = true;
+	drawBody();
 }
 
 /// 
@@ -95,32 +97,33 @@ void CPEOPLE::Right() {
 /// 
 
 // Người chơi
-void CPEOPLE::drawBody(bool a) {
-	body_direction = a;
-	if (body_direction) Console::drawFromFile("Player/People left.txt", COORD{ X, Y }, (int)Color::BLUE);
-	else Console::drawFromFile("Player/People right.txt", COORD{ X, Y }, (int)Color::BLUE);
+void CPEOPLE::drawBody() {
+	if (direction) 
+		Console::drawFromFile("Player/People left.txt", COORD{ X, Y }, (int)Color::BLUE);
+	else 
+		Console::drawFromFile("Player/People right.txt", COORD{ X, Y }, (int)Color::BLUE);
 }
 
 // Mạng sống còn lại của người chơi
 void CPEOPLE::drawHeart(short x, short y) {
-	Console::drawFromFile("Player/Heart.txt", COORD{ x,y }, (int)Color::DARK_RED);
+	Console::drawFromFile("Player/Heart.txt", COORD{ x,y }, (int)Color::RED);
 }
 
 // Mạng sống đã mất của người chơi
 void CPEOPLE::drawHeartBroken(short x, short y) {
-	Console::drawFromFile("Player/Empty heart.txt", COORD{ x,y }, (int)Color::DARK_RED);
+	Console::drawFromFile("Player/Empty heart.txt", COORD{ x,y }, (int)Color::RED);
 }
 
 // Thanh mạng sống
 void CPEOPLE::drawHealthBar() {
-	short x = (short)Border::LEFT + 5;
-	short y = 2;
+	short x = (short)Border::LEFT + 1;
+	short y = (short)Border::TOP + 1;
 	short i = 0;
 	for (i; i < hearts; i++) {
 		drawHeart(x, y);
 		x += 6; // Bề ngang 1 trái tim
 	} // vẽ tim còn
-	for (i; i < max_hearts; i++) {
+	for (i; i < maxHearts; i++) {
 		drawHeartBroken(x, y);
 		x += 6;
 	} // vẽ tim mất
@@ -132,15 +135,15 @@ void CPEOPLE::drawHealthBar() {
 
 // Reset mạng sống
 void CPEOPLE::resetHearts() {
-	max_hearts = set_max_hearts;
-	hearts = max_hearts;
+	hearts = maxHearts;
 }
 
 // Reset vị trí
 void CPEOPLE::resetPosition() {
 	Console::removeSpace(X, Y);					// Xóa hình ở vị trí cũ
 	setCoordinates(MAX_MASK_X / 2, MAX_MASK_Y); // Vị trí mới -> vị trí chính giữa của hàng cuối
-	drawBody(true);								// Vẽ người ở vị trí mới
+	direction = true;
+	drawBody();									// Vẽ người ở vị trí mặc định
 }
 
 /// 

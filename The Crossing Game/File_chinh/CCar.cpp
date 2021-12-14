@@ -4,25 +4,19 @@ CCAR::CCAR() :CVEHICLE() {
     Y = mY * TILE_Y + (short)Border::TOP;
 }
 
-CCAR::CCAR(short posY, bool direction) {
-    mY = posY;
-    Y = mY * TILE_Y + (short)Border::TOP;
-    this->direction = direction;
-}
-
 CCAR::~CCAR() {
 
 }
 
 void CCAR::drawBody() {
     if (direction)
-        Console::drawFromFile("Mobs/Car left.txt", COORD{ X,Y }, (int)Color::LIGHT_GRAY);
+        Console::drawFromFile("Mobs/Car left.txt", COORD{ X,Y }, (int)Color::MAGENTA);
     else
-        Console::drawFromFile("Mobs/Car right.txt", COORD{ X,Y }, (int)Color::LIGHT_GRAY);
+        Console::drawFromFile("Mobs/Car right.txt", COORD{ X,Y }, (int)Color::MAGENTA);
 }
 
 void CCAR::tell() {
-    if (sound) {
+    if (SOUND) {
         PlaySound(L"Sound/Car.wav", NULL, SND_FILENAME);
     }
 }
@@ -47,7 +41,7 @@ void CCAR::move() {
         }
         else {
             Console::removeSpace(X, Y, true);
-            X = (short)Border::RIGHT - 10;
+            X = (short)Border::RIGHT;
         }
     }
 }

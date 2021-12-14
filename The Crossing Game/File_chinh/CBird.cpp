@@ -1,13 +1,7 @@
 #include "CBird.h"
 
-CBIRD::CBIRD() : CANIMAL() {
+CBIRD::CBIRD() :CANIMAL() {
     Y = mY * TILE_Y + (short)Border::TOP + 1;
-}
-
-CBIRD::CBIRD(short mY, bool direction) {
-    this->mY = mY;
-    Y = mY * TILE_Y + (short)Border::TOP + 1;
-    this->direction = direction;
 }
 
 CBIRD::~CBIRD() {
@@ -15,14 +9,14 @@ CBIRD::~CBIRD() {
 }
 
 void CBIRD::drawBody() {
-	if (direction)
-		Console::drawFromFile("Mobs/Bird left.txt", COORD{ X,Y }, (int)Color::MAGENTA);
-	else
-		Console::drawFromFile("Mobs/Bird right.txt", COORD{ X,Y }, (int)Color::MAGENTA);
+    if (direction)
+        Console::drawFromFile("Mobs/Bird left.txt", COORD{ X,Y }, (int)Color::LIGHT_MAGENTA);
+    else
+        Console::drawFromFile("Mobs/Bird right.txt", COORD{ X,Y }, (int)Color::LIGHT_MAGENTA);
 }
 
 void CBIRD::tell() {
-    if (sound) {
+    if (SOUND) {
         PlaySound(L"Sound/Bird.wav", NULL, SND_FILENAME);
     }
 }
