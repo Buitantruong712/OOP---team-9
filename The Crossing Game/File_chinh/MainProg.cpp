@@ -15,8 +15,8 @@ int main() {
 			int key;
 			thread t1(SubThread);
 			while (1) {
-				key = toupper(_getch());
 				if (!cg.getPeople()->isDead()) {
+					key = toupper(_getch());
 					if (key == 27) {
 						cg.exitGame(&t1);
 						break;
