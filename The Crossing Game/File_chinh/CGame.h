@@ -1,4 +1,4 @@
-﻿#ifndef _CGAME_H
+#ifndef _CGAME_H
 #define _CGAME_H
 
 #include "CPeople.h"
@@ -41,11 +41,12 @@ private:
 	short HEART;			// Mạng sống do người dùng chọn trong phần setting
 	short DELAY;			// Hỗ trợ cho phần điều chỉnh tốc độ của level
 	int LEVEL = 1;
-	const int MAX_LEVEL = 2;
+	const int MAX_LEVEL = 12;
 public:
-
+	bool checkImpact = 0;
 	bool IS_RUNNING;
 	bool pressable = true;
+	
 	CGAME();
 	~CGAME();
 
@@ -86,6 +87,7 @@ public:
 	int getLevel() { return LEVEL; };
 	int getMaxLevel() { return MAX_LEVEL; };
 	short getDelay() { return DELAY; };
+	int getHearts() { return cn->getHearts(); }
 
 	// Thao tác game
 	void resetGame();				// Thực hiện thiết lập lại toàn bộ dữ liệu như lúc đầu
