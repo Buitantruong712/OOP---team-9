@@ -111,27 +111,27 @@ void SubThread() {
 
 		cg.checkImpact = 0;
 
-		if (delay_running == 0) {
+				if (delay_running == 0) {
 			cg.runTraffic();
 			cg.updatePosVehical();
 			cg.updatePosAnimal();
-			// Kiểm tra va chạm
-			if (cg.getPeople()->isImpact(cg.getCar(), cg.getCarSize())
-				|| cg.getPeople()->isImpact(cg.getTruck(), cg.getTruckSize())
-				|| cg.getPeople()->isImpact(cg.getHelicopter(), cg.getHelicopterSize())
-				|| cg.getPeople()->isImpact(cg.getBird(), cg.getBirdSize())
-				|| cg.getPeople()->isImpact(cg.getMonkey(), cg.getMonkeySize())
-				)
-			{
-				cg.checkImpact = 1;
-				cg.getPeople()->subHeart();
-				cg.getPeople()->drawHealthBar();
-				cg.pressable = false;	// Ngưng nhận phím
-				cg.soundImpact();
-				cg.getPeople()->resetPosition();
-				cg.pressable = true;	// Tiếp tục nhận phím
-			}
 			delay_running = cg.getDelay();
+		}
+		// Kiểm tra va chạm
+		if (cg.getPeople()->isImpact(cg.getCar(), cg.getCarSize())
+			|| cg.getPeople()->isImpact(cg.getTruck(), cg.getTruckSize())
+			|| cg.getPeople()->isImpact(cg.getHelicopter(), cg.getHelicopterSize())
+			|| cg.getPeople()->isImpact(cg.getBird(), cg.getBirdSize())
+			|| cg.getPeople()->isImpact(cg.getMonkey(), cg.getMonkeySize())
+			)
+		{
+			cg.checkImpact = 1;
+			cg.getPeople()->subHeart();
+			cg.getPeople()->drawHealthBar();
+			cg.pressable = false;	// Ngưng nhận phím
+			cg.soundImpact();
+			cg.getPeople()->resetPosition();
+			cg.pressable = true;	// Tiếp tục nhận phím
 		}
 		//Kiểm tra đến đích 
 		if (cg.getPeople()->isFinish()) {
