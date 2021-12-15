@@ -14,19 +14,9 @@ int main() {
 			thread t1(SubThread);
 			int key;
 			while (1) {
-				if (cg.getPeople()->isDead()) {
-					cg.exitGame(&t1);
-					system("cls");
-					break;
-				}
-				else if (cg.isWin()) {
-					cg.exitGame(&t1);
-					system("cls");
-					break;
-				}
-				else {
+				key = toupper(_getch());
+				if(!cg.getPeople()->isDead()){
 
-					key = toupper(_getch());
 					if (key == 27) {
 						cg.exitGame(&t1);
 						break;
@@ -45,7 +35,11 @@ int main() {
 							MOVING = ' ';
 						else
 							MOVING = key;
-
+				}
+				else {
+					cg.exitGame(&t1);
+					system("cls");
+					break;
 				}
 			}
 		}
@@ -57,20 +51,9 @@ int main() {
 				int key;
 
 				while (1) {
-					if (cg.getPeople()->isDead()) {
-						if (key != 0) key = 0;
-						cg.exitGame(&t1);
-						system("cls");
-						break;
-					}
-					else if (cg.isWin()) {
-						cg.exitGame(&t1);
-						system("cls");
-						break;
-					}
-					else {
-						key = toupper(_getch());
-						
+					key = toupper(_getch());
+					if (!cg.getPeople()->isDead() && !cg.isWin()) {
+
 						if (key == 27) {
 							cg.exitGame(&t1);
 							break;
@@ -89,6 +72,11 @@ int main() {
 								MOVING = ' ';
 							else
 								MOVING = key;
+					}
+					else {
+						cg.exitGame(&t1);
+						system("cls");
+						break;
 					}
 				}
 			}
@@ -166,17 +154,18 @@ void SubThread() {
 			}
 			cg.pressable = true;
 		}
-		cg.pressable = false;
 
-		if (cg.checkImpact == 1 && cg.getHearts() == 0) {
+		if (cg.getPeople()->isDead()) {
+			cg.pressable = false;
 			if (sound.joinable()) {
 				sound.detach();
 				sound = thread(SoundGameOverThread);
 			}
-			cg.pressable = false;
 			cg.gameOver();
+			cg.pressable = true;
 			break;
 		}
+
 		if (cg.isWin()) {
 			cg.pressable = false;
 			if (sound.joinable()) {
@@ -184,6 +173,7 @@ void SubThread() {
 				sound = thread(SoundWinThread);
 			}
 			cg.gameWinner();
+			cg.pressable = true;
 			break;
 		}
 	}
