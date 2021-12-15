@@ -19,7 +19,6 @@ CPEOPLE::~CPEOPLE() {
 void CPEOPLE::initPeople() {
 	resetHearts();
 	resetPosition();
-	drawHealthBar();
 }
 
 /// 
@@ -39,16 +38,24 @@ void CPEOPLE::setXY() {
 	Y = mY * TILE_Y + (short)Border::TOP + 1;
 }
 
-// Cập nhật hearts tối đa do người dùng chọn
+// Cập nhật hearts
 void CPEOPLE::setHearts(short _hearts) {
-	if (_hearts <= 0 || _hearts > MAX_HEARTS)
-		_hearts = MAX_HEARTS;
-	maxHearts = _hearts;
+	if (_hearts <= 0 || _hearts > maxHearts)
+		_hearts = maxHearts;
+	hearts = _hearts;
+}
+
+// Cập nhật hearts tối đa do người dùng chọn
+void CPEOPLE::setMaxHearts(short max_hearts) {
+	if (max_hearts <= 0 || max_hearts > MAX_HEARTS)
+		max_hearts = MAX_HEARTS;
+	maxHearts = max_hearts;
 }
 
 // Trừ mạng sống đi 1
 void CPEOPLE::subHeart() {
-	hearts--;
+	if (hearts > 0)
+		hearts--;
 }
 
 /// 

@@ -10,9 +10,9 @@ class CPEOPLE {
 	short X, Y;									// Tọa độ thực trên console
 	short hearts;								// Mạng sống còn lại (Nếu hearts = 0 thì chết)
 	short maxHearts;							// Mạng sống tối đa người dùng chọn
-	const short MAX_HEARTS = 5;
 	bool direction;                             // Hướng người xoay trái hoặc phải ( true quay qua phải, false ngược lại)
 public:
+	const short MAX_HEARTS = 5;
 	CPEOPLE();
 	~CPEOPLE();
 
@@ -23,14 +23,15 @@ public:
 	void setCoordinates(short, short);	// set tọa độ theo đơn vị ô
 	void setXY();						// set tọa độ thực
 	void setHearts(short);
+	void setMaxHearts(short);
 	
 	// Getter 
 	int getX() { return X; };
 	int getY() { return Y; };
 	int getmY() { return mY; };
 	int getmX() { return mX; };
-	short getMaxHearts() { return MAX_HEARTS; };
 	int getHearts() { return hearts; }
+	short getMaxHearts() { return maxHearts; };
 
 	// Cập nhật vị trí 
 	void Up();

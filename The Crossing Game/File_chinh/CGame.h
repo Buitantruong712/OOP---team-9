@@ -22,6 +22,7 @@ void SoundThread();
 void SoundMoveThread();
 void SoundGameOverThread();
 void SoundUpLevelThread();
+void SoundWinThread();
 
 class CGAME {
 private:
@@ -40,7 +41,7 @@ private:
 	short HEART;			// Mạng sống do người dùng chọn trong phần setting
 	short DELAY;			// Hỗ trợ cho phần điều chỉnh tốc độ của level
 	int LEVEL = 1;
-	const int MAX_LEVEL = 13;
+	const int MAX_LEVEL = 2;
 public:
 
 	bool IS_RUNNING;
@@ -55,9 +56,11 @@ public:
 	void clearPauseMenu();				// Xóa menu dừng game
 	void drawSaveMenu();				// Menu save
 	void drawLoadMenu();				// Menu load
+	void clearSaveLoadMenu();			// Xóa menu save load
 	void drawSettingMenu(short choice); // Setting menu
 	
 	void drawLevel();					// Vẽ level hiện tại
+	void clearLevel();					// Xóa level
 	void drawTime();					// Vẽ hiệu ứng lúc chuyển level
 	void drawGame();					// Vẽ khung game
 	void gameOver();					// Vẽ GameOver khi thua cuộc
@@ -91,7 +94,7 @@ public:
 	bool pauseGame(thread*);			// Tạm dừng Thread (return 1 là tiếp tục game, return 0 là trở về main menu)
 	void resumeGame(thread*);			// Quay lai Thread
 	void setting();
-	void loadGame();					// Thực hiện tải lại trò chơi đã lưu
+	bool loadGame();
 	void loadGame(thread* t);
 	void saveGame(thread* t);			// Thực hiện lưu lại dữ liệu trò chơi
 	void gameWinner();
@@ -99,17 +102,15 @@ public:
 	void createMobs(short tt_size, short c_size, short xt_size, short k_size, short xh_size);
 	void updateLevel();								// Chỉnh độ khó theo level
 
-	void setLevel(int lv);
-	void setDelay(int dl); 
 	void upLevel();
-	void updatePosPeople(char, thread*);			//Thực hiện điều khiển di chuyển của CPEOPLE
-	void updatePosAnimal();							//Thực hiện cho CTRUCK & CCAR & CHELICOPTER di chuyển
-	void updatePosVehical();						//Thực hiện cho CMONKEY & CBIRD di chuyển
+	void updatePosPeople(char, thread*);			// Thực hiện điều khiển di chuyển của CPEOPLE
+	void updatePosAnimal();							// Thực hiện cho CTRUCK & CCAR & CHELICOPTER di chuyển
+	void updatePosVehical();						// Thực hiện cho CMONKEY & CBIRD di chuyển
 	void runTraffic();								// Chạy thời gian đèn giao thông
 
+	bool isWin();
 	// Âm thanh khi xảy ra va chạm
 	void soundImpact();
-
 };
 #endif
 

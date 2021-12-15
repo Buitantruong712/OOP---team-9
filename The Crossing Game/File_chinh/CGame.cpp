@@ -18,26 +18,13 @@ void createObj(T*& obj, int size, short row, bool direction) {
     }
 }
 
-// Tải đèn giao thông
-template<class T>
-void loadObj2(T*& obj, ifstream& f) {
-    if (obj != NULL)
-        delete obj;
-    short value1, value2, value3, value4, value5, value6;
-    f >> value1 >> value2 >> value3 >> value4 >> value5 >> value6;
-    obj = new T(static_cast<TrafficLight>(value6), value1, value2);
-    obj->setTimeRed(value3);
-    obj->setTimeYellow(value4);
-    obj->setTimeGreen(value5);
-}
-
 CGAME::CGAME() {
     Console::setConsole();
     IS_RUNNING = false;
     cn = new CPEOPLE;
     light = new CTRAFFIC[light_size];
-    HEART = cn->getMaxHearts();
-    resetGame();
+    HEART = cn->MAX_HEARTS;
+    LEVEL = 1;
 
     // Cài đặt đèn
     light[0].setmY(1);
@@ -92,8 +79,7 @@ void CGAME::drawTitle() {
 
 // Vẽ level hiện tại
 void CGAME::drawLevel() {
-    Console::removeSpace((int)Border::LEFT + 120, 5);
-
+    clearLevel();
     string level_file = "Level/Level title.txt";
     Console::drawFromFile(
         level_file,
@@ -105,6 +91,11 @@ void CGAME::drawLevel() {
         level_file = "Level/Number" + string(1, level_number[i]) + ".txt";
         Console::drawFromFile(level_file, COORD{ (short)((int)(Border::LEFT)+118 + i * 4), 5 }, (int)Color::RED);
     }
+}
+
+// Xóa level
+void CGAME::clearLevel() {
+    Console::removeSpace((int)Border::LEFT + 120, 5);
 }
 
 // Hiệu ứng chuyển level
@@ -155,14 +146,15 @@ void CGAME::drawTime() {
 
 // Vẽ màn hình chơi game
 void CGAME::drawGame() {
-    Console::clearScreen();
+    system("cls");
     Console::drawFromFile("Map/Frame.txt", COORD{ (short)Border::LEFT - 2, (short)Border::TOP - 1 }, (int)Color::WHITE);
     Console::drawFromFile("Map/ScoreBoard.txt", COORD{ (short)Border::RIGHT + 10, (short)Border::TOP - 1 }, (int)Color::WHITE);
     for (int i = 0; i < light_size; i++) {
         light[i].drawBody();
     }
+    cn->drawHealthBar();
+    cn->drawBody();
     drawLevel();
-    cn->initPeople();
 }
 
 // Vẽ Menu chính 
@@ -259,7 +251,7 @@ void CGAME::clearPauseMenu() {
 void CGAME::drawSaveMenu()
 {
     short count = 0;
-    COORD pos = { (short)Border::LEFT + 63, (short)Border::TOP + 16 };
+    COORD pos = { (short)Border::LEFT + 63, (short)Border::TOP + 15 };
     Console::drawFromFile("Menu/SaveMenuFrame.txt", pos, (int)Color::WHITE);
     string file_name;
     for (short i = 0; i < 4; i++) {
@@ -274,6 +266,8 @@ void CGAME::drawSaveMenu()
         }
         else {
             Console::drawFromFile("Menu/SaveMenuIcon.txt", COORD{ (short)(pos.X + 2 + i * 7), (short)(pos.Y + 1) }, (int)Color::RED);
+            Console::gotoXY(pos.X + 4 + i * 7, pos.Y + 2);
+            cout << "X";
         }
         f.close();
     }
@@ -282,7 +276,7 @@ void CGAME::drawSaveMenu()
 void CGAME::drawLoadMenu()
 {
     short count = 0;
-    COORD pos = { (short)Border::LEFT + 63, (short)Border::TOP + 16 };
+    COORD pos = { (short)Border::LEFT + 63, (short)Border::TOP + 15 };
     Console::drawFromFile("Menu/LoadMenuFrame.txt", pos, (int)Color::WHITE);
     string file_name;
     for (short i = 0; i < 4; i++) {
@@ -297,22 +291,33 @@ void CGAME::drawLoadMenu()
         }
         else {
             Console::drawFromFile("Menu/SaveMenuIcon.txt", COORD{ (short)(pos.X + 2 + i * 7), (short)(pos.Y + 1) }, (int)Color::RED);
+            Console::gotoXY(pos.X + 4 + i * 7, pos.Y + 2);
+            cout << "X";
         }
         f.close();
     }
 }
 
+void CGAME::clearSaveLoadMenu() {
+    Console::drawFromFile("Menu/OverLappingPart.txt", COORD{ (short)Border::LEFT + 63, (short)Border::TOP + 15 }, (int)Color::WHITE);
+}
+
 // Game winner -> khi thắng trò chơi
 void CGAME::gameWinner() {
-    pressable = false;
-    IS_RUNNING = false;
-    Sleep(100);
-    Console::clearScreen();
-    COORD pos{ (short)(Console::getMidHorizontal() - 30), (short)(Console::getMidVertical() - 5) };
-    Console::gotoXY(pos.X + 50, pos.Y + 7);
-    Console::drawFromFile("Map/Winner.txt", pos, (int)Color::CYAN);
-    cout << "           Press anything to continue";
-    (void)_getch();
+    system("cls");
+    short midHoritonal = Console::getMidHorizontal(),
+        midVertical = Console::getMidVertical();
+
+    COORD pos = { midHoritonal - 25, midVertical - 5 };
+    Sleep(400);
+    Console::drawFromFile("Menu/Winner.txt", pos, (int)Color::MAGENTA);
+    Sleep(400);
+    Console::drawFromFile("Menu/Winner.txt", pos, (int)Color::LIGHT_MAGENTA);
+    Sleep(400);
+    Console::gotoXY(pos.X + 10, pos.Y + 7);
+    cout << "Press anything to continue";
+    char c = _getch();
+    system("cls");
 }
 
 // Game over -> khi thua trò chơi
@@ -458,13 +463,13 @@ void CGAME::runSettingMenu() {
                 SOUND = !SOUND;
                 break;
             case 2:
-                if (HEART == cn->getMaxHearts())
+                if (HEART == cn->MAX_HEARTS)
                     HEART = 1;
                 else 
                     HEART++;
-                cn->setHearts(HEART);
                 break;
             case 3:
+                cn->setMaxHearts(HEART);
                 return;
                 break;
             default:
@@ -486,6 +491,7 @@ void CGAME::resetGame() {
 // Bắt đầu game
 void CGAME::startGame() {
     resetGame();
+    cn->initPeople();
     drawGame();
     pressable = true;
     IS_RUNNING = true;
@@ -530,62 +536,50 @@ void CGAME::setting() {
     runSettingMenu();
 }
 
-void CGAME::loadGame()
-{
+bool CGAME::loadGame() {
     pressable = false;
     IS_RUNNING = false;
-
+    Sleep(100);
     drawLoadMenu();
     string file_name;
     ifstream f;
     bool exit = false;
-
+    bool isLoaded = false;
     int value;
 
     while (!exit) {
         char c = _getch();
         switch (c) {
-
         case '1': case '2': case '3': case '4':
             f.open("SaveGame/Data" + string(1, c) + ".txt");
-            if (f.is_open()) { // Nếu tìm thấy file thì bắt đầu nhận dữ liệu
+            if (f.is_open()) {
 
-            // Tải level
-                f >> LEVEL>>value>>DELAY;
+                f >> LEVEL >> value;
 
-                if (cn != NULL)
-                    delete cn;
-
-                for (int i = 0; i < light_size; i++) {
-                    light[i].drawBody();
-                }
-                // set lai sau khi load
-                Console::drawFromFile("Map/EmptyFrame.txt",COORD{ (short)Border::LEFT - 2, (short)Border::TOP + 5 },(int)Color::LIGHT_GRAY);
-                cn->initPeople();
-                cn->drawHealthBar();
                 cn->setHearts(value);
+                cn->resetPosition();
                 updateLevel();
-                drawLevel();
-
-                IS_RUNNING = true;
+                drawGame();
                 exit = true;
+                isLoaded = true;
             }
             f.close();
             break;
 
         case 27:
-            COORD pos = { (short)(Console::getMidHorizontal() - 15), Console::getMidVertical() };
-            Console::removeSpace(pos.X, pos.Y, pos.X + 31, pos.Y + 5);
             exit = true;
             break;
         }
     }
     pressable = true;
+    return isLoaded;
 }
 
+// Load Game
 void CGAME::loadGame(thread* t)
 {
     loadGame();
+    Console::drawFromFile("Menu/OverLappingPart.txt", COORD{ (short)Border::LEFT + 63, (short)Border::TOP + 15 }, (int)Color::WHITE);
     resumeGame(t);
 }
 
@@ -593,6 +587,7 @@ void CGAME::saveGame(thread* t)
 {
     pressable = false;
     IS_RUNNING = false;
+    Sleep(100);
     string file_name;
     ofstream f;
     bool exit = false;
@@ -602,8 +597,8 @@ void CGAME::saveGame(thread* t)
         switch (c) {
         case '1': case '2': case '3': case '4':
             f.open("SaveGame/Data" + string(1, c) + ".txt");
-            // Lưu vòng chơi,mạng sống, tốc độ
-            f << LEVEL <<" "<< cn->getHearts()<<" "<<DELAY;
+            // Lưu level, mạng sống, tốc độ
+            f << LEVEL << " " << cn->getHearts();
             f.close();
             exit = true;
             break;
@@ -613,7 +608,7 @@ void CGAME::saveGame(thread* t)
         }
     }
 
-    Console::drawFromFile("Menu/OverLappingPart.txt", COORD{ (short)Border::LEFT + 63, (short)Border::TOP + 16 }, (int)Color::LIGHT_GRAY);
+    Console::drawFromFile("Menu/OverLappingPart.txt", COORD{ (short)Border::LEFT + 63, (short)Border::TOP + 15 }, (int)Color::WHITE);
     resumeGame(t);
     pressable = true;
 }
@@ -688,24 +683,14 @@ void CGAME::updateLevel() {
         createMobs(4, 6, 4, 5, 4);
         break;
     default:
-        gameWinner();
         break;
     }
 }
 
-void CGAME::setLevel(int lv)
-{
-    LEVEL = lv;
-}
-
-void CGAME::setDelay(int dl)
-{
-    DELAY = dl;
-}
-
 // Update level
 void CGAME::upLevel() {
-    LEVEL++;
+    if (LEVEL < MAX_LEVEL)
+        LEVEL++;
 }
 
 // Update position người
@@ -785,6 +770,14 @@ void CGAME::updatePosVehical() {
 void CGAME::runTraffic() {
     for (int i = 0; i < light_size; i++)
         light[i].run();
+}
+
+bool CGAME::isWin() {
+    if (LEVEL >= MAX_LEVEL) {
+        return 1;
+    }
+    else
+        return 0;
 }
 
 // Âm thanh khi va chạm
