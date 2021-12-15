@@ -15,7 +15,7 @@ int main() {
 			int key;
 			while (1) {
 				key = toupper(_getch());
-				if(!cg.getPeople()->isDead()){
+				if(!cg.getPeople()->isDead() && !cg.isWin()){
 
 					if (key == 27) {
 						cg.exitGame(&t1);
