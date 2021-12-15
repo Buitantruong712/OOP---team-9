@@ -58,7 +58,6 @@ int main() {
 
 				while (1) {
 					if (cg.getPeople()->isDead()) {
-						if (key != 0) key = 0;
 						cg.exitGame(&t1);
 						system("cls");
 						break;
