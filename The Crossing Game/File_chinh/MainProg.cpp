@@ -1,4 +1,4 @@
-﻿#include "CGame.h"
+#include "CGame.h"
 
 char MOVING;
 CGAME cg;
@@ -16,23 +16,16 @@ int main() {
 			while (1) {
 				if (cg.getPeople()->isDead()) {
 					cg.exitGame(&t1);
-					if (sound.joinable()) {
-						sound.detach();
-						sound = thread(SoundGameOverThread);
-					}
-					cg.gameOver();
+					system("cls");
 					break;
 				}
 				else if (cg.isWin()) {
 					cg.exitGame(&t1);
-					if (sound.joinable()) {
-						sound.detach();
-						sound = thread(SoundWinThread);
-					}
-					cg.gameWinner();
+					system("cls");
 					break;
 				}
 				else {
+
 					key = toupper(_getch());
 					if (key == 27) {
 						cg.exitGame(&t1);
@@ -52,6 +45,7 @@ int main() {
 							MOVING = ' ';
 						else
 							MOVING = key;
+
 				}
 			}
 		}
@@ -59,30 +53,24 @@ int main() {
 			if (cg.loadGame()) {
 				cg.IS_RUNNING = true;
 
-				thread t1(SubThread);				
+				thread t1(SubThread);
 				int key;
 
 				while (1) {
 					if (cg.getPeople()->isDead()) {
+						if (key != 0) key = 0;
 						cg.exitGame(&t1);
-						if (sound.joinable()) {
-							sound.detach();
-							sound = thread(SoundGameOverThread);
-						}
-						cg.gameOver();
+						system("cls");
 						break;
 					}
 					else if (cg.isWin()) {
 						cg.exitGame(&t1);
-						if (sound.joinable()) {
-							sound.detach();
-							sound = thread(SoundWinThread);
-						}
-						cg.gameWinner();
+						system("cls");
 						break;
 					}
 					else {
 						key = toupper(_getch());
+						
 						if (key == 27) {
 							cg.exitGame(&t1);
 							break;
@@ -123,6 +111,7 @@ void SubThread() {
 
 	thread sound(SoundThread);
 	while (cg.IS_RUNNING) {
+		cg.pressable = true;
 
 		// Cập nhật vị trí người chơi
 		if (!cg.getPeople()->isDead()) {
@@ -131,6 +120,8 @@ void SubThread() {
 		MOVING = ' ';
 		Sleep(10);
 		delay_running--;
+
+		cg.checkImpact = 0;
 
 		if (delay_running == 0) {
 			cg.runTraffic();
@@ -144,6 +135,7 @@ void SubThread() {
 				|| cg.getPeople()->isImpact(cg.getMonkey(), cg.getMonkeySize())
 				)
 			{
+				cg.checkImpact = 1;
 				cg.getPeople()->subHeart();
 				cg.getPeople()->drawHealthBar();
 				cg.pressable = false;	// Ngưng nhận phím
@@ -153,7 +145,6 @@ void SubThread() {
 			}
 			delay_running = cg.getDelay();
 		}
-
 		//Kiểm tra đến đích 
 		if (cg.getPeople()->isFinish()) {
 			// Tăng level
@@ -174,6 +165,26 @@ void SubThread() {
 				cg.drawLevel();
 			}
 			cg.pressable = true;
+		}
+		cg.pressable = false;
+
+		if (cg.checkImpact == 1 && cg.getHearts() == 0) {
+			if (sound.joinable()) {
+				sound.detach();
+				sound = thread(SoundGameOverThread);
+			}
+			cg.pressable = false;
+			cg.gameOver();
+			break;
+		}
+		if (cg.isWin()) {
+			cg.pressable = false;
+			if (sound.joinable()) {
+				sound.detach();
+				sound = thread(SoundWinThread);
+			}
+			cg.gameWinner();
+			break;
 		}
 	}
 	sound.join();
