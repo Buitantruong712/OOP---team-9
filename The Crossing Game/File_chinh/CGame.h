@@ -41,7 +41,7 @@ private:
 	short HEART;			// Mạng sống do người dùng chọn trong phần setting
 	short DELAY;			// Hỗ trợ cho phần điều chỉnh tốc độ của level
 	int LEVEL = 1;
-	const int MAX_LEVEL = 12;
+	const int MAX_LEVEL = 13;
 public:
 	bool checkImpact = 0;
 	bool IS_RUNNING;
